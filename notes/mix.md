@@ -323,6 +323,13 @@ DataFrame.sample(n=None, frac=None, replace=False, weights=None, random_state=No
 ```
 [DataFrame.sample](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.sample.html)
 
+
+# python: numbers
+
+About `numbers.Integral`
+'numbers.Integral' & 'np.integer'
+[stack overflow: numbers](https://stackoverflow.com/questions/8203336/difference-between-int-and-numbers-integral-in-python)
+
 # numpy
 ## np.stack
 
@@ -444,11 +451,35 @@ array([0, 3, 4])
 rng = np.random.RandomState(1234)
 rng.permutation(...)
 rng.randn(...)
+rng.shuffle(...) # shuffle is in-place operation
 # or
 np.random.seed(1234)
 np.random.permutation(...)
 np.random.randn(...)
+
+# source code from sklearn
+def check_random_state(seed):
+    """Turn seed into a np.random.RandomState instance
+
+    Parameters
+    ----------
+    seed : None | int | instance of RandomState
+        If seed is None, return the RandomState singleton used by np.random.
+        If seed is an int, return a new RandomState instance seeded with seed.
+        If seed is already a RandomState instance, return it.
+        Otherwise raise ValueError.
+    """
+    if seed is None or seed is np.random:
+        return np.random.mtrand._rand
+    if isinstance(seed, (numbers.Integral, np.integer)):
+        return np.random.RandomState(seed)
+    if isinstance(seed, np.random.RandomState):
+        return seed
+    raise ValueError('%r cannot be used to seed a numpy.random.RandomState'
+                     ' instance' % seed)
 ```
+[rng.shuffle](https://docs.scipy.org/doc/numpy-1.15.0/reference/generated/numpy.random.RandomState.shuffle.html)
+
 ### permutation
 
 when `rng` is specified, rng.permutation产生相同的排列序列！！（注意每次不同，但出现顺序是一致的）
@@ -479,6 +510,46 @@ In [163]: for i in range(6):print(b.permutation(10))
 In [171]: np.unique(['a','b','c','a','a','b','b'], return_inverse=True)
 Out[171]: (array(['a', 'b', 'c'], dtype='<U1'), array([0, 1, 2, 0, 0, 1, 1]))
 ```
+
+## numpy.bincount(x, weights=None, minlength=0)
+
+```
+>>> np.bincount(np.arange(5))
+array([1, 1, 1, 1, 1])
+>>> np.bincount(np.array([0, 1, 1, 3, 2, 1, 7]))
+array([1, 3, 1, 1, 0, 0, 0, 1])
+>>>
+>>> x = np.array([0, 1, 1, 3, 2, 1, 7, 23])
+>>> np.bincount(x).size == np.amax(x)+1
+True
+
+# source codes from sklearn.model_selection.StratifiedKFold
+unique_y, y_inversed = np.unique(y, return_inverse=True)
+y_counts = np.bincount(y_inversed)
+min_groups = np.min(y_counts)
+```
+
+[np.bincount](https://docs.scipy.org/doc/numpy/reference/generated/numpy.bincount.html)
+
+## numpy.full¶
+
+```
+# example:
+>>> np.full((2, 2), np.inf)
+array([[ inf,  inf],
+       [ inf,  inf]])
+>>> np.full((2, 2), 10)
+array([[10, 10],
+      [10, 10]])
+
+# source codes form sklearn.model_selection.KFold
+>>> fold_sizes = np.full(n_splits, n_samples // n_splits, dtype=np.int)
+array([92, 92, 92, 92, 92, 92, 92, 92, 92, 92])
+>>> fold_sizes[:n_samples % n_splits] += 1
+array([93, 93, 93, 93, 93, 93, 93, 93, 93, 92])
+```
+[numpy.full](https://docs.scipy.org/doc/numpy/reference/generated/numpy.full.html)
+
 ## np.in1d & np.isin
 > We recommend using isin instead of in1d for new code.
 ```
@@ -544,7 +615,21 @@ Out[195]: array([1, 2, 3, 4, 5])
 ```
 >>> np.logical_not([True, False, 0, 1])
 array([False,  True,  True, False])
+
+In [85]: x
+Out[85]: array([ 1,  2,  0,  0, -1, -2])
+
+In [86]: np.invert(x)
+Out[97]: array([-2, -3, -1, -1,  0,  1])
+
+In [98]: ~x
+Out[101]: array([-2, -3, -1, -1,  0,  1])
+
+In [102]: np.logical_not(x)
+Out[117]: array([False, False,  True,  True, False, False])
 ```
+Note that `~` only works when `x`'s dtype is boolean
+[stackoverflow: np.invert/~/np.logical_not](https://stackoverflow.com/questions/13728708/inverting-a-numpy-boolean-array-using/22225030)
 [numpy.logical_not](https://docs.scipy.org/doc/numpy/reference/generated/numpy.logical_not.html)
 
 # spacemacs
