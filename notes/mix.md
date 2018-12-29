@@ -9,6 +9,20 @@ E = NamedTuple(
 https://stackoverflow.com/questions/34269772/type-hints-in-namedtuple
 [typing类型提示](https://yiyibooks.cn/xx/python_352/library/typing.html)
 
+# SQL
+
+```
+...
+group by
+  user_log_acct,
+  batch_id,
+  cps_valid_begin_tm,
+  parent_sale_ord_id,
+  cps_valid_end_tm
+  ...
+```
+`group by` 后面为一个整体, 全部一致才是一组, 顺序无所谓;
+
 # python
 
 ## functools.partial(func[,*args][, **keywords])
@@ -49,6 +63,38 @@ self.params = copy.deepcopy(params)
 
 ## syntax
 
+### decorator
+
+```python
+# source code from keras_applications
+def keras_modules_injection(base_fun):
+  """Decorator injecting tf.keras replacements for Keras modules.
+
+  Arguments:
+      base_fun: Application function to decorate (e.g. `MobileNet`).
+
+  Returns:
+      Decorated function that injects keyword argument for the tf.keras
+      modules required by the Applications.
+  """
+
+  def wrapper(*args, **kwargs):
+    if hasattr(keras_applications, 'get_submodules_from_kwargs'):
+      kwargs['backend'] = backend
+      if 'layers' not in kwargs:
+        kwargs['layers'] = layers
+      kwargs['models'] = models
+      kwargs['utils'] = utils
+    return base_fun(*args, **kwargs)
+  return wrapper
+
+# vgg16.VGG16 is class; 这样实现了通用参数设定(包装)
+@keras_modules_injection
+def VGG16(*args, **kwargs):
+  return vgg16.VGG16(*args, **kwargs)
+```
+[python decorator](https://realpython.com/primer-on-python-decorators/)
+
 ###
 ```
 # Do not use ugly """some string""" because indent!
@@ -65,11 +111,19 @@ b = 'hello'\
 ```
 
 ### dict
+
 ```python
 # call as funtion
 dict(a=1,b=2,c=3)
 Out[71]: {'a': 1, 'b': 2, 'c': 3}
+
+# source code from tf offical example
+print("Training set accuracy: {accuracy}".format(**train_eval_result))**))
 ```
+### setdefault
+Python 字典 setdefault() 函数和get() 方法类似, 如果键不存在于字典中，将会添加键并将值设为默认值。
+- 参考
+[参考](http://www.runoob.com/python/att-dictionary-setdefault.html)
 
 ### NEVER USE STATICMETHOD!
 
@@ -757,11 +811,6 @@ https://seaborn.pydata.org/generated/seaborn.distplot.html
 ## moudle
 https://docs.python.org/2/tutorial/modules.html
 
-## dict
-### setdefault
-Python 字典 setdefault() 函数和get() 方法类似, 如果键不存在于字典中，将会添加键并将值设为默认值。
-- 参考
-[参考](http://www.runoob.com/python/att-dictionary-setdefault.html)
 
 # DL svd通道裁剪
 1. [svd相关](https://www.leiphone.com/news/201802/tSRogb7n8SFAQ6Yj.html)
