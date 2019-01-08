@@ -1,3 +1,6 @@
+# perf 
+[Perf -- Linux下的系统性能调优工具 part1](https://www.ibm.com/developerworks/cn/linux/l-cn-perf1/index.html)
+
 # typing
 ```
 from typing import Tuple, List, Dict, Any, NamedTuple
