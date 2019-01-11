@@ -13,7 +13,22 @@ https://stackoverflow.com/questions/34269772/type-hints-in-namedtuple
 [typing类型提示](https://yiyibooks.cn/xx/python_352/library/typing.html)
 
 # SQL
+## Hive import csv file
+```
+hive -e "CREATE TABLE tmp.vender_level
+(
+  vender_id STRING,
+  level STRING
+)
+  ROW FORMAT DELIMITED
+  FIELDS TERMINATED BY ','
+  LINES TERMINATED BY '\n';
+  LOAD DATA LOCAL INPATH '/home/mart_vda/zxf/jdd/hive/vender_level_20181210.csv' OVERWRITE INTO TABLE tmp.vender_level;"
 
+  # TEST pass
+  # hive -e "select * from tmp.vender_level" > test.csv
+```
+## group by
 ```
 ...
 group by
@@ -239,6 +254,18 @@ print(d)
 adapter E deeper..深层映射
 
 # pandas
+
+## to_csv()
+```
+# 如此指定编码可加入BOM头信息, excel打开不乱码!! 否则正常文本形式能打开, 但是excel打开就会乱码
+msg_100k.to_csv(msg_clean_filepath, index=False, encoding='utf_8_sig')
+```
+
+## Basic Reminder
+
+- `pd.Series.unique()`
+- `pd.Series.count()`
+
 ## pd.read_csv()
 
 `r = pd.read_csv('data_nanjing_2018.12.13/input/nj_order_180.csv', error_bad_lines=False)`
