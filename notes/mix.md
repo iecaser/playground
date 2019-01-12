@@ -811,7 +811,12 @@ endtry
 
 
 # grep,sed,awk
+
+print the first column:
+shell: `awk '{print $1}' filename`
+
 http://blog.51cto.com/lq2419/1238880
+
 
 # plt style
 https://matplotlib.org/gallery/style_sheets/style_sheets_reference.html
