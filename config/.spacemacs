@@ -409,10 +409,6 @@ you should place your code here."
     (add-hook 'python-mode-hook (lambda () (setq python-shell-interpreter "python3"))))
   (require 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-  (add-hook 'c-mode-common-hook
-    (function (lambda ()
-      (add-hook 'before-save-hook
-        'clang-format-buffer))))
   (setq py-autopep8-options '("--max-line-length=110"))
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
