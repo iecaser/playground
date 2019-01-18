@@ -1,6 +1,6 @@
 #include "common.hpp"
 
-class Solution {
+class Solution1 {
 private:
   string numToString(int num) {
     string res = "";
@@ -34,11 +34,27 @@ public:
     return res;
   }
 };
+class Solution {
+public:
+  int compress(vector<char> &chars) {
+    int anchor = 0, write = 0;
+    for (int i = 0; i < chars.size(); ++i) {
+      if (chars[i] != chars[i + 1] || i == chars.size() - 1) {
+        chars[write++] = chars[i];
+        if (i > anchor)
+          for (auto &c : to_string(i - anchor + 1))
+            chars[write++] = c;
+        anchor = i + 1;
+      }
+    }
+    return write;
+  }
+};
 
-int main() {
-  vector<char> chars = {'a', 'a', 'b', 'b', 'b'};
-  Solution s = Solution();
-  int res = s.compress(chars);
-  cout << res << endl;
-  return 0;
-}
+// int main() {
+//   vector<char> chars = {'a', 'a', 'b', 'b', 'b'};
+//   Solution s = Solution();
+//   int res = s.compress(chars);
+//   cout << res << endl;
+//   return 0;
+// }
