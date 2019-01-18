@@ -13,7 +13,13 @@ https://stackoverflow.com/questions/34269772/type-hints-in-namedtuple
 [typing类型提示](https://yiyibooks.cn/xx/python_352/library/typing.html)
 
 # SQL
-## Hive import csv file
+## Hive
+### export columns name
+```
+set hive.cli.print.header=true;
+```
+
+### import csv file
 ```
 hive -e "CREATE TABLE tmp.vender_level
 (
@@ -80,6 +86,19 @@ self.params = copy.deepcopy(params)
 [Python拷贝(深拷贝deepcopy与浅拷贝copy)](https://www.cnblogs.com/Richardzhu/p/4723750.html)
 
 ## syntax
+### 自定义Exception
+```
+class SymbolAlreadyExposedError(Exception):
+    """Raised when adding API names to symbol that already has API names."""
+    pass
+```
+
+### hasattr
+```python
+# codes from keras
+if not hasattr(sequences, '__len__'):
+    raise ValueError('`sequences` must be iterable.')
+```
 
 ### decorator
 
@@ -1261,7 +1280,34 @@ Note that `shap` doesn't handle category features well
 [GAN](https://sinpycn.github.io/2017/05/10/GAN-Tutorial-Research-Frontiers.html)
 [mode collapse in GANs](http://aiden.nibali.org/blog/2017-01-18-mode-collapse-gans/)
 
-# LSTM
+# NLP LSTM
+## embedding
+```
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Embedding(input_dim=1000, output_dim=64, input_length=10))
+x = np.random.randint(1000, size=(32, 10))
+model.compile('rmsprop', 'mse')
+y = model.predict(x)
+
+
+In [5]: model.summary()
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+embedding (Embedding)        (None, 10, 64)            64000     
+=================================================================
+Total params: 64,000
+Trainable params: 64,000
+Non-trainable params: 0
+_________________________________________________________________
+```
+- 输入为2D,输出为3D;
+- 32为batch, 10为length都不变
+- 可学习参数为`input_dim` x `output_dim`! 到底来说,就是将1000维度->映射到64维度! 
+只不过输入不是onehot那种展开的形式, 但数值上的区别, 仍然是1000维度的意思;
+
+## lstm
+
 [lstm](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 
 
