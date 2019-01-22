@@ -1,0 +1,1 @@
+﻿SELECT DISTINCT batch_id, shop_id FROM X
