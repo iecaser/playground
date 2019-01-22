@@ -107,7 +107,7 @@ values."
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
    ;; whenever you start Emacs. (default nil)
-   dotspacemacs-check-for-update nil
+   dotspacemacs-check-for-update t
    ;; If non-nil, a form that evaluates to a package directory. For example, to
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
@@ -410,6 +410,7 @@ you should place your code here."
   (require 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   (setq py-autopep8-options '("--max-line-length=110"))
+  (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
   )
 
@@ -476,3 +477,72 @@ you should place your code here."
  '(neo-vc-removed-face ((t (:foreground "#6C6C6C"))))
  '(neo-vc-unregistered-face ((t (:foreground "#D1675A"))) t)
  '(neo-vc-up-to-date-face ((t (:foreground "dark gray")))))
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(diff-hl-draw-borders nil)
+ '(diff-hl-margin-mode nil)
+ '(display-time-24hr-format t)
+ '(display-time-mode t)
+ '(eldoc-idle-delay 0.5)
+ '(evil-want-C-w-delete t)
+ '(evil-want-Y-yank-to-eol nil)
+ '(evil-want-change-word-to-end t)
+ '(flycheck-flake8-maximum-line-length 100)
+ '(flycheck-python-flake8-executable "python3")
+ '(flyspell-default-dictionary "english")
+ '(global-diff-hl-mode t)
+ '(global-eldoc-mode t)
+ '(global-flycheck-mode t)
+ '(imenu-auto-rescan t)
+ '(imenu-list-auto-resize nil)
+ '(imenu-list-position (quote left))
+ '(imenu-list-size 0.2)
+ '(neo-auto-indent-point t)
+ '(neo-autorefresh nil)
+ '(neo-banner-message "Press ? for neotree help")
+ '(neo-create-file-auto-open t)
+ '(neo-keymap-style (quote default))
+ '(neo-reset-size-on-open nil)
+ '(neo-show-hidden-files t)
+ '(neo-show-updir-line nil)
+ '(neo-smart-open t)
+ '(neo-theme (quote arrow))
+ '(neo-vc-integration (quote (face)))
+ '(neo-window-fixed-size t)
+ '(neo-window-width 25)
+ '(package-selected-packages
+   (quote
+    (yasnippet-snippets writeroom-mode visual-fill-column web-beautify symon string-inflection spaceline-all-the-icons prettier-js pippel pipenv password-generator overseer org-brain nameless magit-svn importmagic epc ctable concurrent deferred impatient-mode simple-httpd helm-xref helm-rtags helm-purpose window-purpose helm-org-rifle helm-git-grep google-c-style gitignore-templates flycheck-rtags evil-org evil-lion evil-goggles evil-cleverparens paredit editorconfig doom-modeline eldoc-eval shrink-path counsel-projectile counsel swiper ivy company-rtags rtags centered-cursor-mode browse-at-remote font-lock+ dotenv-mode format-sql sql-indent disaster company-c-headers cmake-mode clang-format engine-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data vimrc-mode dactyl-mode vmd-mode imenu-list csv-mode zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme let-alist yaml-mode all-the-icons memoize yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort py-autopep8 pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub treepy graphql with-editor eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-anaconda company auto-yasnippet yasnippet auto-dictionary anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+ '(popwin:popup-window-position (quote right))
+ '(py-autopep8-options (quote ("--max-line-length=99")))
+ '(python-shell-completion-native-enable nil)
+ '(shell-pop-window-position (quote bottom))
+ '(shell-pop-window-size 50)
+ '(truncate-lines t)
+ '(xterm-mouse-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(diff-hl-change ((t (:background "#374752" :foreground "gray15"))))
+ '(diff-hl-delete ((t (:background "#4C4638" :foreground "gray15"))))
+ '(diff-hl-insert ((t (:background "#384C38" :foreground "gray15"))))
+ '(neo-dir-link-face ((t (:inherit bold :foreground "CadetBlue3"))))
+ '(neo-vc-added-face ((t (:foreground "#629755"))))
+ '(neo-vc-conflict-face ((t (:foreground "#D5756C"))))
+ '(neo-vc-default-face ((t (:foreground "dark gray"))))
+ '(neo-vc-edited-face ((t (:foreground "#6897BB"))))
+ '(neo-vc-ignored-face ((t (:foreground "#848504"))))
+ '(neo-vc-removed-face ((t (:foreground "#6C6C6C"))))
+ '(neo-vc-unregistered-face ((t (:foreground "#D1675A"))) t)
+ '(neo-vc-up-to-date-face ((t (:foreground "dark gray")))))
+)

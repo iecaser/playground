@@ -1,3 +1,6 @@
+# perf 
+[Perf -- Linux下的系统性能调优工具 part1](https://www.ibm.com/developerworks/cn/linux/l-cn-perf1/index.html)
+
 # typing
 ```
 from typing import Tuple, List, Dict, Any, NamedTuple
@@ -8,6 +11,41 @@ E = NamedTuple(
 ```
 https://stackoverflow.com/questions/34269772/type-hints-in-namedtuple
 [typing类型提示](https://yiyibooks.cn/xx/python_352/library/typing.html)
+
+# SQL
+## Hive
+### export columns name
+```
+set hive.cli.print.header=true;
+```
+
+### import csv file
+```
+hive -e "CREATE TABLE tmp.vender_level
+(
+  vender_id STRING,
+  level STRING
+)
+  ROW FORMAT DELIMITED
+  FIELDS TERMINATED BY ','
+  LINES TERMINATED BY '\n';
+  LOAD DATA LOCAL INPATH '/home/mart_vda/zxf/jdd/hive/vender_level_20181210.csv' OVERWRITE INTO TABLE tmp.vender_level;"
+
+  # TEST pass
+  # hive -e "select * from tmp.vender_level" > test.csv
+```
+## group by
+```
+...
+group by
+  user_log_acct,
+  batch_id,
+  cps_valid_begin_tm,
+  parent_sale_ord_id,
+  cps_valid_end_tm
+  ...
+```
+`group by` 后面为一个整体, 全部一致才是一组, 顺序无所谓;
 
 # python
 
@@ -48,6 +86,51 @@ self.params = copy.deepcopy(params)
 [Python拷贝(深拷贝deepcopy与浅拷贝copy)](https://www.cnblogs.com/Richardzhu/p/4723750.html)
 
 ## syntax
+### 自定义Exception
+```
+class SymbolAlreadyExposedError(Exception):
+    """Raised when adding API names to symbol that already has API names."""
+    pass
+```
+
+### hasattr
+```python
+# codes from keras
+if not hasattr(sequences, '__len__'):
+    raise ValueError('`sequences` must be iterable.')
+```
+
+### decorator
+
+```python
+# source code from keras_applications
+def keras_modules_injection(base_fun):
+  """Decorator injecting tf.keras replacements for Keras modules.
+
+  Arguments:
+      base_fun: Application function to decorate (e.g. `MobileNet`).
+
+  Returns:
+      Decorated function that injects keyword argument for the tf.keras
+      modules required by the Applications.
+  """
+
+  def wrapper(*args, **kwargs):
+    if hasattr(keras_applications, 'get_submodules_from_kwargs'):
+      kwargs['backend'] = backend
+      if 'layers' not in kwargs:
+        kwargs['layers'] = layers
+      kwargs['models'] = models
+      kwargs['utils'] = utils
+    return base_fun(*args, **kwargs)
+  return wrapper
+
+# vgg16.VGG16 is class; 这样实现了通用参数设定(包装)
+@keras_modules_injection
+def VGG16(*args, **kwargs):
+  return vgg16.VGG16(*args, **kwargs)
+```
+[python decorator](https://realpython.com/primer-on-python-decorators/)
 
 ###
 ```
@@ -65,11 +148,19 @@ b = 'hello'\
 ```
 
 ### dict
+
 ```python
 # call as funtion
 dict(a=1,b=2,c=3)
 Out[71]: {'a': 1, 'b': 2, 'c': 3}
+
+# source code from tf offical example
+print("Training set accuracy: {accuracy}".format(**train_eval_result))**))
 ```
+### setdefault
+Python 字典 setdefault() 函数和get() 方法类似, 如果键不存在于字典中，将会添加键并将值设为默认值。
+- 参考
+[参考](http://www.runoob.com/python/att-dictionary-setdefault.html)
 
 ### NEVER USE STATICMETHOD!
 
@@ -182,6 +273,18 @@ print(d)
 adapter E deeper..深层映射
 
 # pandas
+
+## to_csv()
+```
+# 如此指定编码可加入BOM头信息, excel打开不乱码!! 否则正常文本形式能打开, 但是excel打开就会乱码
+msg_100k.to_csv(msg_clean_filepath, index=False, encoding='utf_8_sig')
+```
+
+## Basic Reminder
+
+- `pd.Series.unique()`
+- `pd.Series.count()`
+
 ## pd.read_csv()
 
 `r = pd.read_csv('data_nanjing_2018.12.13/input/nj_order_180.csv', error_bad_lines=False)`
@@ -727,7 +830,12 @@ endtry
 
 
 # grep,sed,awk
+
+print the first column:
+shell: `awk '{print $1}' filename`
+
 http://blog.51cto.com/lq2419/1238880
+
 
 # plt style
 https://matplotlib.org/gallery/style_sheets/style_sheets_reference.html
@@ -757,11 +865,6 @@ https://seaborn.pydata.org/generated/seaborn.distplot.html
 ## moudle
 https://docs.python.org/2/tutorial/modules.html
 
-## dict
-### setdefault
-Python 字典 setdefault() 函数和get() 方法类似, 如果键不存在于字典中，将会添加键并将值设为默认值。
-- 参考
-[参考](http://www.runoob.com/python/att-dictionary-setdefault.html)
 
 # DL svd通道裁剪
 1. [svd相关](https://www.leiphone.com/news/201802/tSRogb7n8SFAQ6Yj.html)
@@ -1177,7 +1280,34 @@ Note that `shap` doesn't handle category features well
 [GAN](https://sinpycn.github.io/2017/05/10/GAN-Tutorial-Research-Frontiers.html)
 [mode collapse in GANs](http://aiden.nibali.org/blog/2017-01-18-mode-collapse-gans/)
 
-# LSTM
+# NLP LSTM
+## embedding
+```
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Embedding(input_dim=1000, output_dim=64, input_length=10))
+x = np.random.randint(1000, size=(32, 10))
+model.compile('rmsprop', 'mse')
+y = model.predict(x)
+
+
+In [5]: model.summary()
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+embedding (Embedding)        (None, 10, 64)            64000     
+=================================================================
+Total params: 64,000
+Trainable params: 64,000
+Non-trainable params: 0
+_________________________________________________________________
+```
+- 输入为2D,输出为3D;
+- 32为batch, 10为length都不变
+- 可学习参数为`input_dim` x `output_dim`! 到底来说,就是将1000维度->映射到64维度! 
+只不过输入不是onehot那种展开的形式, 但数值上的区别, 仍然是1000维度的意思;
+
+## lstm
+
 [lstm](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 
 

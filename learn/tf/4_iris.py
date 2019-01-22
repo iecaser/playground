@@ -1,3 +1,4 @@
+import ipdb
 import os
 import tensorflow as tf
 from tensorflow import keras
@@ -44,6 +45,11 @@ def pack_feature_vector(features, label):
 
 
 model = Model()
+# method 1
+# df_train = pd.read_csv(train_dataset_fp, names=column_names, skiprows=1)
+# dataset_train_ = tf.data.Dataset.from_tensor_slices((dict(df_train.drop(columns='species')), df_train.species))
+
+# method 2
 dataset_train = tf.data.experimental.make_csv_dataset(file_pattern=train_dataset_fp,
                                                       batch_size=32,
                                                       column_names=column_names,
@@ -57,6 +63,7 @@ global_step = tf.Variable(0)
 
 def cal_acc(y, y_):
     batch_correct = tf.argmax(y_, axis=1).numpy() == y.numpy()
+    # batch_correct = tf.equal(y_,y) and more
     acc = batch_correct.sum() / batch_correct.shape[0]
     return acc
 
