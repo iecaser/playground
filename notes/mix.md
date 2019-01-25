@@ -86,6 +86,20 @@ self.params = copy.deepcopy(params)
 [Python拷贝(深拷贝deepcopy与浅拷贝copy)](https://www.cnblogs.com/Richardzhu/p/4723750.html)
 
 ## syntax
+### python 输入参数: bare *
+> Bare * is used to force the caller to use named arguments
+```
+def func(*, a, b):
+    print(a)
+    print(b)
+        
+func("gg") # TypeError: func() takes 0 positional arguments but 1 was given
+func(a="gg") # TypeError: func() missing 1 required keyword-only argument: 'b'
+func(a="aa", b="bb", c="cc") # TypeError: func() got an unexpected keyword argument 'c'
+func(a="aa", b="bb", "cc") # SyntaxError: positional argument follows keyword argument
+func(a="aa", b="bb") # aa, bb*)
+```
+
 ### 自定义Exception
 ```
 class SymbolAlreadyExposedError(Exception):
@@ -158,6 +172,21 @@ Out[71]: {'a': 1, 'b': 2, 'c': 3}
 print("Training set accuracy: {accuracy}".format(**train_eval_result))**))
 ```
 ### setdefault
+```
+def generate_metadata(annotation_file, train_images_dir, masks_dir, test_images_dir):
+    metadata = {}
+    annotations = pd.read_csv(annotation_file, sep=',')
+    LOGGER.info('preparing metadata(train)...')
+    for filename in tqdm(os.listdir(train_images_dir)):
+        image_id = filename.split('.')[0]
+        number_of_ships = len(annotations.query('ImageId==@filename').dropna())
+        metadata.setdefault('id', []).append(image_id)
+        metadata.setdefault('file_path_image', []).append(os.path.join(train_images_dir, filename))
+        metadata.setdefault('is_train', []).append(1)
+        metadata.setdefault('file_path_mask', []).append(os.path.join(masks_dir, image_id))
+        metadata.setdefault('number_of_ships', []).append(number_of_ships)
+        metadata.setdefault('is_not_empty', []).append(int(number_of_ships != 0))')
+```
 Python 字典 setdefault() 函数和get() 方法类似, 如果键不存在于字典中，将会添加键并将值设为默认值。
 - 参考
 [参考](http://www.runoob.com/python/att-dictionary-setdefault.html)
@@ -1309,6 +1338,13 @@ _________________________________________________________________
 ## lstm
 
 [lstm](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
+
+
+# windows
+修改注册表, 右键vim terminal打开方式
+`..\powershell.exe vim "%1"`
+[右键vim打开](https://www.cnblogs.com/hapjin/p/6146905.html)
+
 
 
 # TODO
