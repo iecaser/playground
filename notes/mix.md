@@ -576,6 +576,14 @@ array([0, 3, 4])
 `where(condition, x=None, y=None)`
 ``np.where(x>0)`` return value with the same shape of ``x``
 
+## np.argpartition
+```
+# 选取前amount小的数字的index(这样子比sort高效, 注意前amount小的index仍未排序! top但不是排序的top)
+selected_indices = np.argpartition(unlabeled_predictions, amount)[:amount]
+```
+- [How does numpy's argpartition work on the documentation's example?](https://stackoverflow.com/questions/52465066/how-does-numpys-argpartition-work-on-the-documentations-example)
+- [stack overflow: Cannot understand numpy argpartition output](https://stackoverflow.com/questions/42184499/cannot-understand-numpy-argpartition-output)
+
 ## np.random.RandomState(1234) & np.random.seed(1234)
 ### seed
 
