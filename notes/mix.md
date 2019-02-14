@@ -1347,6 +1347,11 @@ _________________________________________________________________
 
 [lstm](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 
+## tensorflow
+### Disable Tensorflow debugging information
+```
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+```
 
 # windows
 修改注册表, 右键vim terminal打开方式
