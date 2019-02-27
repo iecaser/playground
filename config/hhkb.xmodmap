@@ -1,6 +1,6 @@
 remove Control = Control_L
 remove mod4 = Super_L
-! remove mod1 = Alt_R
+remove mod1 = Alt_R
 keycode 108 = Mode_switch
 add mod5 = Mode_switch
 keycode 37 = Escape
@@ -10,14 +10,23 @@ keycode 9 = grave asciitilde grave asciitilde
 keycode 49 = BackSpace
 keycode 22 = backslash bar backslash bar
 keycode 51 = Delete
-! remove mod4 = Super_R
-! keycode 134 = Super_L
-! add mod4 = Super_L
+
+! Right Alt
 keycode  43 = h H Left
 keycode  44 = j J Down
 keycode  45 = k K Up
 keycode  46 = l L Right
 keycode  59 = comma less Home
 keycode  60 = period greater End
-
-
+keycode  10 = 1 exclam F1
+keycode  11 = 2 at F2
+keycode  12 = 3 numbersign F3
+keycode  13 = 4 dollar F4
+keycode  14 = 5 percent F5
+keycode  15 = 6 asciicircum F6
+keycode  16 = 7 ampersand F7
+keycode  17 = 8 asterisk F8
+keycode  18 = 9 parenleft F9
+keycode  19 = 0 parenright F10
+keycode  20 = minus underscore F11
+keycode  21 = equal plus equal F12
