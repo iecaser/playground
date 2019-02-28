@@ -176,7 +176,7 @@ values."
    ;; and TAB or <C-m> and RET.
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
-   dotspacemacs-distinguish-gui-tab nil
+   dotspacemacs-distinguish-gui-tab t
    ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
    dotspacemacs-remap-Y-to-y$ nil
    ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
@@ -390,14 +390,14 @@ you should place your code here."
   ;; disable useless key
   ;; TODO
 
-  (setq-default evil-escape-key-sequence "kj")
+  ;; (setq-default evil-escape-key-sequence "kj")
   (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
   (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
   (define-key evil-normal-state-map (kbd "/") #'helm-swoop)
   (define-key evil-normal-state-map (kbd "+") #'evil-numbers/inc-at-pt)
   (define-key evil-normal-state-map (kbd "-") #'evil-numbers/dec-at-pt)
-  (define-key evil-normal-state-map (kbd "<C-tab>") #'evil-next-buffer)
-  (define-key evil-normal-state-map (kbd "<C-iso-lefttab>") #'evil-prev-buffer)
+  ;; (define-key evil-normal-state-map (kbd "<C-tab>") #'evil-next-buffer)
+  ;; (define-key evil-normal-state-map (kbd "<C-iso-lefttab>") #'evil-prev-buffer)
 
   ;; python setting
   ;; (setq python-shell-interpreter "python3")

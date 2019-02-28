@@ -48,6 +48,43 @@ group by
 `group by` 后面为一个整体, 全部一致才是一组, 顺序无所谓;
 
 # python
+## importlib
+```
+# source code from Parlai
+import importlib
+def str2class(value):
+    """From import path string, returns the class specified. For example, the
+    string 'parlai.agents.drqa.drqa:SimpleDictionaryAgent' returns
+    <class 'parlai.agents.drqa.drqa.SimpleDictionaryAgent'>.
+    """
+    if ':' not in value:
+        raise RuntimeError('Use a colon before the name of the class.')
+    name = value.split(':')
+    module = importlib.import_module(name[0])
+    return getattr(module, name[1])
+```
+## vars()
+> The vars() returns the __dict__ attribute of the given object. If the object passed to vars() doesn't have __dict__ attribute, it raises a TypeError exception.
+> Note: __dict__ is a dictionary or a mapping object. It stores object's (writable) attributes.
+
+## argparser
+```
+# source code from Parlai
+# 传入的参数重处理!!
+def add_argument_group(self, *args, **kwargs):
+    """Override to make arg groups also convert underscores to hyphens."""
+    arg_group = super().add_argument_group(*args, **kwargs)
+    original_add_arg = arg_group.add_argument
+
+    def ag_add_argument(*args, **kwargs):
+        return original_add_arg(
+            *fix_underscores(args),
+            **self._handle_hidden_args(kwargs)
+        )
+
+    arg_group.add_argument = ag_add_argument  # override _ => -
+    return arg_group
+```
 
 ## functools.partial(func[,*args][, **keywords])
 > Roughly equivalent to:
@@ -277,6 +314,25 @@ callbacks_before_iter = sorted(callbacks_before_iter, key=attrgetter('order'))
 [Python中的sorted函数以及operator.itemgetter函数](https://blog.csdn.net/dongtingzhizi/article/details/12068205)
 
 ## sys
+### sys.stdout.flush()
+```
+# example 1
+import time
+import sys
+for i in range(5):
+    print(i, end='')
+    # sys.stdout.flush()
+    time.sleep(1)
+    
+# example 2
+while ...
+  counter += 1
+  if counter % 100000 == 0:
+    print("  reading data line %d" % counter)
+    sys.stdout.flush()
+    ...
+  ...
+```
 ### python version
 ```
 In[9]: sys.version
@@ -297,6 +353,11 @@ import os
 d = os.path.dirname(__file__)
 print(d)
 ```
+
+### os.path.realpath vs. os.path.abspath
+> os.path.abspath returns the absolute path, but does NOT resolve symlinks.
+> os.path.realpath will first resolve any symbolic links in the path, and then return the absolute path.
+- [stackoverflow](https://stackoverflow.com/questions/37863476/why-would-one-use-both-os-path-abspath-and-os-path-realpath)
 
 # steppy
 adapter E deeper..深层映射
