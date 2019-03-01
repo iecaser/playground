@@ -1378,6 +1378,13 @@ Note that `shap` doesn't handle category features well
 [GAN](https://sinpycn.github.io/2017/05/10/GAN-Tutorial-Research-Frontiers.html)
 [mode collapse in GANs](http://aiden.nibali.org/blog/2017-01-18-mode-collapse-gans/)
 
+# metrics
+
+## MAP in ranking
+排序评测采用map
+[what you need to know about MAP](http://fastml.com/what-you-wanted-to-know-about-mean-average-precision/)
+[github metrics implementation](https://github.com/benhamner/Metrics/blob/master/Python/ml_metrics/average_precision.py)
+
 # NLP LSTM
 ## embedding
 ```
