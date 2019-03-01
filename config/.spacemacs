@@ -414,6 +414,15 @@ you should place your code here."
   (setq py-autopep8-options '("--max-line-length=110"))
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
+  ;; hightlight indentation
+  (require 'highlight-indentation)
+  ;; (setq highlight-indentation-mode t)
+  (setq spacemacs/toggle-highlight-indentation-on t)
+  (setq highlight-indentation-blank-lines t)
+  ;; (set-face-background 'highlight-indentation-current-column-face "color-237")
+  (set-face-background 'highlight-indentation-face "color-236")
+  (set-face-background 'highlight-indentation-current-column-face "#c3b3b3")
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
