@@ -60,6 +60,8 @@ values."
      syntax-checking
      version-control
      imenu-list
+     (latex :variables
+            latex-build-command "LaTeX")
      )
    ;; List of additional packages that will be installed without being
   ;; wrapped in a layer. If you need some configuration for these
@@ -176,7 +178,7 @@ values."
    ;; and TAB or <C-m> and RET.
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
-   dotspacemacs-distinguish-gui-tab nil
+   dotspacemacs-distinguish-gui-tab t
    ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
    dotspacemacs-remap-Y-to-y$ nil
    ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
@@ -390,14 +392,14 @@ you should place your code here."
   ;; disable useless key
   ;; TODO
 
-  (setq-default evil-escape-key-sequence "kj")
+  ;; (setq-default evil-escape-key-sequence "kj")
   (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
   (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
   (define-key evil-normal-state-map (kbd "/") #'helm-swoop)
   (define-key evil-normal-state-map (kbd "+") #'evil-numbers/inc-at-pt)
   (define-key evil-normal-state-map (kbd "-") #'evil-numbers/dec-at-pt)
-  (define-key evil-normal-state-map (kbd "<C-tab>") #'evil-next-buffer)
-  (define-key evil-normal-state-map (kbd "<C-iso-lefttab>") #'evil-prev-buffer)
+  ;; (define-key evil-normal-state-map (kbd "<C-tab>") #'evil-next-buffer)
+  ;; (define-key evil-normal-state-map (kbd "<C-iso-lefttab>") #'evil-prev-buffer)
 
   ;; python setting
   ;; (setq python-shell-interpreter "python3")
@@ -411,6 +413,12 @@ you should place your code here."
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   (setq py-autopep8-options '("--max-line-length=110"))
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
+
+  ;; hightlight indentation
+  (require 'highlight-indentation)
+  (setq highlight-indentation-blank-lines t)
+  (set-face-background 'highlight-indentation-face "color-236")
+  (set-face-background 'highlight-indentation-current-column-face "color-237")
 
   )
 
@@ -502,30 +510,28 @@ This function is called at the very end of Spacemacs initialization."
  '(global-eldoc-mode t)
  '(global-flycheck-mode t)
  '(imenu-auto-rescan t)
- '(imenu-list-auto-resize nil)
+ '(imenu-list-auto-resize nil t)
  '(imenu-list-position (quote left))
  '(imenu-list-size 0.2)
- '(neo-auto-indent-point t)
+ '(neo-auto-indent-point t t)
  '(neo-autorefresh nil)
- '(neo-banner-message "Press ? for neotree help")
- '(neo-create-file-auto-open t)
+ '(neo-banner-message "Press ? for neotree help" t)
+ '(neo-create-file-auto-open t t)
  '(neo-keymap-style (quote default))
  '(neo-reset-size-on-open nil)
- '(neo-show-hidden-files t)
- '(neo-show-updir-line nil)
- '(neo-smart-open t)
+ '(neo-show-hidden-files t t)
+ '(neo-show-updir-line nil t)
+ '(neo-smart-open t t)
  '(neo-theme (quote arrow))
- '(neo-vc-integration (quote (face)))
+ '(neo-vc-integration (quote (face)) t)
  '(neo-window-fixed-size t)
- '(neo-window-width 25)
+ '(neo-window-width 25 t)
  '(package-selected-packages
    (quote
-    (yasnippet-snippets writeroom-mode visual-fill-column web-beautify symon string-inflection spaceline-all-the-icons prettier-js pippel pipenv password-generator overseer org-brain nameless magit-svn importmagic epc ctable concurrent deferred impatient-mode simple-httpd helm-xref helm-rtags helm-purpose window-purpose helm-org-rifle helm-git-grep google-c-style gitignore-templates flycheck-rtags evil-org evil-lion evil-goggles evil-cleverparens paredit editorconfig doom-modeline eldoc-eval shrink-path counsel-projectile counsel swiper ivy company-rtags rtags centered-cursor-mode browse-at-remote font-lock+ dotenv-mode format-sql sql-indent disaster company-c-headers cmake-mode clang-format engine-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data vimrc-mode dactyl-mode vmd-mode imenu-list csv-mode zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme let-alist yaml-mode all-the-icons memoize yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort py-autopep8 pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub treepy graphql with-editor eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-anaconda company auto-yasnippet yasnippet auto-dictionary anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (company-auctex auctex format-sql sql-indent disaster company-c-headers cmake-mode clang-format engine-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data vimrc-mode dactyl-mode vmd-mode imenu-list csv-mode zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme let-alist yaml-mode all-the-icons memoize yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort py-autopep8 pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub treepy graphql with-editor eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-anaconda company auto-yasnippet yasnippet auto-dictionary anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(popwin:popup-window-position (quote right))
  '(py-autopep8-options (quote ("--max-line-length=99")))
  '(python-shell-completion-native-enable nil)
- '(shell-pop-window-position (quote bottom))
- '(shell-pop-window-size 50)
  '(truncate-lines t)
  '(xterm-mouse-mode nil))
 (custom-set-faces

@@ -1,0 +1,23 @@
+remove Control = Control_L
+remove mod4 = Super_L
+! remove mod1 = Alt_R
+keycode 108 = Mode_switch
+add mod5 = Mode_switch
+keycode 37 = Escape
+keycode 133 = Control_L
+add Control = Control_L
+keycode 9 = grave asciitilde grave asciitilde
+keycode 49 = BackSpace
+keycode 22 = backslash bar backslash bar
+keycode 51 = Delete
+! remove mod4 = Super_R
+! keycode 134 = Super_L
+! add mod4 = Super_L
+keycode  43 = h H Left
+keycode  44 = j J Down
+keycode  45 = k K Up
+keycode  46 = l L Right
+keycode  59 = comma less Home
+keycode  60 = period greater End
+
+
