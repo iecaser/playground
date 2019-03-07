@@ -1210,6 +1210,18 @@ cv2.resize(image, (cols, rows))
 ```
 
 # linux
+## centos 7: kernel
+- [update kernel](https://www.tecmint.com/install-upgrade-kernel-version-in-centos-7/)
+- [kernel download](https://elrepo.org/linux/kernel/el7/x86_64/RPMS/)
+- `sudo vim /etc/default/grub`
+- change kernel start order (centos 7)
+  ```
+  sudo cat /boot/grub2/grub.cfg | grep menuentry 
+  sudo grub2-set-default "CentOS Linux (4.4.176-1.el7.elrepo.x86_64) 7 (Core)"
+  sudo grub2-editenv list
+  sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+  ```
+
 ## shuf
 shuffle lines
 ```
@@ -1427,6 +1439,13 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 [右键vim打开](https://www.cnblogs.com/hapjin/p/6146905.html)
 
 
+# TOOLS
+## GraphViz
+[web graphviz](http://www.webgraphviz.com/)
+
+> On Ubuntu, you can view the graph locally by installing GraphViz and the xdot Dot Viewer:
+
+`sudo apt update && sudo apt install graphviz xdot`
 
 # TODO
 1. lightgbm params will be changed!! PR
