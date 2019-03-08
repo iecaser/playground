@@ -857,6 +857,13 @@ Note that `~` only works when `x`'s dtype is boolean
 [keymap](https://github.com/emacs-china/emacsist/blob/master/articles/2016-11-14%E9%82%A3%E5%B0%B1%E4%BB%8E%E5%A6%96%E8%89%B3%E9%85%B7%E7%82%AB%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%BC%80%E5%A7%8B%E5%90%A7%EF%BC%81%EF%BC%88%E4%B8%80%EF%BC%89.org)
 
 # vim 
+## SpaceVim
+- xshell 色彩显示异常解决方法
+在 `.SpaceVim/config/init.vim` 添加代码:
+```
+let g:spacevim_enable_guicolors = 0
+set t_Co=256
+```
 ## reg
 
 `:[range]s/pattern/string/[c,e,g,i]`
@@ -926,14 +933,17 @@ endtry
 ## github发现的一个图像增强lib
 [github albumentations](https://github.com/albu/albumentations)
 
-
-# grep,sed,awk
+# bash/shell
+## grep,sed,awk
 
 print the first column:
 shell: `awk '{print $1}' filename`
 
 http://blog.51cto.com/lq2419/1238880
 
+## `if` in shell
+- $(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia") 
+- test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
 
 # plt style
 https://matplotlib.org/gallery/style_sheets/style_sheets_reference.html
@@ -1440,6 +1450,12 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 # vmware workstation 15 key
 `GV7N2-DQZ00-4897Y-27ZNX-NV0TD`
+
+# docker
+```
+docker exec -it <container_id> bash
+```
+- [How to open multi-terminals in docker](https://stackoverflow.com/questions/39794509/how-to-open-multiple-terminals-in-docker)
 
 # TOOLS
 ## GraphViz
