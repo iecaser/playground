@@ -1438,6 +1438,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 `..\powershell.exe vim "%1"`
 [右键vim打开](https://www.cnblogs.com/hapjin/p/6146905.html)
 
+# vmware workstation 15 key
+`GV7N2-DQZ00-4897Y-27ZNX-NV0TD`
 
 # TOOLS
 ## GraphViz
