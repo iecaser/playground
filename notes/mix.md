@@ -835,7 +835,19 @@ Note that `~` only works when `x`'s dtype is boolean
 
 # spacemacs
 
-##
+## easiest way to install emacs26 on ubuntu18
+```
+sudo add-apt-repository ppa:kelleyk/emacs
+sudo apt update
+sudo apt install emacs26
+sudo apt remove --autoremove emacs26 emacs26-nox
+```
+[emacs26 on ubuntu18](http://ubuntuhandbook.org/index.php/2019/02/install-gnu-emacs-26-1-ubuntu-18-04-16-04-18-10/)
+
+## install spacemacs
+` git clone -b develop https://github.com/syl20bnr/spacemacs ~/.emacs.d `
+
+##  ...
 [Pasting text into search after pressing "/" ](https://www.reddit.com/r/spacemacs/comments/4drxvv/pasting_text_into_search_after_pressing/)
 
 ## keymap
