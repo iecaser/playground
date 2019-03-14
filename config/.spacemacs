@@ -53,6 +53,7 @@ values."
      git
      (markdown :variables markdown-live-preview-engine 'vmd)
      org
+     neotree
      (shell :variables
             shell-default-height 30
             shell-default-position 'right)

@@ -48,6 +48,17 @@ group by
 `group by` 后面为一个整体, 全部一致才是一组, 顺序无所谓;
 
 # python
+## collections
+```
+from collections import Counter
+wordcount = Counter(file.read().split())
+# or
+counter = Counter()
+counter.update(file1.read().split())
+counter.update(file2.read().split())
+...
+```
+
 ## importlib
 ```
 # source code from Parlai
@@ -957,6 +968,10 @@ https://seaborn.pydata.org/generated/seaborn.distplot.html
 [click](https://click.palletsprojects.com/en/7.x/)
 
 # python
+
+## with
+`__enter__` & `__exit__`
+[with-statement](http://effbot.org/zone/python-with-statement.htm)
 
 ## X/X_/_X
 [python命名规范](https://www.jianshu.com/p/a793c0d960fe)
