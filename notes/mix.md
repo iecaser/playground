@@ -1451,6 +1451,11 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 # vmware workstation 15 key
 `GV7N2-DQZ00-4897Y-27ZNX-NV0TD`
 
+# conda
+- clone env
+```
+conda create -n new_env_name --clone old_env_name
+```
 # docker
 ```
 docker exec -it <container_id> bash
