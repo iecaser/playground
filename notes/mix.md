@@ -48,6 +48,17 @@ group by
 `group by` 后面为一个整体, 全部一致才是一组, 顺序无所谓;
 
 # python
+## collections
+```
+from collections import Counter
+wordcount = Counter(file.read().split())
+# or
+counter = Counter()
+counter.update(file1.read().split())
+counter.update(file2.read().split())
+...
+```
+
 ## importlib
 ```
 # source code from Parlai
@@ -835,7 +846,19 @@ Note that `~` only works when `x`'s dtype is boolean
 
 # spacemacs
 
-##
+## easiest way to install emacs26 on ubuntu18
+```
+sudo add-apt-repository ppa:kelleyk/emacs
+sudo apt update
+sudo apt install emacs26
+sudo apt remove --autoremove emacs26 emacs26-nox
+```
+[emacs26 on ubuntu18](http://ubuntuhandbook.org/index.php/2019/02/install-gnu-emacs-26-1-ubuntu-18-04-16-04-18-10/)
+
+## install spacemacs
+` git clone -b develop https://github.com/syl20bnr/spacemacs ~/.emacs.d `
+
+##  ...
 [Pasting text into search after pressing "/" ](https://www.reddit.com/r/spacemacs/comments/4drxvv/pasting_text_into_search_after_pressing/)
 
 ## keymap
@@ -957,6 +980,10 @@ https://seaborn.pydata.org/generated/seaborn.distplot.html
 [click](https://click.palletsprojects.com/en/7.x/)
 
 # python
+
+## with
+`__enter__` & `__exit__`
+[with-statement](http://effbot.org/zone/python-with-statement.htm)
 
 ## X/X_/_X
 [python命名规范](https://www.jianshu.com/p/a793c0d960fe)
