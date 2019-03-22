@@ -30,7 +30,7 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(javascript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -56,7 +56,7 @@ values."
      neotree
      (shell :variables
             shell-default-height 30
-            shell-default-position 'right)
+            shell-default-position 'bottom)
      spell-checking
      syntax-checking
      version-control

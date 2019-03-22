@@ -48,6 +48,28 @@ group by
 `group by` 后面为一个整体, 全部一致才是一组, 顺序无所谓;
 
 # python
+
+## apscheduler
+```
+import datetime
+import time
+from apscheduler.schedulers.background import BackgroundScheduler,BlockingScheduler
+
+def job_func(text):
+    print(text, datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f"))
+  
+# 在每年 1-3、7-9 月份中的每个星期一、二中的 00:00, 01:00, 02:00 和 03:00 执行 job_func 任务
+# scheduler = BackgroundScheduler()
+scheduler = BlockingScheduler()
+scheduler.add_job(job_func, 'cron', second='10,20,30,40,55',args=['当前时间:'])
+# scheduler .add_job(job_func, 'cron', month='1-3,7-9',day='0, tue', hour='0-3')
+# scheduler.add_job(job_func, 'interval', seconds=2, args=['当前时间:'])
+scheduler.start()
+while True:
+    print('...')
+    time.sleep(1)
+```
+
 ## collections
 ```
 from collections import Counter
@@ -77,6 +99,16 @@ def str2class(value):
 ## vars()
 > The vars() returns the __dict__ attribute of the given object. If the object passed to vars() doesn't have __dict__ attribute, it raises a TypeError exception.
 > Note: __dict__ is a dictionary or a mapping object. It stores object's (writable) attributes.
+```
+...
+parser.add_argument(
+    '--batch-norm-epsilon',
+    type=float,
+    default=1e-5,
+    help='Epsilon for batch norm.')
+args = parser.parse_args()
+main(**vars(args))
+```
 
 ## argparser
 ```
@@ -642,6 +674,11 @@ None
 array([0, 3, 4])
 >>> #This is equivalent to np.random.randint(0,5,3)
 # NOTE size can greater than a.shape
+
+# or
+rng = np.random.RandomState(SEED)
+labeled_idx = rng.choice(X_train.shape[0], args.initial_size, replace=False)
+[choice](https://www.numpy.org/devdocs/reference/generated/numpy.random.RandomState.choice.html#numpy.random.RandomState.choice)
 ```
 
 ## np.where
@@ -809,6 +846,15 @@ array([[0, 1],
 NOTE flatten always return a copy
 [ravel](https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.ravel.html)
 [flatten vs. ravel vs. reshape](https://stackoverflow.com/questions/28930465/what-is-the-difference-between-flatten-and-ravel-functions-in-numpy)
+
+## np.newaxis
+```
+a = np.ones(2)
+a = a[np.newaxis,:]
+a = a[None,:]
+```
+[what is np.newaxis and when to use it](https://medium.com/@ian.dzindo01/what-is-numpy-newaxis-and-when-to-use-it-8cb61c7ed6ae)
+
 
 ## np.flatnonzero
 
@@ -1247,6 +1293,30 @@ cv2.resize(image, (cols, rows))
 ```
 
 # linux
+## 开发和限制端口
+```
+firewall-cmd --zone=public --add-port=22/tcp --permanent
+firewall-cmd --reload
+firewall-cmd --zone=public --list-ports
+
+# 查看当前所有tcp端口
+netstat -ntlp
+```
+[firewall-cmd](https://blog.csdn.net/ywd1992/article/details/80401630)
+
+## autossh/ssh
+```
+# inside
+sudo apt-get install autossh
+# ssh -NfR 12345:localhost:22 user_outside@ip
+# or
+autossh -M 54321 -NfR 12345:localhost:22 user_outside@ip
+
+# outside
+ssh user_inside@localhost -p 12345
+```
+[使用Autossh开启SSH Tunnel](https://blog.csdn.net/baalhuo/article/details/72597155)
+
 ## centos 7: kernel
 - [update kernel](https://www.tecmint.com/install-upgrade-kernel-version-in-centos-7/)
 - [kernel download](https://elrepo.org/linux/kernel/el7/x86_64/RPMS/)
@@ -1464,6 +1534,14 @@ _________________________________________________________________
 
 [lstm](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 
+## keras
+```python
+# 多次重复创建model及时删除
+del model
+gc.collect()
+K.clear_session()
+```
+
 ## tensorflow
 ### Disable Tensorflow debugging information
 ```
@@ -1483,6 +1561,12 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 ```
 conda create -n new_env_name --clone old_env_name
 ```
+## cuda/cudnn
+`conda install -c anaconda cudnn`
+
+# utf-8
+[utf-8原理博客](http://imhuchao.com/98.html)
+
 # docker
 ```
 docker exec -it <container_id> bash
