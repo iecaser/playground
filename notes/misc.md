@@ -48,6 +48,24 @@ group by
 `group by` 后面为一个整体, 全部一致才是一组, 顺序无所谓;
 
 # python
+
+## datetime
+
+> %y	Year without century as a zero-padded decimal number.	13
+> %Y	Year with century as a decimal number.	2013
+
+```python
+import datetime
+date_str = datetime.datetime.now.strftime('%Y-%m-%d')
+date_str = datetime.datetime.now.strftime('%y-%m-%d')
+```
+
+## anaconda
+```bash
+export PATH="/home/mart_vda/zxf/anaconda3/bin:$PATH"
+bash
+```
+
 ## collections
 ```
 from collections import Counter
@@ -981,6 +999,14 @@ https://seaborn.pydata.org/generated/seaborn.distplot.html
 
 # python
 
+## format
+```python
+varInt = 12
+'{:03d}'.format(varInt)
+'{:.3f}'.format(varInt)
+'{:07.3f}'.format(varInt)
+```
+
 ## with
 `__enter__` & `__exit__`
 [with-statement](http://effbot.org/zone/python-with-statement.htm)
@@ -1247,6 +1273,7 @@ cv2.resize(image, (cols, rows))
 ```
 
 # linux
+## awk
 ## centos 7: kernel
 - [update kernel](https://www.tecmint.com/install-upgrade-kernel-version-in-centos-7/)
 - [kernel download](https://elrepo.org/linux/kernel/el7/x86_64/RPMS/)
@@ -1309,43 +1336,9 @@ the following order: newline, word, character, byte, maximum line length.
 ```
 
 ## awk
-```
-Usage: awk [POSIX or GNU style options] -f progfile [--] file ...
-Usage: awk [POSIX or GNU style options] [--] 'program' file ...
-POSIX options:		GNU long options: (standard)
-	-f progfile		--file=progfile
-	-F fs			--field-separator=fs
-	-v var=val		--assign=var=val
-Short options:		GNU long options: (extensions)
-	-b			--characters-as-bytes
-	-c			--traditional
-	-C			--copyright
-	-d[file]		--dump-variables[=file]
-	-e 'program-text'	--source='program-text'
-	-E file			--exec=file
-	-g			--gen-pot
-	-h			--help
-	-L [fatal]		--lint[=fatal]
-	-n			--non-decimal-data
-	-N			--use-lc-numeric
-	-O			--optimize
-	-p[file]		--profile[=file]
-	-P			--posix
-	-r			--re-interval
-	-S			--sandbox
-	-t			--lint-old
-	-V			--version
-
-To report bugs, see node `Bugs' in `gawk.info', which is
-section `Reporting Problems and Bugs' in the printed version.
-
-gawk is a pattern scanning and processing language.
-By default it reads standard input and writes standard output.
-
-Examples:
-	gawk '{ sum += $1 }; END { print sum }' file
-	gawk -F: '{ print $1 }' /etc/passwd
-
+```bash
+# double quote surround \t 
+head file | awk 'BEGIN {FS="\t"} {print $1}'
 ```
 
 # sklearn

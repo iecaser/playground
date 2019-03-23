@@ -1,6 +1,6 @@
 {
     "git.ignoreMissingGitWarning": true,
-    "window.zoomLevel": -1,
+    "window.zoomLevel": 0,
     "editor.fontSize": 23,
     "vim.leader": "<space>",
     "vim.normalModeKeyBindingsNonRecursive": [
