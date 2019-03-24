@@ -1589,3 +1589,10 @@ docker exec -it <container_id> bash
 2. conquer 2 leetcode easy problems
 3. learn something new
 4. read a kaggle kernel
+
+# paper
+
+- ICTAI IEEE International Conference on Tools with Artificial Intelligence June 20, 2019
+- KSEM The 12th International Conference on Knowledge Science, Engineering and Management April 15, 2019
+- ACML Asian Conf. on Machine Learning Apr.15, 2019
+- BMVC 2019 Mon Apr 29 2019 23:59:00 GMT-0700
