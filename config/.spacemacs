@@ -30,7 +30,7 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(javascript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -53,9 +53,10 @@ values."
      git
      (markdown :variables markdown-live-preview-engine 'vmd)
      org
+     neotree
      (shell :variables
             shell-default-height 30
-            shell-default-position 'right)
+            shell-default-position 'bottom)
      spell-checking
      syntax-checking
      version-control
@@ -178,7 +179,7 @@ values."
    ;; and TAB or <C-m> and RET.
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
-   dotspacemacs-distinguish-gui-tab nil
+   dotspacemacs-distinguish-gui-tab t
    ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
    dotspacemacs-remap-Y-to-y$ nil
    ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
@@ -392,14 +393,14 @@ you should place your code here."
   ;; disable useless key
   ;; TODO
 
-  (setq-default evil-escape-key-sequence "kj")
+  ;; (setq-default evil-escape-key-sequence "kj")
   (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
   (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
   (define-key evil-normal-state-map (kbd "/") #'helm-swoop)
   (define-key evil-normal-state-map (kbd "+") #'evil-numbers/inc-at-pt)
   (define-key evil-normal-state-map (kbd "-") #'evil-numbers/dec-at-pt)
-  (define-key evil-normal-state-map (kbd "<C-tab>") #'evil-next-buffer)
-  (define-key evil-normal-state-map (kbd "<C-iso-lefttab>") #'evil-prev-buffer)
+  ;; (define-key evil-normal-state-map (kbd "<C-tab>") #'evil-next-buffer)
+  ;; (define-key evil-normal-state-map (kbd "<C-iso-lefttab>") #'evil-prev-buffer)
 
   ;; python setting
   ;; (setq python-shell-interpreter "python3")
@@ -413,6 +414,12 @@ you should place your code here."
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   (setq py-autopep8-options '("--max-line-length=110"))
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
+
+  ;; hightlight indentation
+  (require 'highlight-indentation)
+  (setq highlight-indentation-blank-lines t)
+  (set-face-background 'highlight-indentation-face "color-236")
+  (set-face-background 'highlight-indentation-current-column-face "color-237")
 
   )
 
