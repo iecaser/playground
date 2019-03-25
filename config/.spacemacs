@@ -233,8 +233,7 @@ values."
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
    ;; (default 'bottom)
-   ;; dotspacemacs-which-key-position 'bottom
-   dotspacemacs-which-key-position 'right
+   dotspacemacs-which-key-position 'bottom
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
@@ -534,8 +533,6 @@ This function is called at the very end of Spacemacs initialization."
  '(py-autopep8-options (quote ("--max-line-length=99")))
  '(python-shell-completion-native-enable nil)
  '(truncate-lines t)
- '(which-key-frame-max-width 60)
- '(which-key-side-window-location (quote bottom))
  '(xterm-mouse-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
