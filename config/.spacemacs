@@ -534,7 +534,7 @@ This function is called at the very end of Spacemacs initialization."
  '(py-autopep8-options (quote ("--max-line-length=99")))
  '(python-shell-completion-native-enable nil)
  '(truncate-lines t)
- '(which-key-frame-max-width 100)
+ '(which-key-frame-max-width 60)
  '(which-key-side-window-location (quote bottom))
  '(xterm-mouse-mode nil))
 (custom-set-faces
