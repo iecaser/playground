@@ -390,6 +390,15 @@ Out[11]: 3
 ### makedirs vs. mkdir
 [stackoverflow](https://stackoverflow.com/questions/13819496/what-is-different-between-makedirs-and-mkdir-of-os)
 
+### os.path.splitext
+获取和更换拓展名
+```
+for infile in args.embed.infile:
+    head, _ = os.path.splitext(infile)
+    outfile = head + '.hdf5'
+    dbm(dataset_file=infile, outfile=outfile)
+    logger.info(f'dumped {infile} to {outfile}')
+```
 ### os.path.dirname
 ```
 import os
@@ -685,10 +694,12 @@ labeled_idx = rng.choice(X_train.shape[0], args.initial_size, replace=False)
 `where(condition, x=None, y=None)`
 ``np.where(x>0)`` return value with the same shape of ``x``
 
-## np.argpartition
+## np.argpartition and np.partition
 ```
 # 选取前amount小的数字的index(这样子比sort高效, 注意前amount小的index仍未排序! top但不是排序的top)
 selected_indices = np.argpartition(unlabeled_predictions, amount)[:amount]
+# 如果只要值不要arg
+val = np.partition(X, 2, axis=1)
 ```
 - [How does numpy's argpartition work on the documentation's example?](https://stackoverflow.com/questions/52465066/how-does-numpys-argpartition-work-on-the-documentations-example)
 - [stack overflow: Cannot understand numpy argpartition output](https://stackoverflow.com/questions/42184499/cannot-understand-numpy-argpartition-output)
@@ -990,6 +1001,7 @@ endtry
 
 ## 寄存器
 `:reg`
+> 例如： "ayy可以拷贝当前行到寄存器a中，而"ap则可以粘贴寄存器a中的内容
 [参考博客1](http://liuzhijun.iteye.com/blog/1830931)
 [参考博客2](https://harttle.land/2016/07/25/vim-registers.html)
 [一定要有+clipboard](https://www.zhihu.com/question/19863631)
@@ -1293,6 +1305,24 @@ cv2.resize(image, (cols, rows))
 ```
 
 # linux
+
+## rename files
+
+```shell
+# method 1
+for f in *.JPG
+do
+  mv "$f" "${f%.JPG}.jpg"
+  done*
+
+# method 2
+rename JPG jpg *.JPG*
+```
+## nohup
+```shell
+nohup sh run.sh > somedir/log 2>&1 &
+```
+
 ## 开发和限制端口
 ```
 firewall-cmd --zone=public --add-port=22/tcp --permanent
@@ -1543,9 +1573,34 @@ K.clear_session()
 ```
 
 ## tensorflow
-### Disable Tensorflow debugging information
+环境参数
 ```
+# 重复构图会error, 用tf.reset_default_graph()解决
+dbm = partial(dump_bilm_embeddings,
+              vocab_file=args.vocab_file,
+              options_file=args.embed.options,
+              weight_file=args.weights)
+for infile in args.embed.infile:
+    head, _ = os.path.splitext(infile)
+    outfile = head + '.hdf5'
+    dbm(dataset_file=infile, outfile=outfile)
+    logger.info(f'dumped {infile} to {outfile}')
+    tf.reset_default_graph()
+
+# Disable Tensorflow debugging information
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+
+# set gpu visible
+os.environ["CUDA_VISIBLE_DEVICES"] = FLAGS.gpu
+# or
+with tf.device('/cpu:0'):
+    history = model.fit(X_train, y_train,
+                        batch_size=5,
+                        epochs=30,
+                        verbose=2,
+                        validation_data=(X_val, y_val),
+                        callbacks=[cb])
+    score = model.evaluate(X_val, y_val, verbose=0)
 ```
 
 # windows
