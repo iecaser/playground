@@ -18,6 +18,10 @@ https://stackoverflow.com/questions/34269772/type-hints-in-namedtuple
 ```
 set hive.cli.print.header=true;
 ```
+### show partitions
+```
+show partitions talbename;
+```
 
 ### import csv file
 ```
@@ -1306,6 +1310,57 @@ cv2.resize(image, (cols, rows))
 
 # linux
 
+## wget
+
+wget urls form files
+```
+# man wget to get more information
+wget -i somefile
+# 管道 pipe
+head somefile |xargs wget
+# 改用aria2c(如下, 高级工具)等并行(可断点续传)方式更好!!
+```
+[wget from file](https://stackoverflow.com/questions/40986340/how-to-wget-a-list-of-urls-in-a-text-file)
+
+## seq
+```
+seq 10
+seq 2 4 20
+seq -w 999|head
+```
+## parallel !!
+```shell
+sudo yum install parallel
+seq 10| parallel echo hello
+seq ls| parallel echo hello
+seq ls| parallel echo {}
+
+# To remove the files pict0000.jpg .. pict9999.jpg you could do:
+seq -w 0 9999 | parallel rm pict{}.jpg
+```
+[parallel各种高端技巧](https://www.gnu.org/software/parallel/man.html)
+
+##
+```
+#!/bin/bash
+aria2c -j5 -i list.txt -c --save-session out.txt
+has_error=`wc -l < out.txt`
+
+while [ $has_error -gt 0 ]
+do
+  echo "still has $has_error errors, rerun aria2 to download ..."
+  aria2c -j5 -i list.txt -c --save-session out.txt
+  has_error=`wc -l < out.txt`
+  sleep 10
+done
+        
+### PS: one line solution, just loop 1000 times
+###         seq 1000 | parallel -j1 aria2c -i list.txt -c
+```
+
+## lrzsz
+`yum install lrzsz`
+
 ## rename files
 
 ```shell
@@ -1612,6 +1667,13 @@ with tf.device('/cpu:0'):
 `GV7N2-DQZ00-4897Y-27ZNX-NV0TD`
 
 # conda
+- proxy
+```shell
+# this may help
+conda config --set proxy_servers.http http://id:pw@address:port
+conda config --set proxy_servers.https https://id:pw@address:port
+```
+
 - clone env
 ```
 conda create -n new_env_name --clone old_env_name
