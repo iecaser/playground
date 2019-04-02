@@ -148,6 +148,22 @@ def partial(func, *args, **keywords):
     return newfunc
 ```
 
+### partial class
+
+```python
+import functools
+import collections
+
+def partialclass(cls, *args, **kwds):
+  class NewCls(cls):
+    __init__ = functools.partialmethod(cls.__init__, *args, **kwds)
+    return NewCls
+
+if __name__ == '__main__':
+  Config = partialclass(collections.defaultdict, list)
+  assert isinstance(Config(), Config)**)**)
+```                     
+[python equivalent of functools 'partial' for a class / constructor](https://stackoverflow.com/questions/38911146/python-equivalent-of-functools-partial-for-a-class-constructor)
 
 ## warning
 This is not recommend because it interrupt!
@@ -941,6 +957,10 @@ sudo apt remove --autoremove emacs26 emacs26-nox
 [keymap](https://github.com/emacs-china/emacsist/blob/master/articles/2016-11-14%E9%82%A3%E5%B0%B1%E4%BB%8E%E5%A6%96%E8%89%B3%E9%85%B7%E7%82%AB%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%BC%80%E5%A7%8B%E5%90%A7%EF%BC%81%EF%BC%88%E4%B8%80%EF%BC%89.org)
 
 # vim 
+
+## disable mouse mode
+`set mouse=`
+
 ## SpaceVim
 - xshell 色彩显示异常解决方法
 在 `.SpaceVim/config/init.vim` 添加代码:
@@ -1627,9 +1647,25 @@ gc.collect()
 K.clear_session()
 ```
 
-## tensorflow
-环境参数
+## absl
+
+```python
+from absl import app, flags
+FLAGS = flags.FLAGS
+flags.DEFINE_string("input_file_pattern", "", "File pattern of sharded TFRecord input files.")
+# when use
+assert FLAGS.input_file_pattern, "--input_file_pattern is required"
 ```
+
+## tensorflow
+
+### tf.nn.embedding_lookup(params,ids)
+
+[tf.nn.embedding_lookup](https://www.tensorflow.org/api_docs/python/tf/nn/embedding_lookup)
+[What does tf.nn.embedding_lookup function do?](https://stackoverflow.com/questions/34870614/what-does-tf-nn-embedding-lookup-function-do)
+
+### 环境参数
+```python
 # 重复构图会error, 用tf.reset_default_graph()解决
 dbm = partial(dump_bilm_embeddings,
               vocab_file=args.vocab_file,
@@ -1685,6 +1721,17 @@ conda create -n new_env_name --clone old_env_name
 [utf-8原理博客](http://imhuchao.com/98.html)
 
 # docker
+
+## RUN v.s. CMD
+
+> RUN - command triggers while we build the docker image.
+> CMD - command triggers while we launch the created docker image.
+[Difference between RUN and CMD in a docker file](https://stackoverflow.com/questions/37461868/difference-between-run-and-cmd-in-a-docker-file)
+
+## mount/volume
+[docker volumes](https://docs.docker.com/storage/volumes/)
+
+## multi term
 ```
 docker exec -it <container_id> bash
 ```

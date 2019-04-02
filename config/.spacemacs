@@ -501,7 +501,7 @@ This function is called at the very end of Spacemacs initialization."
  '(display-time-mode t)
  '(eldoc-idle-delay 0.5)
  '(evil-want-C-w-delete t)
- '(evil-want-Y-yank-to-eol nil)
+ '(evil-want-Y-yank-to-eol t)
  '(evil-want-change-word-to-end t)
  '(flycheck-flake8-maximum-line-length 100)
  '(flycheck-python-flake8-executable "python3")
