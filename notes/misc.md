@@ -1063,6 +1063,24 @@ https://seaborn.pydata.org/generated/seaborn.distplot.html
 
 # python
 
+## remove `\n` at string end
+```python
+urls = urls.rstrip('\n').split(',')
+```
+
+## get module absolute path
+
+```python
+# emacs环境识别错误, 无法直接跳转到正确环境中某个函数定义中. 如低版本的tf.nn.dynamic_rnn
+import tensorflow as tf
+print(tf.nn.__file__)
+# >>> '/home/zxf/anaconda3/envs/caption/lib/python2.7/site-packages/tensorflow/_api/v1/nn/__init__.pyc'
+```
+```bash
+# 不过这貌似不够, 用grep
+grep -r "def dynamic_rnn" .
+```
+
 ## with
 `__enter__` & `__exit__`
 [with-statement](http://effbot.org/zone/python-with-statement.htm)
@@ -1329,6 +1347,29 @@ cv2.resize(image, (cols, rows))
 ```
 
 # linux
+
+## nohup
+```bash
+# new log file instead of default nohup.out
+nohup sh test.sh > log 2>&1 &
+```
+## time
+```bash
+time ls
+time ./test.sh
+nohup time sh test.sh &
+```
+
+## watch 刷新观察命令
+
+```bash
+watch -n 1 -d 'nvidia-smi'
+watch -n 1 -d 'du -h'
+```
+## bash exit
+```bash
+exit 1
+```
 
 ## wget
 
