@@ -1778,6 +1778,15 @@ docker exec -it <container_id> bash
 ```
 - [How to open multi-terminals in docker](https://stackoverflow.com/questions/39794509/how-to-open-multiple-terminals-in-docker)
 
+# latex
+
+## latex 特殊字符
+```latex
+$\mathcal{U}
+```
+- [常用数学符号的 LaTeX 表示方法](http://mohu.org/info/symbols/symbols.htm)
+- [一份不太简短的 LATEX2e 介绍](http://www.mohu.org/info/lshort-cn.pdf)
+
 # TOOLS
 ## GraphViz
 [web graphviz](http://www.webgraphviz.com/)
