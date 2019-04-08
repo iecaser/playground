@@ -595,6 +595,54 @@ About `numbers.Integral`
 'numbers.Integral' & 'np.integer'
 [stack overflow: numbers](https://stackoverflow.com/questions/8203336/difference-between-int-and-numbers-integral-in-python)
 
+# multiprocessing
+
+- 单参数, tf
+```python
+import multiprocessing
+import time
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '3'
+
+def init():
+    global tf
+    global sess
+    import tensorflow as tf
+    sess = tf.Session()
+#     config = tf.ConfigProto()
+#     config.gpu_options.allow_growth = True
+#     sess = tf.Session(config=config)                                                                                                        
+def hello(name):
+    print name
+    time.sleep(3)
+    return sess.run(tf.constant('hello ' + name))
+ 
+if __name__ == '__main__':
+    pool = multiprocessing.Pool(processes=4, initializer=init)
+    xs = ['1', '2', '3', '4']
+    print pool.map(hello, xs)
+```
+- 多参数
+```python
+import multiprocessing
+
+def add(x, y):
+  return x+y
+
+# Get all worker processes
+cores = multiprocessing.cpu_count()
+
+# Start all worker processes
+pool = multiprocessing.Pool(processes=cores)
+x1 = list(range(5))
+y1 = list(range(5))
+
+tasks = [(x,y) for x in x1 for y in y1]
+print(pool.starmap(add,tasks))
+```
+[Python 多核并行计算](https://zhuanlan.zhihu.com/p/24311810)
+[http://yangfangs.github.io/2017/11/10/python-multiprocessing.md/#python2-%E4%B8%AD%E9%9C%80%E8%A6%81%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E5%AF%B9%E5%A4%9A%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E5%8C%85%E8%A3%85%E4%B8%8B](http://yangfangs.github.io/2017/11/10/python-multiprocessing.md/#%E5%A4%9A%E8%BF%9B%E7%A8%8Bmultiprocessing%E7%9A%84%E4%BD%BF%E7%94%A8)
+
 # numpy
 ## np.stack
 
@@ -1038,17 +1086,6 @@ endtry
 ## github发现的一个图像增强lib
 [github albumentations](https://github.com/albu/albumentations)
 
-# bash/shell
-## grep,sed,awk
-
-print the first column:
-shell: `awk '{print $1}' filename`
-
-http://blog.51cto.com/lq2419/1238880
-
-## `if` in shell
-- $(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia") 
-- test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
 
 # plt style
 https://matplotlib.org/gallery/style_sheets/style_sheets_reference.html
@@ -1062,6 +1099,19 @@ https://seaborn.pydata.org/generated/seaborn.distplot.html
 [click](https://click.palletsprojects.com/en/7.x/)
 
 # python
+
+## md5
+```
+def md5(str):
+  m = hashlib.md5()
+  m.update(str.encode("utf8"))
+  print(m.hexdigest())
+  return m.hexdigest()
+
+image_id = md5(url)
+```
+[hashlib — Secure hashes and message digests](https://docs.python.org/3/library/hashlib.html)
+[Python MD5](https://blog.csdn.net/t8116189520/article/details/78928334)
 
 ## remove `\n` at string end
 ```python
@@ -1348,6 +1398,28 @@ cv2.resize(image, (cols, rows))
 
 # linux
 
+## delete file one by one in a for loop
+```bash
+for i in *.jpg.[0-9]*; do rm "$i"; done
+```
+[-bash: /bin/rm: Argument list too long - Solution](https://linuxconfig.org/bash-bin-rm-argument-list-too-long-solution)
+
+## cp some file
+```bash
+cp $(find somepath/ -type f | shuf | head -9) anotherpath
+```
+
+## grep,sed,awk
+
+print the first column:
+shell: `awk '{print $1}' filename`
+
+http://blog.51cto.com/lq2419/1238880
+
+## `if` in shell
+- $(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia") 
+- test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
+
 ## nohup
 ```bash
 # new log file instead of default nohup.out
@@ -1401,7 +1473,7 @@ seq -w 0 9999 | parallel rm pict{}.jpg
 ```
 [parallel各种高端技巧](https://www.gnu.org/software/parallel/man.html)
 
-##
+## aria2c
 ```
 #!/bin/bash
 aria2c -j5 -i list.txt -c --save-session out.txt
@@ -1418,6 +1490,16 @@ done
 ### PS: one line solution, just loop 1000 times
 ###         seq 1000 | parallel -j1 aria2c -i list.txt -c
 ```
+> For example, the content of uri.txt is
+> http://server/file.iso http://mirror/file.iso
+> dir=/iso_images
+> out=file.img
+> http://foo/bar
+> 
+> If aria2 is executed with -i uri.txt -d /tmp options, then file.iso is saved as
+> /iso_images/file.img and it is downloaded from http://server/file.iso and
+> http://mirror/file.iso. The file bar is downloaded from http://foo/bar and saved as
+> /tmp/bar.
 
 ## lrzsz
 `yum install lrzsz`
@@ -1700,6 +1782,15 @@ assert FLAGS.input_file_pattern, "--input_file_pattern is required"
 
 ## tensorflow
 
+### tf.ConfigProto()
+```python
+## 动态申请显存
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+session = tf.Session(config=config)
+```
+[CSDN tf.ConfigProto()](https://blog.csdn.net/dcrmg/article/details/79091941)
+
 ### tf.nn.embedding_lookup(params,ids)
 
 [tf.nn.embedding_lookup](https://www.tensorflow.org/api_docs/python/tf/nn/embedding_lookup)
@@ -1723,7 +1814,7 @@ for infile in args.embed.infile:
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 
 # set gpu visible
-os.environ["CUDA_VISIBLE_DEVICES"] = FLAGS.gpu
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 # or
 with tf.device('/cpu:0'):
     history = model.fit(X_train, y_train,
