@@ -18,6 +18,10 @@ https://stackoverflow.com/questions/34269772/type-hints-in-namedtuple
 ```
 set hive.cli.print.header=true;
 ```
+### show partitions
+```
+show partitions talbename;
+```
 
 ### import csv file
 ```
@@ -49,7 +53,6 @@ group by
 
 # python
 
-<<<<<<< HEAD:notes/misc.md
 ## datetime
 
 > %y	Year without century as a zero-padded decimal number.	13
@@ -85,7 +88,6 @@ scheduler.start()
 while True:
     print('...')
     time.sleep(1)
->>>>>>> 87e53bec7c775897fbeaba61e3e9f43bb1342dd7:notes/misc.md
 ```
 
 ## collections
@@ -162,6 +164,22 @@ def partial(func, *args, **keywords):
     return newfunc
 ```
 
+### partial class
+
+```python
+import functools
+import collections
+
+def partialclass(cls, *args, **kwds):
+  class NewCls(cls):
+    __init__ = functools.partialmethod(cls.__init__, *args, **kwds)
+    return NewCls
+
+if __name__ == '__main__':
+  Config = partialclass(collections.defaultdict, list)
+  assert isinstance(Config(), Config)**)**)
+```                     
+[python equivalent of functools 'partial' for a class / constructor](https://stackoverflow.com/questions/38911146/python-equivalent-of-functools-partial-for-a-class-constructor)
 
 ## warning
 This is not recommend because it interrupt!
@@ -408,6 +426,15 @@ Out[11]: 3
 ### makedirs vs. mkdir
 [stackoverflow](https://stackoverflow.com/questions/13819496/what-is-different-between-makedirs-and-mkdir-of-os)
 
+### os.path.splitext
+获取和更换拓展名
+```
+for infile in args.embed.infile:
+    head, _ = os.path.splitext(infile)
+    outfile = head + '.hdf5'
+    dbm(dataset_file=infile, outfile=outfile)
+    logger.info(f'dumped {infile} to {outfile}')
+```
 ### os.path.dirname
 ```
 import os
@@ -584,6 +611,54 @@ About `numbers.Integral`
 'numbers.Integral' & 'np.integer'
 [stack overflow: numbers](https://stackoverflow.com/questions/8203336/difference-between-int-and-numbers-integral-in-python)
 
+# multiprocessing
+
+- 单参数, tf
+```python
+import multiprocessing
+import time
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '3'
+
+def init():
+    global tf
+    global sess
+    import tensorflow as tf
+    sess = tf.Session()
+#     config = tf.ConfigProto()
+#     config.gpu_options.allow_growth = True
+#     sess = tf.Session(config=config)                                                                                                        
+def hello(name):
+    print name
+    time.sleep(3)
+    return sess.run(tf.constant('hello ' + name))
+ 
+if __name__ == '__main__':
+    pool = multiprocessing.Pool(processes=4, initializer=init)
+    xs = ['1', '2', '3', '4']
+    print pool.map(hello, xs)
+```
+- 多参数
+```python
+import multiprocessing
+
+def add(x, y):
+  return x+y
+
+# Get all worker processes
+cores = multiprocessing.cpu_count()
+
+# Start all worker processes
+pool = multiprocessing.Pool(processes=cores)
+x1 = list(range(5))
+y1 = list(range(5))
+
+tasks = [(x,y) for x in x1 for y in y1]
+print(pool.starmap(add,tasks))
+```
+[Python 多核并行计算](https://zhuanlan.zhihu.com/p/24311810)
+[http://yangfangs.github.io/2017/11/10/python-multiprocessing.md/#python2-%E4%B8%AD%E9%9C%80%E8%A6%81%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E5%AF%B9%E5%A4%9A%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E5%8C%85%E8%A3%85%E4%B8%8B](http://yangfangs.github.io/2017/11/10/python-multiprocessing.md/#%E5%A4%9A%E8%BF%9B%E7%A8%8Bmultiprocessing%E7%9A%84%E4%BD%BF%E7%94%A8)
+
 # numpy
 ## np.stack
 
@@ -703,10 +778,12 @@ labeled_idx = rng.choice(X_train.shape[0], args.initial_size, replace=False)
 `where(condition, x=None, y=None)`
 ``np.where(x>0)`` return value with the same shape of ``x``
 
-## np.argpartition
+## np.argpartition and np.partition
 ```
 # 选取前amount小的数字的index(这样子比sort高效, 注意前amount小的index仍未排序! top但不是排序的top)
 selected_indices = np.argpartition(unlabeled_predictions, amount)[:amount]
+# 如果只要值不要arg
+val = np.partition(X, 2, axis=1)
 ```
 - [How does numpy's argpartition work on the documentation's example?](https://stackoverflow.com/questions/52465066/how-does-numpys-argpartition-work-on-the-documentations-example)
 - [stack overflow: Cannot understand numpy argpartition output](https://stackoverflow.com/questions/42184499/cannot-understand-numpy-argpartition-output)
@@ -944,6 +1021,10 @@ sudo apt remove --autoremove emacs26 emacs26-nox
 [keymap](https://github.com/emacs-china/emacsist/blob/master/articles/2016-11-14%E9%82%A3%E5%B0%B1%E4%BB%8E%E5%A6%96%E8%89%B3%E9%85%B7%E7%82%AB%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%BC%80%E5%A7%8B%E5%90%A7%EF%BC%81%EF%BC%88%E4%B8%80%EF%BC%89.org)
 
 # vim 
+
+## disable mouse mode
+`set mouse=`
+
 ## SpaceVim
 - xshell 色彩显示异常解决方法
 在 `.SpaceVim/config/init.vim` 添加代码:
@@ -1008,6 +1089,7 @@ endtry
 
 ## 寄存器
 `:reg`
+> 例如： "ayy可以拷贝当前行到寄存器a中，而"ap则可以粘贴寄存器a中的内容
 [参考博客1](http://liuzhijun.iteye.com/blog/1830931)
 [参考博客2](https://harttle.land/2016/07/25/vim-registers.html)
 [一定要有+clipboard](https://www.zhihu.com/question/19863631)
@@ -1020,17 +1102,6 @@ endtry
 ## github发现的一个图像增强lib
 [github albumentations](https://github.com/albu/albumentations)
 
-# bash/shell
-## grep,sed,awk
-
-print the first column:
-shell: `awk '{print $1}' filename`
-
-http://blog.51cto.com/lq2419/1238880
-
-## `if` in shell
-- $(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia") 
-- test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
 
 # plt style
 https://matplotlib.org/gallery/style_sheets/style_sheets_reference.html
@@ -1051,6 +1122,37 @@ varInt = 12
 '{:03d}'.format(varInt)
 '{:.3f}'.format(varInt)
 '{:07.3f}'.format(varInt)
+```
+
+## md5
+```
+def md5(str):
+  m = hashlib.md5()
+  m.update(str.encode("utf8"))
+  print(m.hexdigest())
+  return m.hexdigest()
+
+image_id = md5(url)
+```
+[hashlib — Secure hashes and message digests](https://docs.python.org/3/library/hashlib.html)
+[Python MD5](https://blog.csdn.net/t8116189520/article/details/78928334)
+
+## remove `\n` at string end
+```python
+urls = urls.rstrip('\n').split(',')
+```
+
+## get module absolute path
+- lookup python module
+```python
+# emacs环境识别错误, 无法直接跳转到正确环境中某个函数定义中. 如低版本的tf.nn.dynamic_rnn
+import tensorflow as tf
+print(tf.nn.__file__)
+```
+- bash search
+```bash
+# 不过这貌似不够, 用grep
+grep -r "def dynamic_rnn" .
 ```
 
 ## with
@@ -1319,9 +1421,130 @@ cv2.resize(image, (cols, rows))
 ```
 
 # linux
-<<<<<<< HEAD:notes/misc.md
 ## awk
-=======
+
+## delete file one by one in a for loop
+```bash
+for i in *.jpg.[0-9]*; do rm "$i"; done
+```
+[-bash: /bin/rm: Argument list too long - Solution](https://linuxconfig.org/bash-bin-rm-argument-list-too-long-solution)
+
+## cp some file
+```bash
+cp $(find somepath/ -type f | shuf | head -9) anotherpath
+```
+
+## grep,sed,awk
+
+print the first column:
+shell: `awk '{print $1}' filename`
+
+http://blog.51cto.com/lq2419/1238880
+
+## `if` in shell
+- $(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia") 
+- test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
+
+## nohup
+```bash
+# new log file instead of default nohup.out
+nohup sh test.sh > log 2>&1 &
+```
+## time
+```bash
+time ls
+time ./test.sh
+nohup time sh test.sh &
+```
+
+## watch 刷新观察命令
+
+```bash
+watch -n 1 -d 'nvidia-smi'
+watch -n 1 -d 'du -h'
+```
+## bash exit
+```bash
+exit 1
+```
+
+## wget
+
+wget urls form files
+```
+# man wget to get more information
+wget -i somefile
+# 管道 pipe
+head somefile |xargs wget
+# 改用aria2c(如下, 高级工具)等并行(可断点续传)方式更好!!
+```
+[wget from file](https://stackoverflow.com/questions/40986340/how-to-wget-a-list-of-urls-in-a-text-file)
+
+## seq
+```
+seq 10
+seq 2 4 20
+seq -w 999|head
+```
+## parallel !!
+```shell
+sudo yum install parallel
+seq 10| parallel echo hello
+seq ls| parallel echo hello
+seq ls| parallel echo {}
+
+# To remove the files pict0000.jpg .. pict9999.jpg you could do:
+seq -w 0 9999 | parallel rm pict{}.jpg
+```
+[parallel各种高端技巧](https://www.gnu.org/software/parallel/man.html)
+
+## aria2c
+```
+#!/bin/bash
+aria2c -j5 -i list.txt -c --save-session out.txt
+has_error=`wc -l < out.txt`
+
+while [ $has_error -gt 0 ]
+do
+  echo "still has $has_error errors, rerun aria2 to download ..."
+  aria2c -j5 -i list.txt -c --save-session out.txt
+  has_error=`wc -l < out.txt`
+  sleep 10
+done
+        
+### PS: one line solution, just loop 1000 times
+###         seq 1000 | parallel -j1 aria2c -i list.txt -c
+```
+> For example, the content of uri.txt is
+> http://server/file.iso http://mirror/file.iso
+> dir=/iso_images
+> out=file.img
+> http://foo/bar
+> 
+> If aria2 is executed with -i uri.txt -d /tmp options, then file.iso is saved as
+> /iso_images/file.img and it is downloaded from http://server/file.iso and
+> http://mirror/file.iso. The file bar is downloaded from http://foo/bar and saved as
+> /tmp/bar.
+
+## lrzsz
+`yum install lrzsz`
+
+## rename files
+
+```shell
+# method 1
+for f in *.JPG
+do
+  mv "$f" "${f%.JPG}.jpg"
+  done*
+
+# method 2
+rename JPG jpg *.JPG*
+```
+## nohup
+```shell
+nohup sh run.sh > somedir/log 2>&1 &
+```
 ## 开发和限制端口
 ```
 firewall-cmd --zone=public --add-port=22/tcp --permanent
@@ -1346,7 +1569,6 @@ ssh user_inside@localhost -p 12345
 ```
 [使用Autossh开启SSH Tunnel](https://blog.csdn.net/baalhuo/article/details/72597155)
 
->>>>>>> 87e53bec7c775897fbeaba61e3e9f43bb1342dd7:notes/misc.md
 ## centos 7: kernel
 - [update kernel](https://www.tecmint.com/install-upgrade-kernel-version-in-centos-7/)
 - [kernel download](https://elrepo.org/linux/kernel/el7/x86_64/RPMS/)
@@ -1538,10 +1760,60 @@ gc.collect()
 K.clear_session()
 ```
 
-## tensorflow
-### Disable Tensorflow debugging information
+## absl
+
+```python
+from absl import app, flags
+FLAGS = flags.FLAGS
+flags.DEFINE_string("input_file_pattern", "", "File pattern of sharded TFRecord input files.")
+# when use
+assert FLAGS.input_file_pattern, "--input_file_pattern is required"
 ```
+
+## tensorflow
+
+### tf.ConfigProto()
+```python
+## 动态申请显存
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+session = tf.Session(config=config)
+```
+[CSDN tf.ConfigProto()](https://blog.csdn.net/dcrmg/article/details/79091941)
+
+### tf.nn.embedding_lookup(params,ids)
+
+[tf.nn.embedding_lookup](https://www.tensorflow.org/api_docs/python/tf/nn/embedding_lookup)
+[What does tf.nn.embedding_lookup function do?](https://stackoverflow.com/questions/34870614/what-does-tf-nn-embedding-lookup-function-do)
+
+### 环境参数
+```python
+# 重复构图会error, 用tf.reset_default_graph()解决
+dbm = partial(dump_bilm_embeddings,
+              vocab_file=args.vocab_file,
+              options_file=args.embed.options,
+              weight_file=args.weights)
+for infile in args.embed.infile:
+    head, _ = os.path.splitext(infile)
+    outfile = head + '.hdf5'
+    dbm(dataset_file=infile, outfile=outfile)
+    logger.info(f'dumped {infile} to {outfile}')
+    tf.reset_default_graph()
+
+# Disable Tensorflow debugging information
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+
+# set gpu visible
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+# or
+with tf.device('/cpu:0'):
+    history = model.fit(X_train, y_train,
+                        batch_size=5,
+                        epochs=30,
+                        verbose=2,
+                        validation_data=(X_val, y_val),
+                        callbacks=[cb])
+    score = model.evaluate(X_val, y_val, verbose=0)
 ```
 
 # windows
@@ -1553,6 +1825,13 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 `GV7N2-DQZ00-4897Y-27ZNX-NV0TD`
 
 # conda
+- proxy
+```shell
+# this may help
+conda config --set proxy_servers.http http://id:pw@address:port
+conda config --set proxy_servers.https https://id:pw@address:port
+```
+
 - clone env
 ```
 conda create -n new_env_name --clone old_env_name
@@ -1564,10 +1843,30 @@ conda create -n new_env_name --clone old_env_name
 [utf-8原理博客](http://imhuchao.com/98.html)
 
 # docker
+
+## RUN v.s. CMD
+
+> RUN - command triggers while we build the docker image.
+> CMD - command triggers while we launch the created docker image.
+[Difference between RUN and CMD in a docker file](https://stackoverflow.com/questions/37461868/difference-between-run-and-cmd-in-a-docker-file)
+
+## mount/volume
+[docker volumes](https://docs.docker.com/storage/volumes/)
+
+## multi term
 ```
 docker exec -it <container_id> bash
 ```
 - [How to open multi-terminals in docker](https://stackoverflow.com/questions/39794509/how-to-open-multiple-terminals-in-docker)
+
+# latex
+
+## latex 特殊字符
+```latex
+$\mathcal{U}
+```
+- [常用数学符号的 LaTeX 表示方法](http://mohu.org/info/symbols/symbols.htm)
+- [一份不太简短的 LATEX2e 介绍](http://www.mohu.org/info/lshort-cn.pdf)
 
 # TOOLS
 ## GraphViz
@@ -1585,3 +1884,10 @@ docker exec -it <container_id> bash
 2. conquer 2 leetcode easy problems
 3. learn something new
 4. read a kaggle kernel
+
+# paper
+
+- ICTAI IEEE International Conference on Tools with Artificial Intelligence June 20, 2019
+- KSEM The 12th International Conference on Knowledge Science, Engineering and Management April 15, 2019
+- ACML Asian Conf. on Machine Learning Apr.15, 2019
+- BMVC 2019 Mon Apr 29 2019 23:59:00 GMT-0700
