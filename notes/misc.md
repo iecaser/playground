@@ -660,6 +660,18 @@ print(pool.starmap(add,tasks))
 [http://yangfangs.github.io/2017/11/10/python-multiprocessing.md/#python2-%E4%B8%AD%E9%9C%80%E8%A6%81%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E5%AF%B9%E5%A4%9A%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E5%8C%85%E8%A3%85%E4%B8%8B](http://yangfangs.github.io/2017/11/10/python-multiprocessing.md/#%E5%A4%9A%E8%BF%9B%E7%A8%8Bmultiprocessing%E7%9A%84%E4%BD%BF%E7%94%A8)
 
 # numpy
+
+## np.log np.inf
+```python
+np.inf
+-np.inf
+>>> np.inf*0
+nan
+>>> np.log(0)
+-inf
+
+```
+
 ## np.stack
 
 ```
@@ -1116,6 +1128,20 @@ https://seaborn.pydata.org/generated/seaborn.distplot.html
 
 # python
 
+## exception
+```python
+try:
+    img = Image.open(imagefile)
+    img.verify()
+    decoder.decode_jpeg(encoded_image)
+except (KeyboardInterrupt, SystemExit):
+    raise
+except:
+    tqdm.write(f"Removed invalid JPEG: {imagefile}")
+    os.remove(imagefile)
+    return 1
+```
+
 ## format
 ```python
 varInt = 12
@@ -1420,7 +1446,22 @@ cv2.resize(image, (cols, rows))
 # 即 w，h排序。区别于skimage transform.resize
 ```
 
-# linux
+# linux bash shell
+
+## rsync / scp
+```bash
+rsync -avzP /export/zxf zxf@ip:/export/
+```
+[rsync命令](http://man.linuxde.net/rsync)
+
+## alias
+```bash
+alias dog="watch -n 1 -d"
+alias ll="ls -ahl"
+unlias rm
+```
+[undo alias](https://superuser.com/questions/199556/how-to-undo-alias-path-path-test-unix)
+
 ## awk
 
 ## delete file one by one in a for loop
@@ -1434,16 +1475,29 @@ for i in *.jpg.[0-9]*; do rm "$i"; done
 cp $(find somepath/ -type f | shuf | head -9) anotherpath
 ```
 
-## grep,sed,awk
-
-print the first column:
-shell: `awk '{print $1}' filename`
-
-http://blog.51cto.com/lq2419/1238880
+## grep ,sed, awk
+print the first column: `awk '{print $1}' filename`
+[ref](http://blog.51cto.com/lq2419/1238880)
 
 ## `if` in shell
-- $(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia") 
-- test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
+```
+# try to run these lines
+$(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia") 
+test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
+
+# if then
+# -x 参数判断 $folder 是否存在并且是否具有可执行权限
+if [ ! -x "$folder"]; then
+mkdir "$folder"
+fi
+
+# -d 参数判断 $folder 是否存在
+if [ ! -d "$folder"]; then
+mkdir "$folder"
+fi
+```
+
+[Add space between [ and !. And before ]](https://stackoverflow.com/questions/18119689/command-not-found-in-bashs-if-else-condition-when-using-d-dir)
 
 ## nohup
 ```bash
@@ -1860,6 +1914,12 @@ docker exec -it <container_id> bash
 - [How to open multi-terminals in docker](https://stackoverflow.com/questions/39794509/how-to-open-multiple-terminals-in-docker)
 
 # latex
+
+## matrix transpose
+```latex
+$\mathbf{c}^\intercal \mathbf{x}$
+```
+[What is the best symbol for vector/matrix transpose?](https://tex.stackexchange.com/questions/30619/what-is-the-best-symbol-for-vector-matrix-transpose/30632)
 
 ## latex 特殊字符
 ```latex
