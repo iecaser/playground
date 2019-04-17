@@ -1290,6 +1290,22 @@ logger.info('test')
 
 # git
 
+## git branch
+```bash
+# delete local branch
+git branch -d <branch_name>
+
+# delete remote branch
+git push <remote_name> --delete <branch_name>
+```
+[Delete a local and a remote GIT branch](https://koukia.ca/delete-a-local-and-a-remote-git-branch-61df0b10d323)
+
+## git bare
+```bash
+git config --bool core.bare true
+```
+[it push error '[remote rejected] master -> master (branch is currently checked out)' - Stack Overflow](https://stackoverflow.com/questions/2816369/git-push-error-remote-rejected-master-master-branch-is-currently-checked)
+
 ## git mirror
 ```
 git clone --bare git://github.com/username/project.git
@@ -1448,6 +1464,26 @@ cv2.resize(image, (cols, rows))
 
 # linux bash shell
 
+## for list
+```bash
+# easy way
+for i in hello world 'hello world'
+do
+    echo $i
+done
+
+# or
+strings=(
+  string1
+  string2
+  "string with spaces"
+  stringN
+)
+for i in "${strings[@]}"; do
+  echo "$i"
+done
+```
+
 ## rsync / scp
 ```bash
 rsync -avzP /export/zxf zxf@ip:/export/
@@ -1489,6 +1525,16 @@ test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
 # -x 参数判断 $folder 是否存在并且是否具有可执行权限
 if [ ! -x "$folder"]; then
 mkdir "$folder"
+fi
+
+# if else
+mexp=testdir
+if [ ! -d $mexp ]; then
+    mkdir $mexp
+else
+    echo "$mexp exists."
+    # be careful!
+    echo '$mexp exists.'
 fi
 
 # -d 参数判断 $folder 是否存在
