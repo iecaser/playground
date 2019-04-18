@@ -1128,6 +1128,14 @@ https://seaborn.pydata.org/generated/seaborn.distplot.html
 
 # python
 
+## read_line
+```python
+with open(filepath, 'r') as f:
+  f.read_line()
+  for line in f:
+    print(line)
+```
+
 ## exception
 ```python
 try:
