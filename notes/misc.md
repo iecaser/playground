@@ -1471,6 +1471,16 @@ cv2.resize(image, (cols, rows))
 ```
 
 # linux bash shell
+## zsh
+> To know the code of a key, execute cat, press the key, enter and Ctrl+C.
+> For me, Home sends ^[[H and End ^[[F, so i can put i my .zshrc in my home dir
+
+```zsh
+# in .zshrc
+bindkey  "^[[1~"   beginning-of-line
+bindkey  "^[[4~"   end-of-line
+```
+[Fix key settings (Home/End/Insert/Delete) in .zshrc](https://stackoverflow.com/questions/8638012/fix-key-settings-home-end-insert-delete-in-zshrc-when-running-zsh-in-terminat)
 
 ## for list
 ```bash

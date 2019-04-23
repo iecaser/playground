@@ -181,7 +181,7 @@ values."
    ;; works in the GUI. (default nil)
    dotspacemacs-distinguish-gui-tab t
    ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
-   dotspacemacs-remap-Y-to-y$ nil
+   dotspacemacs-remap-Y-to-y$ t
    ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
    ;; there. (default t)
    dotspacemacs-retain-visual-state-on-shift t
@@ -321,8 +321,9 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (modify-syntax-entry ?_ "w")
-  (setq evil-want-Y-yank-to-eol t)
   (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
+  (global-set-key (kbd "C-h") 'delete-backward-char)
+  (global-set-key (kbd "C-l") 'delete-forward-char)
   )
 
 (defun dotspacemacs/user-config ()
@@ -389,26 +390,21 @@ you should place your code here."
   ;;   (define-key flycheck-mode-map (kbd "C-w C-l") #'evil-window-right)
   ;;   )
 
-  ;; disable useless key
-  ;; TODO
-
   ;; (setq-default evil-escape-key-sequence "kj")
   (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
   (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
-  (define-key evil-normal-state-map (kbd "/") #'helm-swoop)
+  (define-key evil-normal-state-map (kbd "C-s") #'helm-swoop)
   (define-key evil-normal-state-map (kbd "+") #'evil-numbers/inc-at-pt)
   (define-key evil-normal-state-map (kbd "-") #'evil-numbers/dec-at-pt)
-  ;; (define-key evil-normal-state-map (kbd "<C-tab>") #'evil-next-buffer)
-  ;; (define-key evil-normal-state-map (kbd "<C-iso-lefttab>") #'evil-prev-buffer)
 
   ;; python setting
   ;; (setq python-shell-interpreter "python3")
   ;; (setq python-shell-interpreter-args "-i")
-  (setq python-shell-interpreter "python3"
+  (setq python-shell-interpreter "python"
         python-shell-interpreter-args "-m IPython --simple-prompt -i")
   (setq neo-vc-integration '(face))
   (with-eval-after-load 'python
-    (add-hook 'python-mode-hook (lambda () (setq python-shell-interpreter "python3"))))
+    (add-hook 'python-mode-hook (lambda () (setq python-shell-interpreter "python"))))
   (require 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   (setq py-autopep8-options '("--max-line-length=110"))
@@ -435,10 +431,9 @@ you should place your code here."
  '(display-time-mode t)
  '(eldoc-idle-delay 0.5)
  '(evil-want-C-w-delete t)
- '(evil-want-Y-yank-to-eol nil)
  '(evil-want-change-word-to-end t)
  '(flycheck-flake8-maximum-line-length 100)
- '(flycheck-python-flake8-executable "python3")
+ '(flycheck-python-flake8-executable "python")
  '(flyspell-default-dictionary "english")
  '(global-diff-hl-mode t)
  '(global-eldoc-mode t)
@@ -500,7 +495,6 @@ This function is called at the very end of Spacemacs initialization."
  '(display-time-24hr-format t)
  '(display-time-mode t)
  '(eldoc-idle-delay 0.5)
- '(evil-want-C-w-delete t)
  '(evil-want-Y-yank-to-eol t)
  '(evil-want-change-word-to-end t)
  '(flycheck-flake8-maximum-line-length 100)
