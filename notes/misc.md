@@ -1471,6 +1471,13 @@ cv2.resize(image, (cols, rows))
 ```
 
 # linux bash shell
+## tmux
+```bash
+# C-b d
+tmux detach
+tmux attach
+```
+[yank tmux](http://www.rushiagr.com/blog/2016/06/16/everything-you-need-to-know-about-tmux-copy-pasting-ubuntu/)
 ## zsh
 > To know the code of a key, execute cat, press the key, enter and Ctrl+C.
 > For me, Home sends ^[[H and End ^[[F, so i can put i my .zshrc in my home dir
