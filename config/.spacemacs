@@ -161,7 +161,7 @@ values."
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
    ;; (default "SPC")
-   dotspacemacs-emacs-command-key "SPC"
+   dotspacemacs-emacs-command-key "M-x"
    ;; The key used for Vim Ex commands (default ":")
    dotspacemacs-ex-command-key ":"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -322,8 +322,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (modify-syntax-entry ?_ "w")
   (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
-  (global-set-key (kbd "C-h") 'delete-backward-char)
-  (global-set-key (kbd "C-l") 'delete-forward-char)
   )
 
 (defun dotspacemacs/user-config ()
@@ -356,6 +354,9 @@ you should place your code here."
             (delete-region (point) (line-beginning-position))
           (evil-delete (+ (line-beginning-position) (current-indentation)) (point))))))
 
+  ;; helm-mini
+  (define-key evil-normal-state-map (kbd "C-x b") #'helm-mini)
+  (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-this-buffer)
   ;; vim-defalut window move
   (define-key evil-normal-state-map (kbd "C-w C-j") #'evil-window-down)
   (define-key evil-normal-state-map (kbd "C-w C-k") #'evil-window-up)
