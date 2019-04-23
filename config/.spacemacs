@@ -339,6 +339,7 @@ you should place your code here."
   ;; map vim ctrl-h ctrl-w
   (define-key evil-insert-state-map (kbd "C-h") #'evil-delete-backward-char)
   (define-key evil-insert-state-map (kbd "C-l") #'evil-forward-char)
+
   (with-eval-after-load 'company
     (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
     (define-key company-active-map (kbd "C-h") 'evil-delete-backward-char)
