@@ -228,7 +228,7 @@ values."
    dotspacemacs-enable-paste-transient-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.2
+   dotspacemacs-which-key-delay 0.4
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
@@ -332,6 +332,10 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; frequently use
+  (global-set-key (kbd "C-x b") 'helm-mini)
+  (global-set-key (kbd "C-x t") 'neotree-toggle)
+  (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
   ;; map vim ctrl-h ctrl-w
   (define-key evil-insert-state-map (kbd "C-h") #'evil-delete-backward-char)
   (define-key evil-insert-state-map (kbd "C-l") #'evil-forward-char)
@@ -354,14 +358,12 @@ you should place your code here."
             (delete-region (point) (line-beginning-position))
           (evil-delete (+ (line-beginning-position) (current-indentation)) (point))))))
 
-  ;; helm-mini
-  (define-key evil-normal-state-map (kbd "C-x b") #'helm-mini)
-  (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-this-buffer)
-  ;; vim-defalut window move
-  (define-key evil-normal-state-map (kbd "C-w C-j") #'evil-window-down)
-  (define-key evil-normal-state-map (kbd "C-w C-k") #'evil-window-up)
-  (define-key evil-normal-state-map (kbd "C-w C-h") #'evil-window-left)
-  (define-key evil-normal-state-map (kbd "C-w C-l") #'evil-window-right)
+  ;; ;; vim-defalut window move
+  (define-key evil-motion-state-map (kbd "C-w C-j") #'evil-window-down)
+  (define-key evil-motion-state-map (kbd "C-w C-k") #'evil-window-up)
+  (define-key evil-motion-state-map (kbd "C-w C-h") #'evil-window-left)
+  (define-key evil-motion-state-map (kbd "C-w C-l") #'evil-window-right)
+  (define-key evil-motion-state-map (kbd "C-w C-w") #'evil-window-next)
   (with-eval-after-load 'neotree
     (define-key neotree-mode-map (kbd "C-w C-j") #'evil-window-down)
     (define-key neotree-mode-map (kbd "C-w C-k") #'evil-window-up)
@@ -383,13 +385,6 @@ you should place your code here."
     (define-key flycheck-error-list-mode-map (kbd "C-w C-l") #'evil-window-right)
     (define-key flycheck-error-list-mode-map (kbd "C-w C-w") #'evil-window-next)
     )
-  ;; doesn't take effect
-  ;; (with-eval-after-load 'flycheck
-  ;;   (define-key flycheck-mode-map (kbd "C-w C-j") #'evil-window-down)
-  ;;   (define-key flycheck-mode-map (kbd "C-w C-k") #'evil-window-up)
-  ;;   (define-key flycheck-mode-map (kbd "C-w C-h") #'evil-window-left)
-  ;;   (define-key flycheck-mode-map (kbd "C-w C-l") #'evil-window-right)
-  ;;   )
 
   ;; (setq-default evil-escape-key-sequence "kj")
   (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
