@@ -97,8 +97,10 @@ source $ZSH/oh-my-zsh.sh
 
 # User specific aliases and functions
 alias ll="ls -ahl"
+alias vim="nvim"
 alias vimdiff="vim -d"
 alias dog="watch -n 1 -d"
+alias ta="tmux attach"
 
 export TERM=xterm-256color
 export PYTHONPATH="$PYTHONPATH:/home/zxf/workspace/models/"
