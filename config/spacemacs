@@ -153,7 +153,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("DejaVuSansMono"
-                               :size 22
+                               :size 26
                                :weight normal
                                :width normal
                                :powerline-scale 1.05)
@@ -228,7 +228,7 @@ values."
    dotspacemacs-enable-paste-transient-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.4
+   dotspacemacs-which-key-delay 0.3
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
@@ -336,12 +336,23 @@ you should place your code here."
   (global-set-key (kbd "C-x b") 'helm-mini)
   (global-set-key (kbd "C-x C-b") 'helm-mini)
   (global-set-key (kbd "C-x t") 'neotree-toggle)
+  (global-set-key (kbd "C-x C-t") 'neotree-toggle)
   (global-set-key (kbd "C-x g") 'magit-status)
+  (global-set-key (kbd "C-x C-g") 'magit-status)
   (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
   (global-set-key (kbd "C-x C-x") 'spacemacs/alternate-buffer)
+  ;; (global-set-key (kbd "C-b") 'spacemacs/alternate-buffer)
+  ;; (define-key evil-normal-state-map (kbd "C-b") #'spacemacs/alternate-buffer)
+  ;; (define-key evil-insert-state-map (kbd "C-b") #'spacemacs/alternate-buffer)
+  ;; (setq-default evil-escape-key-sequence "kj")
+  (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
+  (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
+  (define-key evil-normal-state-map (kbd "C-s") #'helm-swoop)
+  (define-key evil-normal-state-map (kbd "+") #'evil-numbers/inc-at-pt)
+  (define-key evil-normal-state-map (kbd "-") #'evil-numbers/dec-at-pt)
+
   ;; map vim ctrl-h ctrl-w
   (define-key evil-insert-state-map (kbd "C-h") #'evil-delete-backward-char)
-  (define-key evil-insert-state-map (kbd "C-l") #'evil-forward-char)
 
   (with-eval-after-load 'company
     (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
@@ -394,12 +405,6 @@ you should place your code here."
     (define-key flycheck-error-list-mode-map (kbd "C-w C-w") #'evil-window-next)
     )
 
-  ;; (setq-default evil-escape-key-sequence "kj")
-  (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
-  (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
-  (define-key evil-normal-state-map (kbd "C-s") #'helm-swoop)
-  (define-key evil-normal-state-map (kbd "+") #'evil-numbers/inc-at-pt)
-  (define-key evil-normal-state-map (kbd "-") #'evil-numbers/dec-at-pt)
 
   ;; python setting
   ;; (setq python-shell-interpreter "python3")
@@ -433,7 +438,7 @@ you should place your code here."
  '(diff-hl-margin-mode nil)
  '(display-time-24hr-format t)
  '(display-time-mode t)
- '(eldoc-idle-delay 0.5)
+ '(eldoc-idle-delay 0.3)
  '(evil-want-C-w-delete t)
  '(evil-want-change-word-to-end t)
  '(flycheck-flake8-maximum-line-length 100)
@@ -498,7 +503,6 @@ This function is called at the very end of Spacemacs initialization."
  '(diff-hl-margin-mode nil)
  '(display-time-24hr-format t)
  '(display-time-mode t)
- '(eldoc-idle-delay 0.5)
  '(evil-want-Y-yank-to-eol t)
  '(evil-want-change-word-to-end t)
  '(flycheck-flake8-maximum-line-length 100)
