@@ -51,6 +51,34 @@ group by
 ```
 `group by` 后面为一个整体, 全部一致才是一组, 顺序无所谓;
 
+# c++ cpp
+
+## leetcode| magic speed up code
+```cpp
+static int speedup=[](){
+  ios_base::sync_with_stdio(false);
+  cin.tie(nullptr);
+  return 0;
+}();
+```
+[c++ - Significance of ios_base::sync_with_stdio(false); cin.tie(NULL); - Stack Overflow](https://stackoverflow.com/questions/31162367/significance-of-ios-basesync-with-stdiofalse-cin-tienull)
+
+## c++11 lambda 函数
+[c++11 lambda csdn](https://www.cnblogs.com/DswCnblog/p/5629165.html)
+
+## a==b==c
+```cpp
+#include <stdio.h>
+int main(){
+  int a,b,c;
+  a=b=c=100;
+  if(a==b==c) printf("True...\n");
+  else printf("False...\n");
+  return 0;
+}
+```
+[How expression a==b==c (Multiple Comparison) evaluates in C programming?](https://www.includehelp.com/c/how-expression-with-multiple-comparison-evaluates-in-c-programming.aspx)
+
 # python
 
 ## datetime
