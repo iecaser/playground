@@ -10,18 +10,6 @@
                 ":q"
             ]
         },
-        {
-            "before": ["<leader>", "f","s"],
-            "commands": [
-                ":w"
-            ]
-        },
-        {
-            "before": ["<leader>", "<leader>"],
-            "commands": [
-                "workbench.action.showCommands"
-            ]
-        }
     ],
     "latex-workshop.view.pdf.viewer": "external",
 }
