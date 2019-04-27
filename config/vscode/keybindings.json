@@ -34,10 +34,6 @@
         "when": "!editorIsOpen && !multipleEditorGroups"
     },
     {
-        "key": "ctrl+x ctrl+f",
-        "command": "workbench.action.openNextRecentlyUsedEditorInGroup"
-    },
-    {
         "key": "ctrl+x ctrl+x",
         "command": "workbench.action.openNextRecentlyUsedEditorInGroup"
     },
