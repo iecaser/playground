@@ -1,15 +1,16 @@
 {
     "git.ignoreMissingGitWarning": true,
-    "window.zoomLevel": 0,
-    "editor.fontSize": 23,
+    "window.zoomLevel": 1,
+    "editor.fontSize": 24,
     "vim.leader": "<space>",
     "vim.normalModeKeyBindingsNonRecursive": [
         {
-            "before": ["<leader>", "q","q"],
+            "before": ["<leader>", "<leader>"],
             "commands": [
-                ":q"
+                "workbench.action.showCommands"
             ]
-        },
+        }
     ],
     "latex-workshop.view.pdf.viewer": "external",
+    "search.location": "panel",
 }
