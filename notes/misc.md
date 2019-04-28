@@ -81,6 +81,29 @@ int main(){
 
 # python
 
+## multiprocessing
+```python
+def main(filepath, num_process):
+    results = []
+    p = Pool(num_process)
+    with open(filepath)as f:
+        cid = filepath.split("_")[0]
+        _type = filepath.split("_")[1]
+        lines = f.readlines()
+    for line in lines:
+        results.append(p.apply_async(process, args=(line, cid, _type)))
+        # process(i, line, cid, _type)
+    p.close()
+    p.join()
+    # print("%s\t%d/%d=%f" % (filepath, match.value, count.value, match.value*1.0/count.value))
+    data = []
+    for result in results:
+        result_rtn = result.get()
+        data.append(result_rtn)
+    data = np.array(data)
+```
+[正确使用 Multiprocessing 的姿势](https://jingsam.github.io/2015/12/31/multiprocessing.html)
+
 ## datetime
 
 > %y	Year without century as a zero-padded decimal number.	13
