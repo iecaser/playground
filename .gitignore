@@ -5,3 +5,11 @@ cmake-build-debug
 work/
 *.swp
 *.pkl
+*build/
+*CMakeFiles*
+cpp/build
+.#*
+*.log
+bazel/
+url/
+modal/
