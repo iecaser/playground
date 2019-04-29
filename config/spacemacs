@@ -340,6 +340,7 @@ you should place your code here."
   (global-set-key (kbd "C-x g") 'magit-status)
   (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
   (global-set-key (kbd "C-x C-x") 'spacemacs/alternate-buffer)
+  (global-set-key (kbd "M-;") 'spacemacs/comment-or-uncomment-lines)
   ;; (global-set-key (kbd "C-b") 'spacemacs/alternate-buffer)
   ;; (define-key evil-normal-state-map (kbd "C-b") #'spacemacs/alternate-buffer)
   ;; (define-key evil-insert-state-map (kbd "C-b") #'spacemacs/alternate-buffer)
