@@ -334,10 +334,9 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
   ;; frequently use
+  ;; (global-set-key (kbd "C-x C-b") 'helm-mini)
   (global-set-key (kbd "C-x b") 'helm-mini)
-  (global-set-key (kbd "C-x C-b") 'helm-mini)
   (global-set-key (kbd "C-x t") 'neotree-toggle)
-  (global-set-key (kbd "C-x C-t") 'neotree-toggle)
   (global-set-key (kbd "C-x g") 'magit-status)
   (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
   (global-set-key (kbd "C-x C-x") 'spacemacs/alternate-buffer)
@@ -380,6 +379,8 @@ you should place your code here."
           (evil-delete (+ (line-beginning-position) (current-indentation)) (point))))))
 
   ;; ;; vim-defalut window move
+  (define-key evil-motion-state-map (kbd "C-w h") #'evil-window-split)
+  (define-key evil-motion-state-map (kbd "C-w c") #'view-buffer-other-window)
   (define-key evil-motion-state-map (kbd "C-w C-j") #'evil-window-down)
   (define-key evil-motion-state-map (kbd "C-w C-k") #'evil-window-up)
   (define-key evil-motion-state-map (kbd "C-w C-h") #'evil-window-left)
