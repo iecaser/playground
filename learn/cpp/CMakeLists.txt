@@ -1,3 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 project(hello)
-add_executable(hello src/hello.cpp) 
+add_executable(log src/log.cpp)
+set(CMAKE_C_COMPILER /usr/bin/gcc)
+set(CMAKE_CXX_COMPILER /usr/bin/g++)

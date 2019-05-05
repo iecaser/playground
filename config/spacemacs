@@ -61,6 +61,7 @@ values."
      syntax-checking
      version-control
      imenu-list
+     bibtex
      (latex :variables
             latex-build-command "LaTeX")
      )
@@ -425,7 +426,13 @@ you should place your code here."
   (setq highlight-indentation-blank-lines t)
   (set-face-background 'highlight-indentation-face "color-236")
   (set-face-background 'highlight-indentation-current-column-face "color-237")
-
+  ;; bibtex
+  (setq bibtex-completion-bibliography
+        '("~/workspace/playground/learn/latex/bib.bib"
+          ))
+  (setq org-ref-default-bibliography '("~/workspace/playground/learn/latex/bib.bib")
+        org-ref-pdf-directory "~/papers/"
+        org-ref-bibliography-notes "~/papers/notes.org")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

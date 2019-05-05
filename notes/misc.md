@@ -1522,6 +1522,13 @@ cv2.resize(image, (cols, rows))
 ```
 
 # linux bash shell
+## paste
+```bash
+seq 10 > 1
+seq 20 | tail  -10 > 2
+paste 1 2 > 3
+```
+
 ## tmux
 ```bash
 # C-b d
