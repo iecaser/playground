@@ -140,8 +140,23 @@ while True:
     print('...')
     time.sleep(1)
 ```
-
 ## collections
+### defaultdict
+```python
+# like somedict.setdefault
+>>> s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
+>>> d = defaultdict(list)
+>>> for k, v in s:
+...     d[k].append(v)
+
+# like Counter as below
+>>> s = 'mississippi'
+>>> d = defaultdict(int)
+>>> for k in s:
+...     d[k] += 1
+```
+
+### Counter
 ```
 from collections import Counter
 wordcount = Counter(file.read().split())
@@ -150,6 +165,12 @@ counter = Counter()
 counter.update(file1.read().split())
 counter.update(file2.read().split())
 ...
+
+# or
+# Tally occurrences of words in a list
+cnt = Counter()
+for word in ['red', 'blue', 'red', 'green', 'blue', 'blue']:
+    cnt[word] += 1
 ```
 
 ## importlib
@@ -1050,6 +1071,11 @@ Note that `~` only works when `x`'s dtype is boolean
 
 # emacs
 
+## 中文文本显示为\xxx解决
+```emacs-lisp
+revert-buffer-with-coding-system
+```
+
 ## tutorial
 ### lisp
 [Elisp: load, load-file, autoload](http://ergoemacs.org/emacs/elisp_library_system.html)
@@ -1225,6 +1251,10 @@ varInt = 12
 '{:03d}'.format(varInt)
 '{:.3f}'.format(varInt)
 '{:07.3f}'.format(varInt)
+```
+NOTE: in python 3.6 or later:
+```python
+logger.info(f'acc: {acc:.5f}')
 ```
 
 ## md5
@@ -1625,7 +1655,7 @@ cp $(find somepath/ -type f | shuf | head -9) anotherpath
 print the first column: `awk '{print $1}' filename`
 [ref](http://blog.51cto.com/lq2419/1238880)
 
-## `if` in shell
+## `if-fi` in shell
 ```
 # try to run these lines
 $(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia") 
@@ -1648,12 +1678,25 @@ else
 fi
 
 # -d 参数判断 $folder 是否存在
+# -f 参数$file 是否存在
 if [ ! -d "$folder"]; then
 mkdir "$folder"
 fi
 ```
+```bash
+FILE=/etc/resolv.conf
+if test -f "$FILE"; then
+    echo "$FILE exist"
+fi
+
+# or use `test`
+test -f /etc/resolv.conf && echo "$FILE exist"
+# || for else
+[ -f /etc/resolv.conf ] && echo "$FILE exist" || echo "$FILE does not exist"
+```
 
 [Add space between [ and !. And before ]](https://stackoverflow.com/questions/18119689/command-not-found-in-bashs-if-else-condition-when-using-d-dir)
+[How to Check if a File or Directory Exists in Bash](https://linuxize.com/post/bash-check-le-exists/)
 
 ## nohup
 ```bash
@@ -1847,6 +1890,9 @@ head file | awk 'BEGIN {FS="\t"} {print $1}'
 ```
 
 # sklearn
+
+## read svm format data file
+[sklearn.datasets.load_svmlight_file](https://scikit-learn.org/stable/modules/generated/.datasets.load_svmlight_file.html)
 
 ## GroupShuffleSplit
 
