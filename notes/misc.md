@@ -1048,9 +1048,25 @@ Note that `~` only works when `x`'s dtype is boolean
 [stackoverflow: np.invert/~/np.logical_not](https://stackoverflow.com/questions/13728708/inverting-a-numpy-boolean-array-using/22225030)
 [numpy.logical_not](https://docs.scipy.org/doc/numpy/reference/generated/numpy.logical_not.html)
 
-# spacemacs
+# emacs
 
-## easiest way to install emacs26 on ubuntu18
+## tutorial
+### lisp
+[Elisp: load, load-file, autoload](http://ergoemacs.org/emacs/elisp_library_system.html)
+
+### spacemacs-rocks tutorial
+[emacs-china/Spacemacs-rocks](https://github.com/emacs-china/Spacemacs-rocks)
+
+## evil word underscore
+> This has the advantage that it changes depending on the language
+```lisp
+(with-eval-after-load 'evil
+    (defalias #'forward-evil-word #'forward-evil-symbol))
+```
+[How to treat underscore as part of the word?](https://.stackexchange.com/questions/9583/how-to-treat-underscore-as-part-of-the-word)
+
+## install
+easiest way to install emacs26 on ubuntu18
 ```
 sudo add-apt-repository ppa:kelleyk/emacs
 sudo apt update
@@ -1059,11 +1075,6 @@ sudo apt remove --autoremove emacs26 emacs26-nox
 ```
 [emacs26 on ubuntu18](http://ubuntuhandbook.org/index.php/2019/02/install-gnu-emacs-26-1-ubuntu-18-04-16-04-18-10/)
 
-## install spacemacs
-` git clone -b develop https://github.com/syl20bnr/spacemacs ~/.emacs.d `
-
-##  ...
-[Pasting text into search after pressing "/" ](https://www.reddit.com/r/spacemacs/comments/4drxvv/pasting_text_into_search_after_pressing/)
 
 ## keymap
 
@@ -1083,6 +1094,13 @@ sudo apt remove --autoremove emacs26 emacs26-nox
 ```
 [keymap](https://github.com/emacs-china/emacsist/blob/master/articles/2016-11-14%E9%82%A3%E5%B0%B1%E4%BB%8E%E5%A6%96%E8%89%B3%E9%85%B7%E7%82%AB%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%BC%80%E5%A7%8B%E5%90%A7%EF%BC%81%EF%BC%88%E4%B8%80%EF%BC%89.org)
 
+## spacemacs
+
+## install spacemacs
+` git clone -b develop https://github.com/syl20bnr/spacemacs ~/.emacs.d `
+
+##  ...
+[Pasting text into search after pressing "/" ](https://www.reddit.com/r/spacemacs/comments/4drxvv/pasting_text_into_search_after_pressing/)
 # vim 
 
 ## disable mouse mode
@@ -1522,6 +1540,9 @@ cv2.resize(image, (cols, rows))
 ```
 
 # linux bash shell
+## & operator
+[What are the shell's control and redirection operators?](https://unix.stackexchange.com/questions/159513/what-are-the-shells-control-and-redirection-operators)
+
 ## paste
 ```bash
 seq 10 > 1
@@ -1536,7 +1557,13 @@ tmux detach
 tmux attach
 ```
 [yank tmux](http://www.rushiagr.com/blog/2016/06/16/everything-you-need-to-know-about-tmux-copy-pasting-ubuntu/)
+
 ## zsh
+### install oh-my-zsh
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+```
+
 > To know the code of a key, execute cat, press the key, enter and Ctrl+C.
 > For me, Home sends ^[[H and End ^[[F, so i can put i my .zshrc in my home dir
 
@@ -1955,6 +1982,9 @@ assert FLAGS.input_file_pattern, "--input_file_pattern is required"
 
 ## tensorflow
 
+### tf serving
+[How to deploy TensorFlow models to production using TF Serving](https://sthalles.github.io/serving_tensorflow_models/)
+
 ### tf.ConfigProto()
 ```python
 ## 动态申请显存
@@ -2026,6 +2056,26 @@ conda create -n new_env_name --clone old_env_name
 [utf-8原理博客](http://imhuchao.com/98.html)
 
 # docker
+
+## language LANG 解决docker中文乱码
+```bash
+export LC_ALL="C.UTF-8"
+```
+
+## docker cp
+```bash
+docker cp /some/local/path/mnist.zip <container_id>:/tmp/
+```
+
+## install vi/vim on ubuntu docker
+run `apt-get install vim` directly won't work!
+```dockerfile
+FROM  confluent/postgres-bw:0.1
+
+RUN ["apt-get", "update"]
+RUN ["apt-get", "install", "-y", "vim"]
+```
+
 
 ## RUN v.s. CMD
 

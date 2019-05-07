@@ -334,7 +334,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
   ;; frequently use
-  ;; (global-set-key (kbd "C-x C-b") 'helm-mini)
+  (global-set-key (kbd "C-x C-b") 'helm-mini)
   (global-set-key (kbd "C-x b") 'helm-mini)
   (global-set-key (kbd "C-x t") 'neotree-toggle)
   (global-set-key (kbd "C-x g") 'magit-status)

@@ -100,7 +100,10 @@ alias ll="ls -ahl"
 alias emacs="emacs -nw"
 alias vimdiff="vim -d"
 alias dog="watch -n 1 -d"
-alias ta="tmux attach"
+alias ta="tmux a"
+alias tn="tmux new"
+alias tm="tmux attach || tmux new"
+alias vim="nvim"
 
 export TERM=xterm-256color
 export PYTHONPATH="$PYTHONPATH:/home/zxf/workspace/models/"

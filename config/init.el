@@ -88,3 +88,6 @@
 ;; latex
 (require 'auctex-latexmk)
 (auctex-latexmk-setup)
+
+(with-eval-after-load 'evil
+      (defalias #'forward-evil-word #'forward-evil-symbol))
