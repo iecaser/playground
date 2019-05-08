@@ -3,6 +3,10 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (package-initialize)
+(require 'org-install)
+(require 'ob-tangle)
+(org-babel-load-file (expand-file-name "Joseph.org" "~/workspace/playground/config/emacs/"))
+
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (require 'cl)
 (defvar zxf/packages '(
@@ -27,12 +31,23 @@
     (when (not (package-installed-p pkg))
       (package-install pkg))))
 
+(setq make-backup-files nil)
 (global-company-mode t)
 (load-theme 'monokai t)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (global-linum-mode t)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;; dir
+(put 'dired-find-alternate-file 'disabled nil)
+;; 主动加载 Dired Mode
+;; (require 'dired)
+;; (defined-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+
+;; 延迟加载
+(with-eval-after-load 'dired
+      (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
 
 ;; ivy
 (ivy-mode 1)
@@ -56,6 +71,7 @@
 (global-set-key (kbd "C-x l") 'counsel-locate)
 (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
 (global-set-key (kbd "\C-x \C-b") 'ivy-switch-buffer)
+(global-set-key (kbd "\C-x \C-d") 'dired-jump)
 ;;(global-set-key (kbd "\C-x \C-x") ' )
 
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
