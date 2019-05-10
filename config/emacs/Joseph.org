@@ -85,8 +85,6 @@
      (require 'evil-org-agenda)
      (evil-org-agenda-set-keys)
      (setq evil-want-C-i-jump nil)
-     (evil-define-key 'normal org-mode-map (kbd "C-<RET>") 'org-insert-heading-respect-content)
-     (evil-define-key 'insert org-mode-map (kbd "C-<RET>") 'org-insert-heading-respect-content)
    #+END_SRC
 *** Org-agenda Vim Keybindings                              :orgmode:evil:
 #+BEGIN_SRC emacs-lisp
