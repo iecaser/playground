@@ -13,3 +13,9 @@ cpp/build
 bazel/
 url/
 modal/
+config/emacs/#Joseph.org#
+config/emacs/#init.el#
+config/emacs/Joseph.el
+config/emacs/Joseph.html
+learn/latex/
+learn/tf/tfserv/

@@ -1,7 +1,5 @@
-* Define function
-  
-** Imported
-*** Install specified packages
+* Plugins
+** Install specified packages
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
      (require 'cl)
@@ -12,9 +10,11 @@
 			    ivy
 			    counsel
 			    swiper
+			    popwin
 			    evil
 			    evil-org
 			    htmlize
+			    evil-visual-mark-mode
 			    ) "Default packages")
      (setq package-selected-packages zxf/packages)
      (defun zxf/packages-installed-p ()
@@ -29,7 +29,7 @@
 	   (package-install pkg))))
    #+END_SRC
    
-*** Quick hack
+** Utils
    #+BEGIN_SRC emacs-lisp
      (defun quick-open-init-file()
 	 (interactive)
@@ -37,29 +37,155 @@
      (global-set-key (kbd "<f4>") 'quick-open-init-file)
    #+END_SRC
    
-** DIY
-   - todo
-
-
-* Default
-  
-** settings
-    #+BEGIN_SRC emacs-lisp
-    (setq make-backup-files nil)
-    (load-theme 'monokai t)
-    (tool-bar-mode -1)
-    (scroll-bar-mode -1)
-    (global-linum-mode t)
-    (add-to-list 'default-frame-alist '(fullscreen . maximized))
-    (add-hook 'emacs-lisp-mode-hook 'show-paren-mode)
-    (global-hl-line-mode t)
-    ;;(global-set-key (kbd "\C-x \C-x") ' )
-    #+END_SRC
-
-** dired
-   为了更快的emacs启动速度, 可以优化为延迟加载, 即仅当该插件被使用时加载特性
+* UI
+** Better Default
    #+BEGIN_SRC emacs-lisp
-     (put 'dired-find-alternate-file 'disabled nil)
+     (load-theme 'monokai t) ;need to install monokai-theme first
+     (tool-bar-mode -1)
+     (scroll-bar-mode -1)
+     (global-hl-line-mode t) ;highlight current row
+     (global-linum-mode t)
+     (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;maximize window on startup
+     (fset 'yes-or-no-p 'y-or-n-p)
+   #+END_SRC
+* Edit
+** Vim-like
+*** evil
+*** Enable evil
+     #+BEGIN_SRC emacs-lisp
+       (require 'evil)
+       (evil-mode 1)
+     #+END_SRC
+
+*** Add extra keybindings to cover the shortage of evil (towards the default vim)
+     - Use c-h to delete char
+       #+BEGIN_SRC emacs-lisp
+	 (define-key evil-insert-state-map "\C-h" 'evil-delete-backward-char)
+       #+END_SRC
+     - Use C-u to scroll up in normal mode
+       #+BEGIN_SRC emacs-lisp
+	 (define-key evil-normal-state-map "\C-u" 'evil-scroll-up)
+       #+END_SRC
+     - Treat `underscore_word` as one single word, not two
+       #+BEGIN_SRC emacs-lisp
+	 (with-eval-after-load 'evil
+	     (defalias #'forward-evil-word #'forward-evil-symbol))
+       #+END_SRC
+     - Use TAB to org-cycle in [org-mode && evil-normal mode]
+       #+BEGIN_SRC emacs-lisp
+	 (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
+       #+END_SRC
+
+*** evil-org
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'load-path "~/.emacs.d/plugins/evil-org")
+     (require 'evil-org)
+     (add-hook 'org-mode-hook 'evil-org-mode)
+     (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
+     (require 'evil-org-agenda)
+     (evil-org-agenda-set-keys)
+     (setq evil-want-C-i-jump nil)
+     (evil-define-key 'normal org-mode-map (kbd "C-<RET>") 'org-insert-heading-respect-content)
+     (evil-define-key 'insert org-mode-map (kbd "C-<RET>") 'org-insert-heading-respect-content)
+   #+END_SRC
+*** Org-agenda Vim Keybindings                              :orgmode:evil:
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load 'org-agenda
+   '(progn
+      (evil-set-initial-state 'org-agenda-mode 'normal)
+      (evil-define-key 'normal org-agenda-mode-map
+	(kbd "<RET>") 'org-agenda-switch-to
+	(kbd "\t") 'org-agenda-goto
+
+	"q" 'org-agenda-quit
+	"r" 'org-agenda-redo
+	"S" 'org-save-all-org-buffers
+	"gj" 'org-agenda-goto-date
+	"gJ" 'org-agenda-clock-goto
+	"gm" 'org-agenda-bulk-mark
+	"go" 'org-agenda-open-link
+	"s" 'org-agenda-schedule
+	"+" 'org-agenda-priority-up
+	"," 'org-agenda-priority
+	"-" 'org-agenda-priority-down
+	"y" 'org-agenda-todo-yesterday
+	"n" 'org-agenda-add-note
+	"t" 'org-agenda-todo
+	":" 'org-agenda-set-tags
+	";" 'org-timer-set-timer
+	"I" 'helm-org-task-file-headings
+	"i" 'org-agenda-clock-in-avy
+	"O" 'org-agenda-clock-out-avy
+	"u" 'org-agenda-bulk-unmark
+	"x" 'org-agenda-exit
+	"j"  'org-agenda-next-line
+	"k"  'org-agenda-previous-line
+	"vt" 'org-agenda-toggle-time-grid
+	"va" 'org-agenda-archives-mode
+	"vw" 'org-agenda-week-view
+	"vl" 'org-agenda-log-mode
+	"vd" 'org-agenda-day-view
+	"vc" 'org-agenda-show-clocking-issues
+	"g/" 'org-agenda-filter-by-tag
+	"o" 'delete-other-windows
+	"gh" 'org-agenda-holiday
+	"gv" 'org-agenda-view-mode-dispatch
+	"f" 'org-agenda-later
+	"b" 'org-agenda-earlier
+	"c" 'helm-org-capture-templates
+	"e" 'org-agenda-set-effort
+	"n" nil  ; evil-search-next
+	"{" 'org-agenda-manipulate-query-add-re
+	"}" 'org-agenda-manipulate-query-subtract-re
+	"A" 'org-agenda-toggle-archive-tag
+	"." 'org-agenda-goto-today
+	"0" 'evil-digit-argument-or-evil-beginning-of-line
+	"<" 'org-agenda-filter-by-category
+	">" 'org-agenda-date-prompt
+	"F" 'org-agenda-follow-mode
+	"D" 'org-agenda-deadline
+	"H" 'org-agenda-holidays
+	"J" 'org-agenda-next-date-line
+	"K" 'org-agenda-previous-date-line
+	"L" 'org-agenda-recenter
+	"P" 'org-agenda-show-priority
+	"R" 'org-agenda-clockreport-mode
+	"Z" 'org-agenda-sunrise-sunset
+	"T" 'org-agenda-show-tags
+	"X" 'org-agenda-clock-cancel
+	"[" 'org-agenda-manipulate-query-add
+	"g\\" 'org-agenda-filter-by-tag-refine
+	"]" 'org-agenda-manipulate-query-subtract)))
+#+END_SRC
+*** org-mode
+    #+BEGIN_SRC emacs-lisp
+      (require 'org)
+      (define-key global-map "\C-cl" 'org-store-link)
+      (define-key global-map "\C-ca" 'org-agenda)
+      (setq org-log-done t)
+    #+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (setq org-agenda-files (list "~/org/work.org"
+				   "~/org/school.org"
+				   "~/org/home.org"))
+    #+END_SRC
+   
+** File
+*** Auto generated file
+    禁止自动生成`filename.fileext~`的备份文件, 因为我们用Git
+    #+BEGIN_SRC emacs-lisp
+      (setq make-backup-files nil)
+    #+END_SRC
+*** dired
+    - 递归的copy or delete, 避免被询问
+    #+BEGIN_SRC emacs-lisp
+      (setq dired-recursive-deletes 'always)
+      (setq dired-recursive-copies 'always)
+    #+END_SRC
+    
+   - 为了更快的emacs启动速度, 可以优化为延迟加载, 即仅当该插件被使用时加载特性
+   #+BEGIN_SRC emacs-lisp
+     (put 'dired-find-alternate-file 'disabled nil) ;
      ;; 主动加载
      ;; (require 'dired)
      ;; (defined-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
@@ -69,6 +195,41 @@
 	 (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
    #+END_SRC
    
+** Buffer
+** Window
+    #+BEGIN_SRC emacs-lisp
+      (require 'popwin)
+      (popwin-mode 1)
+    #+END_SRC
+   
+** Auto-complete
+*** Company
+#+BEGIN_SRC emacs-lisp
+  (global-company-mode t)
+  (custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  '(company-tooltip-idle-delay 0.2)
+  '(custom-safe-themes
+  (quote
+      ("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default))))
+  (custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+  )
+#+END_SRC
+   
+*** More
+    #+BEGIN_SRC emacs-lisp
+    (add-hook 'emacs-lisp-mode-hook 'show-paren-mode)
+    ;;(global-set-key (kbd "\C-x \C-x") ' )
+    #+END_SRC
+** Git
+** Command
 ** ivy & swiper & counsel
    用于各种搜索
    #+BEGIN_SRC emacs-lisp
@@ -96,81 +257,4 @@
      (global-set-key (kbd "\C-x \C-d") 'dired-jump)
      (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
    #+END_SRC
-
-
-* melpa packages
-
-** company
-
-#+BEGIN_SRC emacs-lisp
-  (global-company-mode t)
-  (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-  '(company-tooltip-idle-delay 0.2)
-  '(custom-safe-themes
-  (quote
-      ("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default))))
-  (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-  )
-#+END_SRC
-   
-** evil
-*** Enable evil
-     #+BEGIN_SRC emacs-lisp
-       (require 'evil)
-       (evil-mode 1)
-     #+END_SRC
-
-*** Add extra keybindings to cover the shortage of evil (towards the default vim)
-     - Use c-h to delete char
-       #+BEGIN_SRC emacs-lisp
-	 (define-key evil-insert-state-map "\C-h" 'evil-delete-backward-char)
-       #+END_SRC
-     - Use C-u to scroll up in normal mode
-       #+BEGIN_SRC emacs-lisp
-	 (define-key evil-normal-state-map "\C-u" 'evil-scroll-up)
-       #+END_SRC
-     - Treat `underscore_word` as one single word, not two
-       #+BEGIN_SRC emacs-lisp
-	 (with-eval-after-load 'evil
-	     (defalias #'forward-evil-word #'forward-evil-symbol))
-       #+END_SRC
-     - Use TAB to org-cycle in [org-mode && evil-normal mode]
-       #+BEGIN_SRC emacs-lisp
-	 (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
-       #+END_SRC
-
-** latex
-#+BEGIN_SRC emacs-lisp
-  ;; (require 'auctex-latexmk)
-  ;; (auctex-latexmk-setup)
-#+END_SRC
-
-** evil-org
-   #+BEGIN_SRC emacs-lisp
-     (add-to-list 'load-path "~/.emacs.d/plugins/evil-org")
-     (require 'evil-org)
-     (add-hook 'org-mode-hook 'evil-org-mode)
-     (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
-     (require 'evil-org-agenda)
-     (evil-org-agenda-set-keys)
-     (setq evil-want-C-i-jump nil)
-   #+END_SRC
-   
-* Keybindings
-** Edit
-** Navigation
-*** File
-*** Buffer
-** Plugins
-*** Git
-    
-    
-* UI
+** More

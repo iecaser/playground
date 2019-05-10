@@ -1,1 +1,16 @@
+* Tasks
+** DONE Open file 2.org
+** TODO sub2
+** TODO sub3
+   
+* Introduction
 
+Hello world.
+
+** subsection
+This is a link: [[www.baidu.com.cn][baidu liNK]]
+
+** some latex
+   #+BEGIN_SRC latex
+     $\alpha = \beta$
+   #+END_SRC
