@@ -72,7 +72,7 @@ return                                                               ;|
 CapsLock::Send, {ESC}                                                ;|
 ;---------------------------------------------------------------------o
 
-CapsLock & Space::Send, {F12}
+LCtrl & Space::Send, {F12}
 
 ;=====================================================================o
 ;                    CapsLock Direction Navigator                    ;|
