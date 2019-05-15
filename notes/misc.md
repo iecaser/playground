@@ -2108,10 +2108,6 @@ conda create -n new_env_name --clone old_env_name
 export LC_ALL="C.UTF-8"
 ```
 
-## docker cp
-```bash
-docker cp /some/local/path/mnist.zip <container_id>:/tmp/
-```
 
 ## install vi/vim on ubuntu docker
 run `apt-get install vim` directly won't work!

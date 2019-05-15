@@ -9,12 +9,18 @@
 			    hungry-delete
 			    ivy
 			    counsel
+			    helm-ag
+			    web-mode
+			    flycheck
 			    swiper
 			    popwin
+			    expand-region
 			    evil
 			    evil-org
 			    htmlize
 			    evil-visual-mark-mode
+			    yasnippet
+			    yasnippet-snippets
 			    ) "Default packages")
      (setq package-selected-packages zxf/packages)
      (defun zxf/packages-installed-p ()
@@ -47,6 +53,7 @@
      (global-linum-mode t)
      (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;maximize window on startup
      (fset 'yes-or-no-p 'y-or-n-p)
+     (set-face-attribute 'default nil :family "Consolas" :height 130)
    #+END_SRC
 * Edit
 ** Vim-like
@@ -64,7 +71,8 @@
        #+END_SRC
      - Use C-u to scroll up in normal mode
        #+BEGIN_SRC emacs-lisp
-	 (define-key evil-normal-state-map "\C-u" 'evil-scroll-up)
+	 (setq evil-want-C-u-scroll t)
+	 (setq evil-want-C-d-scroll t)
        #+END_SRC
      - Treat `underscore_word` as one single word, not two
        #+BEGIN_SRC emacs-lisp
@@ -85,6 +93,7 @@
      (require 'evil-org-agenda)
      (evil-org-agenda-set-keys)
      (setq evil-want-C-i-jump nil)
+     (require 'org-tempo)
    #+END_SRC
 *** Org-agenda Vim Keybindings                              :orgmode:evil:
 #+BEGIN_SRC emacs-lisp
@@ -193,6 +202,38 @@
 	 (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
    #+END_SRC
    
+*** rencent file
+    Remeber recent files.
+    #+BEGIN_SRC elisp
+      ; (require 'recentf)
+      (recentf-mode 1)
+      (setq recentf-max-menu-item 30)
+    #+END_SRC
+*** helm-ag
+**** [[https://github.com/ggreer/the_silver_searcher][ag]]
+    - Windows 10 install via `Snoop`:
+    #+begin_src bash
+      # install scoop for in powershell for win10
+      iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
+      # install ag via scoop
+      scoop install ag
+    #+end_src
+    
+**** [[https://melpa.org/#/helm-ag][helm-ag]]
+     - Sample Configuration
+     #+begin_src elisp
+       (custom-set-variables
+	'(helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
+	'(helm-ag-command-option "--all-text")
+	'(helm-ag-insert-at-point 'symbol)
+	'(helm-ag-ignore-buffer-patterns '("\\.txt\\'" "\\.mkd\\'")))
+     #+end_src
+     
+     - keybinding
+       #+begin_src elisp
+	 (global-set-key (kbd "C-c p s") 'helm-do-ag-project-root)
+       #+end_src
+     
 ** Buffer
 ** Window
     #+BEGIN_SRC emacs-lisp
@@ -200,7 +241,15 @@
       (popwin-mode 1)
     #+END_SRC
    
-** Auto-complete
+** Syntax
+*** [[https://github.com/joaotavora/yasnippet/tree/e45e3de357fbd4289fcfa3dd26aaa7be357fb0b8][yasnippet]]
+    #+begin_src elisp
+      (add-hook 'prog-mode-hook #'yas-minor-mode)
+    #+end_src
+*** flycheck
+    #+begin_src elisp
+      (global-flycheck-mode t)
+    #+end_src
 *** Company
 #+BEGIN_SRC emacs-lisp
   (global-company-mode t)
@@ -256,3 +305,55 @@
      (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
    #+END_SRC
 ** More
+   - Auto load major-mode according to file type.
+  #+begin_src elisp
+    (setq auto-mode-alist
+	  (append
+	   '(("\\.js\\'" . js2-mode))
+	   '(("\\.html\\'" . web-mode))
+	   auto-mode-alist))
+  #+end_src
+  
+  - Change indent offset
+  #+begin_src elisp
+    (defun my-web-mode-indent-setup ()
+      (setq web-mode-markup-indent-offset 2) ; web-mode, html tag in html file
+      (setq web-mode-css-indent-offset 2)    ; web-mode, css in html file
+      (setq web-mode-code-indent-offset 2)   ; web-mode, js code in html file
+      )
+    (add-hook 'web-mode-hook 'my-web-mode-indent-setup)
+  #+end_src
+  
+   - Save-excursion :: save and restore current cursor position
+    #+BEGIN_SRC elisp
+      (defun remove-dos-eol ()
+	  "Replace CRLF to CR."
+	  (interactive)
+	  (save-excursion 
+	      (goto-char (point-min))
+	      (while (search-forward "\r" nil t)
+		  (replace-match "")
+		  )
+	      )
+	  )
+    #+END_SRC
+
+     - [[https://emacs.stackexchange.com/questions/46988/easy-templates-in-org-9-2][Insert this code in case that `<s` doesn't expand as expected.]]
+     #+begin_src elisp
+       (require 'org-tempo)
+     #+end_src
+     
+     - Expand region
+     #+begin_src elisp
+       (global-set-key (kbd "C-=") 'er/expand-region)
+     #+end_src
+     
+     - Advanced show-parenthesis
+       #+begin_src elisp
+	 (define-advice show-paren-function (:around (fn) fix-show-paren-function)
+	   "Highlight enclosing parens."
+	   (cond ((looking-at-p "\\s(") (funcall fn))
+		 (t (save-excursion
+		      (ignore-errors (backward-up-list))
+	      (funcall fn)))))
+       #+end_src

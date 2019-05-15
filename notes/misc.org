@@ -1,0 +1,47 @@
+* Tensorflow
+** Deployment
+*** TF service
+    models.conf file:
+    #+BEGIN_SRC json
+      model_config_list: {
+
+	config: {
+	  name: "model1",
+	  base_path: "/tmp/model",
+	  model_platform: "tensorflow"
+	},
+	config: {
+	   name: "model2",
+	   base_path: "/tmp/model2",
+	   model_platform: "tensorflow"
+	}
+      }
+   #+END_SRC
+
+   start tf service using models.conf:
+   #+BEGIN_SRC bash
+     tensorflow_model_server --port=9000 --model_config_file=/serving/models.conf
+   #+END_SRC
+
+    - [[https://stackoverflow.com/questions/45749024/how-can-i-use-tensorflow-serving-for-multiple-models][How can I use tensorflow serving for multiple models - Stack Overflow]]
+
+* Docker
+** copy
+*** docker cp
+    #+BEGIN_SRC bash
+      # host -> container
+      docker cp /host/path/target <container_id>:/file/path/within/container
+      # container -> host
+      docker cp <containerId>:/file/path/within/container /host/path/target
+    #+END_SRC
+*** COPY
+    COPY in Dockerfile:
+    #+begin_src bash
+      COPY . /file/path/within/image
+      # NOT this way
+      COPY * /file/path/within/image
+    #+end_src
+
+    - [[https://github.com/moby/moby/issues/15858][Dockerfile COPY with file globs will copy files from subdirectories to the destination directory]]
+* Emacs
+** Elisp

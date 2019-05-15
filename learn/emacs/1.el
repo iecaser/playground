@@ -95,3 +95,9 @@
   (other-window 1)
   )
 (boldify-names)
+
+(defun my-avg (x y z)
+  (interactive)
+  (/ (+ x y z) 3)
+  )
+(message (format "%d" (my-avg 1 2 4)))
