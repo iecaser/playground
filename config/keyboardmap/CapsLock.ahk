@@ -361,11 +361,11 @@ CapsLock & g:: Send, {AppsKey}                                       ;|
 ;                     CapsLock + r  |  Open Shell                    ;|
 ;                     CapsLock + t  |  Open Text Editor              ;|
 ;-----------------------------------o---------------------------------o
-CapsLock & d:: Send, !d                                              ;|
-CapsLock & f:: Send, !f                                              ;|
-CapsLock & e:: Run http://cn.bing.com/                               ;|
-CapsLock & r:: Run Powershell                                        ;|
-CapsLock & t:: Run C:\Program Files (x86)\Notepad++\notepad++.exe    ;|
+;CapsLock & d:: Send, !d                                              ;|
+;CapsLock & f:: Send, !f                                              ;|
+;CapsLock & e:: Run http://cn.bing.com/                               ;|
+;CapsLock & r:: Run Powershell                                        ;|
+;CapsLock & t:: Run C:\Program Files (x86)\Notepad++\notepad++.exe    ;|
 ;---------------------------------------------------------------------o
 
 
