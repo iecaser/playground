@@ -17,10 +17,13 @@
 			    expand-region
 			    evil
 			    evil-org
+			    evil-surround
 			    htmlize
 			    evil-visual-mark-mode
 			    yasnippet
 			    yasnippet-snippets
+			    which-key
+			    2048-game
 			    ) "Default packages")
      (setq package-selected-packages zxf/packages)
      (defun zxf/packages-installed-p ()
@@ -55,35 +58,55 @@
      (fset 'yes-or-no-p 'y-or-n-p)
      (set-face-attribute 'default nil :family "Consolas" :height 130)
    #+END_SRC
+** which-key
+   #+begin_src emacs-lisp
+     (which-key-mode 1)
+   #+end_src
+   
+   This will try to use the right side, but if there is no room it will switch to using the bottom, which is usually easier to fit keys into.
+   #+begin_src emacs-lisp
+     (which-key-setup-side-window-right-bottom)
+   #+end_src
+   #+begin_src emacs-lisp
+     (which-key-setup-minibuffer)
+   #+end_src
 * Edit
 ** Vim-like
 *** evil
-*** Enable evil
-     #+BEGIN_SRC emacs-lisp
-       (require 'evil)
-       (evil-mode 1)
-     #+END_SRC
+**** Enable evil
+      #+BEGIN_SRC emacs-lisp
+	(require 'evil)
+	(evil-mode 1)
+      #+END_SRC
 
-*** Add extra keybindings to cover the shortage of evil (towards the default vim)
-     - Use c-h to delete char
-       #+BEGIN_SRC emacs-lisp
-	 (define-key evil-insert-state-map "\C-h" 'evil-delete-backward-char)
-       #+END_SRC
-     - Use C-u to scroll up in normal mode
-       #+BEGIN_SRC emacs-lisp
-	 (setq evil-want-C-u-scroll t)
-	 (setq evil-want-C-d-scroll t)
-       #+END_SRC
-     - Treat `underscore_word` as one single word, not two
-       #+BEGIN_SRC emacs-lisp
-	 (with-eval-after-load 'evil
-	     (defalias #'forward-evil-word #'forward-evil-symbol))
-       #+END_SRC
-     - Use TAB to org-cycle in [org-mode && evil-normal mode]
-       #+BEGIN_SRC emacs-lisp
-	 (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
-       #+END_SRC
-
+**** Add extra keybindings to cover the shortage of evil (towards the default vim)
+      - Use c-h to delete char
+	#+BEGIN_SRC emacs-lisp
+	  (define-key evil-insert-state-map "\C-h" 'evil-delete-backward-char)
+	#+END_SRC
+      - Use C-u to scroll up in normal mode
+	#+BEGIN_SRC emacs-lisp
+	  (setq evil-want-C-u-scroll t)
+	  (setq evil-want-C-d-scroll t)
+	#+END_SRC
+      - Treat `underscore_word` as one single word, not two
+	#+BEGIN_SRC emacs-lisp
+	  (with-eval-after-load 'evil
+	      (defalias #'forward-evil-word #'forward-evil-symbol))
+	#+END_SRC
+      - Use TAB to org-cycle in [org-mode && evil-normal mode]
+	#+BEGIN_SRC emacs-lisp
+	  ;;Looking for a better solution
+	  ;; (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
+	#+END_SRC
+	
+*** [[https://github.com/emacs-evil/evil-surround/tree/5ad01dfa86424c4b22cd1dfa375f13bd8c656f43][evil-surround]]
+    #+begin_src emacs-lisp
+      (use-package evil-surround
+	:ensure t
+	:config
+	(global-evil-surround-mode 1))
+    #+end_src
 *** evil-org
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'load-path "~/.emacs.d/plugins/evil-org")
@@ -95,7 +118,7 @@
      (setq evil-want-C-i-jump nil)
      (require 'org-tempo)
    #+END_SRC
-*** Org-agenda Vim Keybindings                              :orgmode:evil:
+*** Org-agenda Vim Keybindings
 #+BEGIN_SRC emacs-lisp
   (eval-after-load 'org-agenda
    '(progn
@@ -204,7 +227,7 @@
    
 *** rencent file
     Remeber recent files.
-    #+BEGIN_SRC elisp
+    #+BEGIN_SRC emacs-lisp
       ; (require 'recentf)
       (recentf-mode 1)
       (setq recentf-max-menu-item 30)
@@ -221,7 +244,7 @@
     
 **** [[https://melpa.org/#/helm-ag][helm-ag]]
      - Sample Configuration
-     #+begin_src elisp
+     #+begin_src emacs-lisp
        (custom-set-variables
 	'(helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
 	'(helm-ag-command-option "--all-text")
@@ -230,7 +253,7 @@
      #+end_src
      
      - keybinding
-       #+begin_src elisp
+       #+begin_src emacs-lisp
 	 (global-set-key (kbd "C-c p s") 'helm-do-ag-project-root)
        #+end_src
      
@@ -243,11 +266,11 @@
    
 ** Syntax
 *** [[https://github.com/joaotavora/yasnippet/tree/e45e3de357fbd4289fcfa3dd26aaa7be357fb0b8][yasnippet]]
-    #+begin_src elisp
+    #+begin_src emacs-lisp
       (add-hook 'prog-mode-hook #'yas-minor-mode)
     #+end_src
 *** flycheck
-    #+begin_src elisp
+    #+begin_src emacs-lisp
       (global-flycheck-mode t)
     #+end_src
 *** Company
@@ -306,7 +329,7 @@
    #+END_SRC
 ** More
    - Auto load major-mode according to file type.
-  #+begin_src elisp
+  #+begin_src emacs-lisp
     (setq auto-mode-alist
 	  (append
 	   '(("\\.js\\'" . js2-mode))
@@ -315,7 +338,7 @@
   #+end_src
   
   - Change indent offset
-  #+begin_src elisp
+  #+begin_src emacs-lisp
     (defun my-web-mode-indent-setup ()
       (setq web-mode-markup-indent-offset 2) ; web-mode, html tag in html file
       (setq web-mode-css-indent-offset 2)    ; web-mode, css in html file
@@ -325,7 +348,7 @@
   #+end_src
   
    - Save-excursion :: save and restore current cursor position
-    #+BEGIN_SRC elisp
+    #+BEGIN_SRC emacs-lisp
       (defun remove-dos-eol ()
 	  "Replace CRLF to CR."
 	  (interactive)
@@ -339,17 +362,17 @@
     #+END_SRC
 
      - [[https://emacs.stackexchange.com/questions/46988/easy-templates-in-org-9-2][Insert this code in case that `<s` doesn't expand as expected.]]
-     #+begin_src elisp
+     #+begin_src emacs-lisp
        (require 'org-tempo)
      #+end_src
      
      - Expand region
-     #+begin_src elisp
+     #+begin_src emacs-lisp
        (global-set-key (kbd "C-=") 'er/expand-region)
      #+end_src
      
      - Advanced show-parenthesis
-       #+begin_src elisp
+       #+begin_src emacs-lisp
 	 (define-advice show-paren-function (:around (fn) fix-show-paren-function)
 	   "Highlight enclosing parens."
 	   (cond ((looking-at-p "\\s(") (funcall fn))

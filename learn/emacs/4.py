@@ -69,7 +69,7 @@ return from setuptools import setup
              version=version,
              description="description",
              url='url')
-from setuptools import setup
+from [ setuptools ] import setup
 
 package = 'name'
 version = '0.1'
@@ -88,4 +88,3 @@ if __name__ == '__main__':
 #                                   comment                                                                       #
 ###############################################################################
 # XXX: 
-alasjdfllajsjlasjljlasjdfjfdj
