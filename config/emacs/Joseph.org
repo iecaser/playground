@@ -24,6 +24,8 @@
 			    yasnippet-snippets
 			    which-key
 			    2048-game
+			    cask
+			    pallet
 			    ) "Default packages")
      (setq package-selected-packages zxf/packages)
      (defun zxf/packages-installed-p ()
@@ -58,17 +60,32 @@
      (fset 'yes-or-no-p 'y-or-n-p)
      (set-face-attribute 'default nil :family "Consolas" :height 130)
    #+END_SRC
-** which-key
+** [[https://github.com/justbur/emacs-which-key/tree/187ac0eb8990b62d4bfd83aac10a0ae68cdd2ff5][which-key]]
+   
+   - Enable which-key
    #+begin_src emacs-lisp
-     (which-key-mode 1)
+     (which-key-mode)
    #+end_src
    
-   This will try to use the right side, but if there is no room it will switch to using the bottom, which is usually easier to fit keys into.
+   - This will try to use the right side, but if there is no room it will switch to using the bottom, which is usually easier to fit keys into.
    #+begin_src emacs-lisp
      (which-key-setup-side-window-right-bottom)
    #+end_src
+   
+   - Take over the minibuffer. For the recommended configuration use
    #+begin_src emacs-lisp
      (which-key-setup-minibuffer)
+   #+end_src
+   
+   - Descriptions that are longer are truncated and have ".." added.
+   #+begin_src emacs-lisp
+     (setq which-key-max-description-length 50)
+   #+end_src
+   
+   - More settings:
+   #+begin_src emacs-lisp 
+     (setq which-key-idle-delay 0.5)
+     (setq which-key-separator " → ")
    #+end_src
 * Edit
 ** Vim-like
@@ -379,4 +396,9 @@
 		 (t (save-excursion
 		      (ignore-errors (backward-up-list))
 	      (funcall fn)))))
+       #+end_src
+
+       #+begin_src emacs-lisp
+	 (require 'cask)
+	 (require 'pallet)
        #+end_src

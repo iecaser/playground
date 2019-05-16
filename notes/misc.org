@@ -35,13 +35,102 @@
       docker cp <containerId>:/file/path/within/container /host/path/target
     #+END_SRC
 *** COPY
-    COPY in Dockerfile:
+    - COPY when building:
     #+begin_src bash
       COPY . /file/path/within/image
       # NOT this way
       COPY * /file/path/within/image
     #+end_src
+    
+    - Ignore certain files using =.dockerignore=
+    #+begin_src text
+      .git*
+      .dockerignore
+      Dockerfile
+    #+end_src
 
-    - [[https://github.com/moby/moby/issues/15858][Dockerfile COPY with file globs will copy files from subdirectories to the destination directory]]
-* Emacs
-** Elisp
+    - Reference
+      1. [[https://github.com/moby/moby/issues/15858][Dockerfile COPY with file globs will copy files from subdirectories to the destination directory]]
+* Linux
+** Bash
+*** if-fi/test
+    - test :: try to run these lines in bash.
+   #+begin_src bash
+     $(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia") 
+     test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
+   #+end_src
+   
+   - =-f= file existance
+   #+begin_src bash
+     FILE=/etc/resolv.conf
+     if test -f "$FILE"; then
+	 echo "$FILE exist"
+     fi
+     # or use =&&= and =||=
+     test -f /etc/resolv.conf && echo "$FILE exist"
+     [ -f /etc/resolv.conf ] && echo "$FILE exist" || echo "$FILE does not exist"
+   #+end_src
+   
+    - =-x= executable
+   #+begin_src bash
+     if [ ! -x "$folder"]; then
+     mkdir "$folder"
+     fi
+   #+end_src
+   
+   - =-d= directory existence
+   #+begin_src bash
+     if [ ! -d "$folder"]; then
+     mkdir "$folder"
+     fi
+   #+end_src
+   
+   - Reference
+     - [[https://stackoverflow.com/questions/18119689/command-not-found-in-bashs-if-else-condition-when-using-d-dir][Add space between square brackets]]
+     - [[https://linuxize.com/post/bash-check-le-exists/][How to Check if a File or Directory Exists in Bash]]
+    
+*** cp
+    - cp =-L= :: copy follow symbolic link
+    #+begin_src bash
+      cp -r -L source dest
+    #+end_src
+    
+    - Reference
+      - [[https://superuser.com/questions/216919/how-to-copy-symlinks-to-target-as-normal-folders][How to copy symlinks to target as normal folders]]
+       
+*** for do done
+    - easy way
+    #+begin_src bash
+      for i in hello world 'hello world'
+      do
+	  echo $i
+      done
+    #+end_src
+    
+    - advanced
+    #+begin_src bash
+      strings=(
+	string1
+	string2
+	"string with spaces"
+	stringN
+      )
+      for i in "${strings[@]}"; do
+	echo "$i"
+      done
+    #+end_src
+
+*** args with default values
+    - You can set a default value for a variable like so:
+    #+begin_src bash
+      ARG1=${1:-foo}
+      ARG2=${2:-bar}
+      ARG3=${3:-1}
+      ARG4=${4:-$(date)}
+      echo "$ARG1"
+      echo "$ARG2"
+      echo "$ARG3"
+      echo "$ARG4"
+    #+end_src
+    - Reference
+      - [[https://stackoverflow.com/questions/9332802/how-to-write-a-bash-script-that-takes-optional-input-arguments][How to write a bash script that takes optional input arguments? - Stack Overflow]]

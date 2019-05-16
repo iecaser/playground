@@ -1604,25 +1604,6 @@ bindkey  "^[[4~"   end-of-line
 ```
 [Fix key settings (Home/End/Insert/Delete) in .zshrc](https://stackoverflow.com/questions/8638012/fix-key-settings-home-end-insert-delete-in-zshrc-when-running-zsh-in-terminat)
 
-## for list
-```bash
-# easy way
-for i in hello world 'hello world'
-do
-    echo $i
-done
-
-# or
-strings=(
-  string1
-  string2
-  "string with spaces"
-  stringN
-)
-for i in "${strings[@]}"; do
-  echo "$i"
-done
-```
 
 ## rsync / scp
 ```bash
@@ -1655,48 +1636,7 @@ cp $(find somepath/ -type f | shuf | head -9) anotherpath
 print the first column: `awk '{print $1}' filename`
 [ref](http://blog.51cto.com/lq2419/1238880)
 
-## `if-fi` in shell
-```
-# try to run these lines
-$(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia") 
-test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
 
-# if then
-# -x 参数判断 $folder 是否存在并且是否具有可执行权限
-if [ ! -x "$folder"]; then
-mkdir "$folder"
-fi
-
-# if else
-mexp=testdir
-if [ ! -d $mexp ]; then
-    mkdir $mexp
-else
-    echo "$mexp exists."
-    # be careful!
-    echo '$mexp exists.'
-fi
-
-# -d 参数判断 $folder 是否存在
-# -f 参数$file 是否存在
-if [ ! -d "$folder"]; then
-mkdir "$folder"
-fi
-```
-```bash
-FILE=/etc/resolv.conf
-if test -f "$FILE"; then
-    echo "$FILE exist"
-fi
-
-# or use `test`
-test -f /etc/resolv.conf && echo "$FILE exist"
-# || for else
-[ -f /etc/resolv.conf ] && echo "$FILE exist" || echo "$FILE does not exist"
-```
-
-[Add space between [ and !. And before ]](https://stackoverflow.com/questions/18119689/command-not-found-in-bashs-if-else-condition-when-using-d-dir)
-[How to Check if a File or Directory Exists in Bash](https://linuxize.com/post/bash-check-le-exists/)
 
 ## nohup
 ```bash
