@@ -308,7 +308,6 @@
   ;; If there is more than one, they won't work right.
   )
 #+END_SRC
-   
 *** More
     #+BEGIN_SRC emacs-lisp
     (add-hook 'emacs-lisp-mode-hook 'show-paren-mode)
