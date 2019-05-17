@@ -24,8 +24,7 @@
 			    yasnippet-snippets
 			    which-key
 			    2048-game
-			    cask
-			    pallet
+			    use-package
 			    ) "Default packages")
      (setq package-selected-packages zxf/packages)
      (defun zxf/packages-installed-p ()
@@ -396,9 +395,4 @@
 		 (t (save-excursion
 		      (ignore-errors (backward-up-list))
 	      (funcall fn)))))
-       #+end_src
-
-       #+begin_src emacs-lisp
-	 (require 'cask)
-	 (require 'pallet)
        #+end_src
