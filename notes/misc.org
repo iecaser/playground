@@ -134,3 +134,32 @@
     #+end_src
     - Reference
       - [[https://stackoverflow.com/questions/9332802/how-to-write-a-bash-script-that-takes-optional-input-arguments][How to write a bash script that takes optional input arguments? - Stack Overflow]]
+* python
+** package
+*** [[https://github.com/requests/toolbelt][requests-toolbelt]]
+   - Install
+   #+begin_src bash
+     conda install requests-toolbelt
+     # or
+     pip install requests-toolbelt
+   #+end_src
+   
+   - Quick use
+   #+begin_src python
+     from requests_toolbelt import MultipartEncoder
+     import requests
+
+     m = MultipartEncoder(
+	 fields={'field0': 'value', 'field1': 'value',
+		 'field2': ('filename', open('file.py', 'rb'), 'text/plain')}
+	 )
+
+     r = requests.post('http://httpbin.org/post', data=m,
+		       headers={'Content-Type': m.content_type})
+   #+end_src
+*** json
+    - [[https://codeyarns.com/2017/02/22/python-json-dump-misses-last-newline/][dump with new lines]]
+    #+begin_src python
+      json.dump(json_data, open("foobar.json", "w"), indent=4)
+    #+end_src
+    stud
