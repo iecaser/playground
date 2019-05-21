@@ -163,3 +163,26 @@
       json.dump(json_data, open("foobar.json", "w"), indent=4)
     #+end_src
     stud
+
+
+
+    keycode 66 = Mode_switch
+keysym h = h H Left
+keysym l = l L Right
+keysym k = k K Up
+keysym j = j J Down
+keysym u = u U Prior
+keysym i = i I Home
+keysym o = o O End
+keysym p = p P Next
+https://unix.stackexchange.com/questions/414926/bind-capshjkl-to-arrow-keys-caps-to-esc
+
+
+
+https://superuser.com/questions/463312/how-to-configure-ctrlh-as-backspace-under-google-chrome
+
+
+If you want to modify the bindings, the Emacs binding can be found in /usr/share/themes/Emacs/gtk-3.0/gtk-keys.css, which can be copied over to ~/.config/gtk-3.0/gtk.css and modified.
+On GTK3, the ~/.gtkrc-2.0 method no longer works. Instead, edit the ~/.config/gtk-3.0/settings.ini and add the following line to the end:
+gtk-key-theme-name=Emacs
+

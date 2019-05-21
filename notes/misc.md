@@ -1123,7 +1123,7 @@ sudo apt remove --autoremove emacs26 emacs26-nox
 ## spacemacs
 
 ## install spacemacs
-` git clone -b develop https://github.com/syl20bnr/spacemacs ~/.emacs.d `
+`git clone -b develop https://github.com/syl20bnr/spacemacs ~/.emacs.d`
 
 ##  ...
 [Pasting text into search after pressing "/" ](https://www.reddit.com/r/spacemacs/comments/4drxvv/pasting_text_into_search_after_pressing/)
