@@ -1,2 +1,1 @@
-# Winter's Coming.
-Brace Yourself!
+# Winter's over.
