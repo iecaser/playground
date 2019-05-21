@@ -45,7 +45,7 @@ values."
      org
      spell-checking
      syntax-checking
-     '(version-control :variables 
+     '(version-control :variables
                        version-control-diff-tool 'diff-hl
                        version-control-diff-side 'left
                        version-control-global-margin t)
@@ -60,7 +60,7 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(all-the-icons
-       py-autopep8
+                                      py-autopep8
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '(
@@ -219,7 +219,7 @@ values."
    dotspacemacs-enable-paste-transient-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.2
+   dotspacemacs-which-key-delay 0.3
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
@@ -324,7 +324,6 @@ you should place your code here."
   (modify-syntax-entry ?_ "w")
   (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
   (add-hook 'prog-mode-hook #'yas-minor-mode)
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   ;; (setq-default evil-escape-key-sequence "kj")
   (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
   (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
@@ -337,13 +336,14 @@ you should place your code here."
     (define-key company-active-map (kbd "C-h") 'evil-delete-backward-char)
     )
   (with-eval-after-load 'helm
-    (define-key helm-map (kbd "C-w") 'evil-delete-backward-word)
+    ;; C-h
     (define-key helm-map (kbd "C-h") 'delete-backward-char)
-    )
-  (with-eval-after-load 'command
+    (define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
+    ;; C-w
     (define-key helm-map (kbd "C-w") 'evil-delete-backward-word)
-    (define-key helm-map (kbd "C-h") 'delete-backward-char)
+    (define-key helm-find-files-map (kbd "C-w") 'evil-delete-backward-word)
     )
+
   ;; simulate c-u in vim insert mode behavior
   (define-key evil-insert-state-map (kbd "C-u")
     (lambda ()
@@ -353,12 +353,16 @@ you should place your code here."
         (if (looking-back "^\s*" 0)
             (delete-region (point) (line-beginning-position))
           (evil-delete (+ (line-beginning-position) (current-indentation)) (point))))))
-  ;; ;; vim-defalut window move
+  ;; vim-defalut window move
   (define-key evil-motion-state-map (kbd "C-w C-j") #'evil-window-down)
   (define-key evil-motion-state-map (kbd "C-w C-k") #'evil-window-up)
   (define-key evil-motion-state-map (kbd "C-w C-h") #'evil-window-left)
   (define-key evil-motion-state-map (kbd "C-w C-l") #'evil-window-right)
   (define-key evil-motion-state-map (kbd "C-w C-w") #'evil-window-next)
+  ;; neotree
+  (setq neo-banner-message nil)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  (setq neo-vc-integration '(face))
   (with-eval-after-load 'neotree
     (define-key neotree-mode-map (kbd "C-w C-j") #'evil-window-down)
     (define-key neotree-mode-map (kbd "C-w C-k") #'evil-window-up)
@@ -382,7 +386,6 @@ you should place your code here."
     )
   (setq python-shell-interpreter "python"
         python-shell-interpreter-args "-m IPython --simple-prompt -i")
-  (setq neo-vc-integration '(face))
   (with-eval-after-load 'python
     (add-hook 'python-mode-hook (lambda () (setq python-shell-interpreter "python"))))
   (require 'py-autopep8)
