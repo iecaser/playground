@@ -54,6 +54,7 @@ values."
      bibtex
      (latex :variables
             latex-build-command "LaTeX")
+     (colors :variables colors-enable-nyan-cat-progress-bar t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -61,14 +62,14 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(all-the-icons
                                       py-autopep8
+                                      2048-game
                                       )
    ;; A list of packages that cannot be updated.
-   dotspacemacs-frozen-packages '(
-                                 yapfify
-                                 )
+   dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(evil-escape
                                     avy
+                                    yapfify
                                     )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -335,6 +336,14 @@ you should place your code here."
   (display-time-mode 1)                 ; show time in mode line on startup
 
   ;; vim like
+  ;; my func
+  (defun my-evil-ctrl-u ()
+    (interactive)
+    (if (looking-back "^" 0)
+        (backward-delete-char 1)
+      (if (looking-back "^\s*" 0)
+          (delete-region (point) (line-beginning-position))
+        (evil-delete (+ (line-beginning-position) (current-indentation)) (point)))))
   (modify-syntax-entry ?_ "w")
   (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
   (add-hook 'prog-mode-hook #'yas-minor-mode)
@@ -356,17 +365,12 @@ you should place your code here."
     ;; C-w
     (define-key helm-map (kbd "C-w") 'evil-delete-backward-word)
     (define-key helm-find-files-map (kbd "C-w") 'evil-delete-backward-word)
+    ;; C-u
+    (define-key helm-map (kbd "C-u") 'my-evil-ctrl-u)
+    (define-key helm-find-files-map (kbd "C-u") 'my-evil-ctrl-u)
     )
-
   ;; simulate c-u in vim insert mode behavior
-  (define-key evil-insert-state-map (kbd "C-u")
-    (lambda ()
-      (interactive)
-      (if (looking-back "^" 0)
-          (backward-delete-char 1)
-        (if (looking-back "^\s*" 0)
-            (delete-region (point) (line-beginning-position))
-          (evil-delete (+ (line-beginning-position) (current-indentation)) (point))))))
+  (define-key evil-insert-state-map (kbd "C-u") 'my-evil-ctrl-u)
   ;; vim-defalut window move
   (define-key evil-motion-state-map (kbd "C-w C-j") #'evil-window-down)
   (define-key evil-motion-state-map (kbd "C-w C-k") #'evil-window-up)

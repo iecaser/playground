@@ -20,3 +20,4 @@ config/emacs/Joseph.html
 learn/latex/
 learn/tf/tfserv/
 *~
+*.spacemacs.env
