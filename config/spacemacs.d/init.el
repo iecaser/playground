@@ -147,7 +147,7 @@ values."
                                :size 20
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -312,10 +312,11 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   ;; (use-package all-the-icons)
-    (setq configuration-layer-elpa-archives
+  (setq configuration-layer--elpa-archives
       '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
         ("org-cn"   . "http://elpa.emacs-china.org/org/")
         ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+  ;; (spacemacs/toggle-display-time-on)
   )
 
 (defun dotspacemacs/user-config ()
@@ -325,6 +326,15 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  ;; powerline
+  (setq display-time-24hr-format t)
+  (setq display-time-format "%H:%M:%S")        ; add seconds
+  (setq display-time-interval 1)               ; update every second
+  (setq display-time-default-load-average nil) ; don't show load average
+  (setq display-time-mail-string "")           ; don't show mail
+  (display-time-mode 1)                 ; show time in mode line on startup
+
+  ;; vim like
   (modify-syntax-entry ?_ "w")
   (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
   (add-hook 'prog-mode-hook #'yas-minor-mode)
