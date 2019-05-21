@@ -30,56 +30,46 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(javascript
+   '(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     sql
-     html
-     vimscript
-     csv
-     python
-     (c-c++ :variables
-            c-c++-enable-clang-support t
-            c-c++-default-mode-for-headers 'c++-mode)
-     yaml
      helm
      auto-completion
      better-defaults
      emacs-lisp
-     search-engine
      git
-     (markdown :variables markdown-live-preview-engine 'vmd)
+     markdown
      org
-     neotree
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom)
      spell-checking
      syntax-checking
-     version-control
-     imenu-list
+     '(version-control :variables 
+                       version-control-diff-tool 'diff-hl
+                       version-control-diff-side 'left
+                       version-control-global-margin t)
+     csv
+     python
      bibtex
      (latex :variables
             latex-build-command "LaTeX")
      )
    ;; List of additional packages that will be installed without being
-  ;; wrapped in a layer. If you need some configuration for these
+   ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(
-                                      format-sql
-                                      py-autopep8
-                                      all-the-icons
+   dotspacemacs-additional-packages '(all-the-icons
+       py-autopep8
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '(
-                                  yapfify
-                                  )
+                                 yapfify
+                                 )
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(evil-escape
+                                    avy
+                                    )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -111,7 +101,7 @@ values."
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
    ;; whenever you start Emacs. (default nil)
-   dotspacemacs-check-for-update t
+   dotspacemacs-check-for-update nil
    ;; If non-nil, a form that evaluates to a package directory. For example, to
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
@@ -147,22 +137,22 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(material
+                         spacemacs-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("DejaVuSansMono"
-                               :size 24
+                               :size 20
                                :weight normal
                                :width normal
-                               :powerline-scale 1.05)
+                               :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
    ;; (default "SPC")
-   dotspacemacs-emacs-command-key "M-x"
+   dotspacemacs-emacs-command-key "SPC"
    ;; The key used for Vim Ex commands (default ":")
    dotspacemacs-ex-command-key ":"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -170,7 +160,7 @@ values."
    dotspacemacs-emacs-leader-key "M-m"
    ;; Major mode leader key is a shortcut key which is the equivalent of
    ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
-   dotspacemacs-major-mode-leader-key "SPC"
+   dotspacemacs-major-mode-leader-key ","
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
    ;; (default "C-M-m")
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
@@ -180,9 +170,9 @@ values."
    ;; and TAB or <C-m> and RET.
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
-   dotspacemacs-distinguish-gui-tab t
+   dotspacemacs-distinguish-gui-tab nil
    ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
-   dotspacemacs-remap-Y-to-y$ t
+   dotspacemacs-remap-Y-to-y$ nil
    ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
    ;; there. (default t)
    dotspacemacs-retain-visual-state-on-shift t
@@ -229,26 +219,26 @@ values."
    dotspacemacs-enable-paste-transient-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.3
+   dotspacemacs-which-key-delay 0.2
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
    ;; (default 'bottom)
-   dotspacemacs-which-key-position 'bottom
+   dotspacemacs-which-key-position 'right-then-bottom
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
    dotspacemacs-loading-progress-bar t
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup t
+   dotspacemacs-fullscreen-at-startup nil
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
    dotspacemacs-fullscreen-use-non-native nil
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -321,8 +311,7 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  (modify-syntax-entry ?_ "w")
-  (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
+  ;; (use-package all-the-icons)
   )
 
 (defun dotspacemacs/user-config ()
@@ -332,29 +321,17 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-
-  ;; frequently use
-  (global-set-key (kbd "C-x C-b") 'helm-mini)
-  (global-set-key (kbd "C-x b") 'helm-mini)
-  (global-set-key (kbd "C-x t") 'neotree-toggle)
-  (global-set-key (kbd "C-x g") 'magit-status)
-  (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
-  (global-set-key (kbd "C-x C-x") 'spacemacs/alternate-buffer)
-  (global-set-key (kbd "M-;") 'spacemacs/comment-or-uncomment-lines)
-  ;; (global-set-key (kbd "C-b") 'spacemacs/alternate-buffer)
-  ;; (define-key evil-normal-state-map (kbd "C-b") #'spacemacs/alternate-buffer)
-  ;; (define-key evil-insert-state-map (kbd "C-b") #'spacemacs/alternate-buffer)
+  (modify-syntax-entry ?_ "w")
+  (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
+  (add-hook 'prog-mode-hook #'yas-minor-mode)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   ;; (setq-default evil-escape-key-sequence "kj")
   (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
   (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
   (define-key evil-normal-state-map (kbd "C-s") #'helm-swoop)
-  (define-key evil-normal-state-map (kbd "C-x /") #'spacemacs/helm-project-smart-do-search)
-  (define-key evil-normal-state-map (kbd "+") #'evil-numbers/inc-at-pt)
-  (define-key evil-normal-state-map (kbd "-") #'evil-numbers/dec-at-pt)
-
-  ;; map vim ctrl-h ctrl-w
+;;  (define-key evil-normal-state-map (kbd "+") #'evil-numbers/inc-at-pt)
+;;  (define-key evil-normal-state-map (kbd "-") #'evil-numbers/dec-at-pt)
   (define-key evil-insert-state-map (kbd "C-h") #'evil-delete-backward-char)
-
   (with-eval-after-load 'company
     (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
     (define-key company-active-map (kbd "C-h") 'evil-delete-backward-char)
@@ -367,7 +344,6 @@ you should place your code here."
     (define-key helm-map (kbd "C-w") 'evil-delete-backward-word)
     (define-key helm-map (kbd "C-h") 'delete-backward-char)
     )
-
   ;; simulate c-u in vim insert mode behavior
   (define-key evil-insert-state-map (kbd "C-u")
     (lambda ()
@@ -377,10 +353,7 @@ you should place your code here."
         (if (looking-back "^\s*" 0)
             (delete-region (point) (line-beginning-position))
           (evil-delete (+ (line-beginning-position) (current-indentation)) (point))))))
-
   ;; ;; vim-defalut window move
-  (define-key evil-motion-state-map (kbd "C-w h") #'evil-window-split)
-  (define-key evil-motion-state-map (kbd "C-w c") #'view-buffer-other-window)
   (define-key evil-motion-state-map (kbd "C-w C-j") #'evil-window-down)
   (define-key evil-motion-state-map (kbd "C-w C-k") #'evil-window-up)
   (define-key evil-motion-state-map (kbd "C-w C-h") #'evil-window-left)
@@ -407,11 +380,6 @@ you should place your code here."
     (define-key flycheck-error-list-mode-map (kbd "C-w C-l") #'evil-window-right)
     (define-key flycheck-error-list-mode-map (kbd "C-w C-w") #'evil-window-next)
     )
-
-
-  ;; python setting
-  ;; (setq python-shell-interpreter "python3")
-  ;; (setq python-shell-interpreter-args "-i")
   (setq python-shell-interpreter "python"
         python-shell-interpreter-args "-m IPython --simple-prompt -i")
   (setq neo-vc-integration '(face))
@@ -419,9 +387,7 @@ you should place your code here."
     (add-hook 'python-mode-hook (lambda () (setq python-shell-interpreter "python"))))
   (require 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-  (setq py-autopep8-options '("--max-line-length=110"))
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
-
   ;; hightlight indentation
   (require 'highlight-indentation)
   (setq highlight-indentation-blank-lines t)
@@ -438,127 +404,5 @@ you should place your code here."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(diff-hl-draw-borders nil)
- '(diff-hl-margin-mode nil)
- '(display-time-24hr-format t)
- '(display-time-mode t)
- '(eldoc-idle-delay 0.3)
- '(evil-want-C-w-delete t)
- '(evil-want-change-word-to-end t)
- '(flycheck-flake8-maximum-line-length 100)
- '(flycheck-python-flake8-executable "python")
- '(flyspell-default-dictionary "english")
- '(global-diff-hl-mode t)
- '(global-eldoc-mode t)
- '(global-flycheck-mode t)
- '(imenu-auto-rescan t)
- '(imenu-list-auto-resize nil t)
- '(imenu-list-position (quote left))
- '(imenu-list-size 0.2)
- '(neo-auto-indent-point t t)
- '(neo-autorefresh nil)
- '(neo-banner-message "Press ? for neotree help" t)
- '(neo-create-file-auto-open t t)
- '(neo-keymap-style (quote default))
- '(neo-reset-size-on-open nil)
- '(neo-show-hidden-files t t)
- '(neo-show-updir-line nil t)
- '(neo-smart-open t t)
- '(neo-theme (quote arrow))
- '(neo-vc-integration (quote (face)) t)
- '(neo-window-fixed-size t)
- '(neo-window-width 25 t)
- '(package-selected-packages
-   (quote
-    (web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc lv transient company-tern tern company-auctex coffee-mode auctex format-sql sql-indent disaster company-c-headers cmake-mode clang-format engine-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data vimrc-mode dactyl-mode vmd-mode imenu-list csv-mode zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme let-alist yaml-mode all-the-icons memoize yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort py-autopep8 pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub treepy graphql with-editor eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-anaconda company auto-yasnippet yasnippet auto-dictionary anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
- '(popwin:popup-window-position (quote right))
- '(py-autopep8-options (quote ("--max-line-length=99")))
- '(python-shell-completion-native-enable nil)
- '(truncate-lines t)
- '(xterm-mouse-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(diff-hl-change ((t (:background "#374752" :foreground "gray15"))))
- '(diff-hl-delete ((t (:background "#4C4638" :foreground "gray15"))))
- '(diff-hl-insert ((t (:background "#384C38" :foreground "gray15"))))
- '(neo-dir-link-face ((t (:inherit bold :foreground "CadetBlue3"))))
- '(neo-vc-added-face ((t (:foreground "#629755"))))
- '(neo-vc-conflict-face ((t (:foreground "#D5756C"))))
- '(neo-vc-default-face ((t (:foreground "dark gray"))))
- '(neo-vc-edited-face ((t (:foreground "#6897BB"))))
- '(neo-vc-ignored-face ((t (:foreground "#848504"))))
- '(neo-vc-removed-face ((t (:foreground "#6C6C6C"))))
- '(neo-vc-unregistered-face ((t (:foreground "#D1675A"))) t)
- '(neo-vc-up-to-date-face ((t (:foreground "dark gray")))))
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(diff-hl-draw-borders nil)
- '(diff-hl-margin-mode nil)
- '(display-time-24hr-format t)
- '(display-time-mode t)
- '(evil-want-Y-yank-to-eol t)
- '(evil-want-change-word-to-end t)
- '(flycheck-flake8-maximum-line-length 100)
- '(flycheck-python-flake8-executable "python3")
- '(flyspell-default-dictionary "english")
- '(global-diff-hl-mode t)
- '(global-eldoc-mode t)
- '(global-flycheck-mode t)
- '(imenu-auto-rescan t)
- '(imenu-list-auto-resize nil)
- '(imenu-list-position (quote left))
- '(imenu-list-size 0.2)
- '(neo-auto-indent-point t)
- '(neo-autorefresh nil)
- '(neo-banner-message "Press ? for neotree help")
- '(neo-create-file-auto-open t)
- '(neo-keymap-style (quote default))
- '(neo-reset-size-on-open nil)
- '(neo-show-hidden-files t)
- '(neo-show-updir-line nil)
- '(neo-smart-open t)
- '(neo-theme (quote arrow))
- '(neo-vc-integration (quote (face)))
- '(neo-window-fixed-size t)
- '(package-selected-packages
-   (quote
-    (company-auctex auctex format-sql sql-indent disaster company-c-headers cmake-mode clang-format engine-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data vimrc-mode dactyl-mode vmd-mode imenu-list csv-mode zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme let-alist yaml-mode all-the-icons memoize yapfify xterm-color unfill smeargle shell-pop pyvenv pytest pyenv-mode py-isort py-autopep8 pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit-gitflow live-py-mode hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub treepy graphql with-editor eshell-z eshell-prompt-extras esh-help diff-hl cython-mode company-statistics company-anaconda company auto-yasnippet yasnippet auto-dictionary anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
- '(popwin:popup-window-position (quote right))
- '(py-autopep8-options (quote ("--max-line-length=99")))
- '(python-shell-completion-native-enable nil)
- '(truncate-lines t)
- '(xterm-mouse-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(diff-hl-change ((t (:background "#374752" :foreground "gray15"))))
- '(diff-hl-delete ((t (:background "#4C4638" :foreground "gray15"))))
- '(diff-hl-insert ((t (:background "#384C38" :foreground "gray15"))))
- '(neo-dir-link-face ((t (:inherit bold :foreground "CadetBlue3"))))
- '(neo-vc-added-face ((t (:foreground "#629755"))))
- '(neo-vc-conflict-face ((t (:foreground "#D5756C"))))
- '(neo-vc-default-face ((t (:foreground "dark gray"))))
- '(neo-vc-edited-face ((t (:foreground "#6897BB"))))
- '(neo-vc-ignored-face ((t (:foreground "#848504"))))
- '(neo-vc-removed-face ((t (:foreground "#6C6C6C"))))
- '(neo-vc-unregistered-face ((t (:foreground "#D1675A"))) t)
- '(neo-vc-up-to-date-face ((t (:foreground "dark gray")))))
-)
+(setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
+(load custom-file 'no-error 'no-message)
