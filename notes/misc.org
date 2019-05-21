@@ -157,3 +157,9 @@
      r = requests.post('http://httpbin.org/post', data=m,
 		       headers={'Content-Type': m.content_type})
    #+end_src
+*** json
+    - [[https://codeyarns.com/2017/02/22/python-json-dump-misses-last-newline/][dump with new lines]]
+    #+begin_src python
+      json.dump(json_data, open("foobar.json", "w"), indent=4)
+    #+end_src
+    stud
