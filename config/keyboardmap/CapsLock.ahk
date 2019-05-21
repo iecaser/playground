@@ -10,11 +10,6 @@ LCtrl & h::
   return
 #IfWinNotActive
 
-#IfWinActive, ahk_exe chrome.exe
-LCtrl & s:: Send, ^f
-; LCtrl & f:: Send, ^s
-#IfWinActive
-
 ;=====================================================================o
 ;                   Feng Ruohang's AHK Script                         | 
 ;                      CapsLock Enhancement                           |
