@@ -62,6 +62,7 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(
+                                      (helm-swoop :location (recipe :fetcher github :repo "ashiklom/helm-swoop"))
                                       py-autopep8
                                       )
    ;; A list of packages that cannot be updated.
@@ -343,38 +344,58 @@ you should place your code here."
         (abbreviate-file-name (buffer-file-name))
       (powerline-buffer-id)))
 
-  ;; vim like
-  (progn
-    (spacemacs|define-transient-state my-evil-numbers
-      :title "Evil Numbers Transient State, powered by zxf"
-      :doc
-      "\n[_C-a_] increase number  [_C-x_] decrease  [0..9] prefix  [_q_] quit"
-      :bindings
-      ("C-a" evil-numbers/inc-at-pt)
-      ("C-x" evil-numbers/dec-at-pt)
-      ("q" nil :exit t))
-    (evil-define-key 'normal global-map (kbd "C-a") 'spacemacs/my-evil-numbers-transient-state/evil-numbers/inc-at-pt)
-    (evil-define-key 'normal global-map (kbd "C-x C-x") 'spacemacs/my-evil-numbers-transient-state/evil-numbers/dec-at-pt)
-    )
-  ;; my func
-  (setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
-  (defun my-evil-ctrl-u ()
-    (interactive)
-    (if (looking-back "^" 0)
-        (backward-delete-char 1)
-      (if (looking-back "^\s*" 0)
-          (delete-region (point) (line-beginning-position))
-        (evil-delete (+ (line-beginning-position) (current-indentation)) (point)))))
-  (modify-syntax-entry ?_ "w")
   (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
   (add-hook 'prog-mode-hook #'yas-minor-mode)
-  ;; (setq-default evil-escape-key-sequence "kj")
-  (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
-  (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
-  (define-key evil-normal-state-map (kbd "C-s") #'helm-swoop)
-  (define-key evil-normal-state-map (kbd "C-;") #'spacemacs/comment-or-uncomment-lines)
-  (define-key evil-normal-state-map (kbd "<SPC> bl") #'ibuffer-list-buffers)
-  (define-key evil-insert-state-map (kbd "C-h") #'evil-delete-backward-char)
+  (with-eval-after-load 'evil
+    ;; (setq-default evil-escape-key-sequence "kj")
+    (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
+    (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
+    ;; helm swoop
+    (define-key evil-normal-state-map (kbd "C-s") 'helm-swoop)
+    ;; (define-key evil-motion-state-map (kbd "M-i") 'helm-swoop-from-evil-search)
+    (define-key evil-normal-state-map (kbd "C-;") #'spacemacs/comment-or-uncomment-lines)
+    (setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
+    (defun my-ibuffer-list-buffers()
+      (interactive)
+      (ibuffer-list-buffers)
+      (other-window 1)
+      )
+    (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
+    (define-key evil-insert-state-map (kbd "C-h") #'evil-delete-backward-char)
+    ;; vim like
+    (progn
+      (spacemacs|define-transient-state my-evil-numbers
+        :title "Evil Numbers Transient State, powered by zxf"
+        :doc
+        "\n[_C-a_] increase number  [_C-x_] decrease  [0..9] prefix  [_q_] quit"
+        :bindings
+        ("C-a" evil-numbers/inc-at-pt)
+        ("C-x" evil-numbers/dec-at-pt)
+        ("q" nil :exit t))
+      (evil-define-key 'normal global-map (kbd "C-a") 'spacemacs/my-evil-numbers-transient-state/evil-numbers/inc-at-pt)
+      (evil-define-key 'normal global-map (kbd "C-x C-x") 'spacemacs/my-evil-numbers-transient-state/evil-numbers/dec-at-pt)
+      )
+    ;; my func
+    (defun my-evil-ctrl-u ()
+      (interactive)
+      (if (looking-back "^" 0)
+          (backward-delete-char 1)
+        (if (looking-back "^\s*" 0)
+            (delete-region (point) (line-beginning-position))
+          (evil-delete (+ (line-beginning-position) (current-indentation)) (point)))))
+    (modify-syntax-entry ?_ "w")
+    ;; simulate c-u in vim insert mode behavior
+    (define-key evil-insert-state-map (kbd "C-u") 'my-evil-ctrl-u)
+    ;; vim-defalut window move
+    (define-key evil-motion-state-map (kbd "C-w C-j") #'evil-window-down)
+    (define-key evil-motion-state-map (kbd "C-w C-k") #'evil-window-up)
+    (define-key evil-motion-state-map (kbd "C-w C-h") #'evil-window-left)
+    (define-key evil-motion-state-map (kbd "C-w C-l") #'evil-window-right)
+    (define-key evil-motion-state-map (kbd "C-w C-w") #'evil-window-next)
+    )
+  (with-eval-after-load 'helm-swoop
+    (define-key helm-swoop-map (kbd "C-s") 'helm-multi-swoop-all-from-helm-swoop)
+    )
   (with-eval-after-load 'company
     (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
     (define-key company-active-map (kbd "C-h") 'evil-delete-backward-char)
@@ -390,14 +411,6 @@ you should place your code here."
     (define-key helm-map (kbd "C-u") 'my-evil-ctrl-u)
     (define-key helm-find-files-map (kbd "C-u") 'my-evil-ctrl-u)
     )
-  ;; simulate c-u in vim insert mode behavior
-  (define-key evil-insert-state-map (kbd "C-u") 'my-evil-ctrl-u)
-  ;; vim-defalut window move
-  (define-key evil-motion-state-map (kbd "C-w C-j") #'evil-window-down)
-  (define-key evil-motion-state-map (kbd "C-w C-k") #'evil-window-up)
-  (define-key evil-motion-state-map (kbd "C-w C-h") #'evil-window-left)
-  (define-key evil-motion-state-map (kbd "C-w C-l") #'evil-window-right)
-  (define-key evil-motion-state-map (kbd "C-w C-w") #'evil-window-next)
   (with-eval-after-load 'flycheck-error-list
     (define-key flycheck-error-list-mode-map (kbd "C-w C-j") #'evil-window-down)
     (define-key flycheck-error-list-mode-map (kbd "C-w C-k") #'evil-window-up)
