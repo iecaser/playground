@@ -1,10 +1,8 @@
-# my own config
-ZSH_THEME="random"
-
+# MY CONFIG START #####################################################################
 # emacs
 function run_emacs
 {
-	emacsclient "$1" &
+	  emacsclient "$1"
 }
 export EDITOR=emacsclient
 export ALTERNATE_EDITOR=emacs
@@ -12,7 +10,6 @@ alias emacs="run_emacs"
 alias edit="run_emacs"
 
 export TERM=xterm-256color
-j
 # fix terminal key bugs
 bindkey  "^[[1~"   beginning-of-line
 bindkey  "^[[4~"   end-of-line
@@ -23,3 +20,4 @@ alias dog="watch -n 1 -d"
 alias ta="tmux a"
 alias tn="tmux new"
 alias tm="tmux attach || tmux new"
+# MY CONFIG END #####################################################################

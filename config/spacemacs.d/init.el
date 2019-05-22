@@ -332,13 +332,6 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; powerline
-  (setq display-time-24hr-format t)
-  (setq display-time-format "%H:%M:%S")        ; add seconds
-  (setq display-time-interval 1)               ; update every second
-  (setq display-time-default-load-average nil) ; don't show load average
-  (setq display-time-mail-string "")           ; don't show mail
-  (display-time-mode 1)                 ; show time in mode line on startup
   (spaceline-define-segment buffer-id
     (if (buffer-file-name)
         (abbreviate-file-name (buffer-file-name))
@@ -347,6 +340,8 @@ you should place your code here."
   (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
   (add-hook 'prog-mode-hook #'yas-minor-mode)
   (with-eval-after-load 'evil
+    ;; evil
+    (setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
     ;; (setq-default evil-escape-key-sequence "kj")
     (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
     (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
@@ -354,7 +349,6 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "C-s") 'helm-swoop)
     ;; (define-key evil-motion-state-map (kbd "M-i") 'helm-swoop-from-evil-search)
     (define-key evil-normal-state-map (kbd "C-;") #'spacemacs/comment-or-uncomment-lines)
-    (setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
     (defun my-ibuffer-list-buffers()
       (interactive)
       (ibuffer-list-buffers)
@@ -431,15 +425,7 @@ you should place your code here."
   (require 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
-  ;; bibtex
-  (setq bibtex-completion-bibliography
-        '("~/workspace/playground/learn/latex/bib.bib"
-          ))
-  (setq org-ref-default-bibliography '("~/workspace/playground/learn/latex/bib.bib")
-        org-ref-pdf-directory "~/papers/"
-        org-ref-bibliography-notes "~/papers/notes.org")
   )
-
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
 (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
