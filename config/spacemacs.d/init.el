@@ -344,7 +344,20 @@ you should place your code here."
       (powerline-buffer-id)))
 
   ;; vim like
+  (progn
+    (spacemacs|define-transient-state my-evil-numbers
+      :title "Evil Numbers Transient State, powered by zxf"
+      :doc
+      "\n[_C-a_] increase number  [_C-x_] decrease  [0..9] prefix  [_q_] quit"
+      :bindings
+      ("C-a" evil-numbers/inc-at-pt)
+      ("C-x" evil-numbers/dec-at-pt)
+      ("q" nil :exit t))
+    (evil-define-key 'normal global-map (kbd "C-a") 'spacemacs/my-evil-numbers-transient-state/evil-numbers/inc-at-pt)
+    (evil-define-key 'normal global-map (kbd "C-x C-x") 'spacemacs/my-evil-numbers-transient-state/evil-numbers/dec-at-pt)
+    )
   ;; my func
+  (setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
   (defun my-evil-ctrl-u ()
     (interactive)
     (if (looking-back "^" 0)
@@ -360,14 +373,7 @@ you should place your code here."
   (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
   (define-key evil-normal-state-map (kbd "C-s") #'helm-swoop)
   (define-key evil-normal-state-map (kbd "C-;") #'spacemacs/comment-or-uncomment-lines)
-  (evil-define-key 'normal global-map (kbd "C-a") 'spacemacs/evil-numbers-transient-state/evil-numbers/inc-at-pt)
-  (evil-define-key 'normal global-map (kbd "C-x C-x") 'spacemacs/evil-numbers-transient-state/evil-numbers/dec-at-pt)
-  (define-key spacemacs/evil-numbers-transient-state/keymap (kbd "C-a") 'evil-numbers/inc-at-pt)
-  (define-key spacemacs/evil-numbers-transient-state/keymap (kbd "C-x") 'evil-numbers/dec-at-pt)
-  ;; (define-key evil-normal-state-map (kbd "C-x b") #'electric-buffer-list)
-  (define-key evil-normal-state-map (kbd "<SPC> bl") #'electric-buffer-list)
-;;  (define-key evil-normal-state-map (kbd "+") #'evil-numbers/inc-at-pt)
-;;  (define-key evil-normal-state-map (kbd "-") #'evil-numbers/dec-at-pt)
+  (define-key evil-normal-state-map (kbd "<SPC> bl") #'ibuffer-list-buffers)
   (define-key evil-insert-state-map (kbd "C-h") #'evil-delete-backward-char)
   (with-eval-after-load 'company
     (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
