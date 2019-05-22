@@ -346,6 +346,7 @@ you should place your code here."
     ;; (setq-default evil-escape-key-sequence "kj")
     (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
     (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
+    (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-this-buffer)
     ;; helm swoop
     (define-key evil-normal-state-map (kbd "C-s") 'helm-swoop)
     ;; (define-key evil-motion-state-map (kbd "M-i") 'helm-swoop-from-evil-search)
