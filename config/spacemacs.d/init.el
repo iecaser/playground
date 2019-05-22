@@ -305,6 +305,8 @@ values."
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
+   ;; show file path in title bar
+   dotspacemacs-frame-title-format "%f"
    ))
 
 (defun dotspacemacs/user-init ()
@@ -336,6 +338,10 @@ you should place your code here."
   (setq display-time-default-load-average nil) ; don't show load average
   (setq display-time-mail-string "")           ; don't show mail
   (display-time-mode 1)                 ; show time in mode line on startup
+  (spaceline-define-segment buffer-id
+    (if (buffer-file-name)
+        (abbreviate-file-name (buffer-file-name))
+      (powerline-buffer-id)))
 
   ;; vim like
   ;; my func
@@ -353,6 +359,12 @@ you should place your code here."
   (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
   (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
   (define-key evil-normal-state-map (kbd "C-s") #'helm-swoop)
+  (define-key evil-normal-state-map (kbd "C-;") #'spacemacs/comment-or-uncomment-lines)
+  (evil-define-key 'normal global-map (kbd "<SPC>=") 'spacemacs/evil-numbers-transient-state/evil-numbers/inc-at-pt)
+  (evil-define-key 'normal global-map (kbd "<SPC>+") 'spacemacs/evil-numbers-transient-state/evil-numbers/inc-at-pt)
+  (evil-define-key 'normal global-map (kbd "<SPC>-") 'spacemacs/evil-numbers-transient-state/evil-numbers/dec-at-pt)
+  ;; (define-key evil-normal-state-map (kbd "C-x b") #'electric-buffer-list)
+  (define-key evil-normal-state-map (kbd "<SPC> bl") #'electric-buffer-list)
 ;;  (define-key evil-normal-state-map (kbd "+") #'evil-numbers/inc-at-pt)
 ;;  (define-key evil-normal-state-map (kbd "-") #'evil-numbers/dec-at-pt)
   (define-key evil-insert-state-map (kbd "C-h") #'evil-delete-backward-char)
