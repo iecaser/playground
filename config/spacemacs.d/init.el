@@ -45,7 +45,7 @@ values."
      org
      spell-checking
      syntax-checking
-     '(version-control :variables
+     (version-control :variables
                        version-control-diff-tool 'diff-hl
                        version-control-diff-side 'left
                        version-control-global-margin t)
@@ -54,15 +54,15 @@ values."
      bibtex
      (latex :variables
             latex-build-command "LaTeX")
-     (colors :variables colors-enable-nyan-cat-progress-bar t)
+     (colors :variables
+             colors-enable-nyan-cat-progress-bar t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(all-the-icons
+   dotspacemacs-additional-packages '(
                                       py-autopep8
-                                      2048-game
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -70,6 +70,8 @@ values."
    dotspacemacs-excluded-packages '(evil-escape
                                     avy
                                     yapfify
+                                    neotree
+                                    all-the-icons
                                     )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -145,7 +147,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("DejaVu Sans Mono"
-                               :size 20
+                               :size 18
                                :weight normal
                                :width normal
                                :powerline-scale 1)
@@ -377,24 +379,6 @@ you should place your code here."
   (define-key evil-motion-state-map (kbd "C-w C-h") #'evil-window-left)
   (define-key evil-motion-state-map (kbd "C-w C-l") #'evil-window-right)
   (define-key evil-motion-state-map (kbd "C-w C-w") #'evil-window-next)
-  ;; neotree
-  (setq neo-banner-message nil)
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-  (setq neo-vc-integration '(face))
-  (with-eval-after-load 'neotree
-    (define-key neotree-mode-map (kbd "C-w C-j") #'evil-window-down)
-    (define-key neotree-mode-map (kbd "C-w C-k") #'evil-window-up)
-    (define-key neotree-mode-map (kbd "C-w C-h") #'evil-window-left)
-    (define-key neotree-mode-map (kbd "C-w C-l") #'evil-window-right)
-    (define-key neotree-mode-map (kbd "C-w C-w") #'evil-window-next)
-    )
-  (with-eval-after-load 'imenu-list
-    (define-key imenu-list-major-mode-map (kbd "C-w C-j") #'evil-window-down)
-    (define-key imenu-list-major-mode-map (kbd "C-w C-k") #'evil-window-up)
-    (define-key imenu-list-major-mode-map (kbd "C-w C-h") #'evil-window-left)
-    (define-key imenu-list-major-mode-map (kbd "C-w C-l") #'evil-window-right)
-    (define-key imenu-list-major-mode-map (kbd "C-w C-w") #'evil-window-next)
-    )
   (with-eval-after-load 'flycheck-error-list
     (define-key flycheck-error-list-mode-map (kbd "C-w C-j") #'evil-window-down)
     (define-key flycheck-error-list-mode-map (kbd "C-w C-k") #'evil-window-up)
@@ -409,11 +393,6 @@ you should place your code here."
   (require 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
-  ;; hightlight indentation
-  (require 'highlight-indentation)
-  (setq highlight-indentation-blank-lines t)
-  (set-face-background 'highlight-indentation-face "color-236")
-  (set-face-background 'highlight-indentation-current-column-face "color-237")
   ;; bibtex
   (setq bibtex-completion-bibliography
         '("~/workspace/playground/learn/latex/bib.bib"
