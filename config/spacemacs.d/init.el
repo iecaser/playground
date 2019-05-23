@@ -60,6 +60,8 @@ values."
             )
      python
      bibtex
+     ;; https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Bweb-services/search-engine#key-bindings
+     search-engine
      (latex :variables
             latex-build-command "LaTeX")
      (colors :variables
@@ -345,19 +347,28 @@ you should place your code here."
         (abbreviate-file-name (buffer-file-name))
       (powerline-buffer-id)))
 
+  ;; org
+  (when (version<= "9.2" (org-version))
+    (require 'org-tempo))
   (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
-  (add-hook 'prog-mode-hook #'yas-minor-mode)
+  (add-hook 'prog-mode-hook 'yas-minor-mode)
+  (with-eval-after-load 'yasnippet
+    (define-key yas-minor-mode-map (kbd "<tab>") nil)
+    (define-key yas-minor-mode-map (kbd "TAB") nil)
+    (define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
+    )
   (with-eval-after-load 'evil
     ;; evil
     (setq evil-emacs-state-modes (delq 'ibuffer-mode  evil-emacs-state-modes))
     (setq evil-emacs-state-modes (delq 'proced-mode  evil-emacs-state-modes))
+    (setq evil-emacs-state-modes (delq 'spacemacs-buffer-mode  evil-emacs-state-modes))
     ;; (setq-default evil-escape-key-sequence "kj")
     (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
     (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
     (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-this-buffer)
     ;; helm swoop
-    (define-key evil-normal-state-map (kbd "C-s") 'helm-swoop)
-    ;; (define-key evil-motion-state-map (kbd "M-i") 'helm-swoop-from-evil-search)
+    (define-key evil-normal-state-map (kbd "C-s") #'helm-swoop)
+    (define-key evil-motion-state-map (kbd "C-s") #'helm-swoop-from-evil-search) ; but didn't work
     (define-key evil-normal-state-map (kbd "C-;") #'spacemacs/comment-or-uncomment-lines)
     (defun my-ibuffer-list-buffers()
       (interactive)
@@ -368,10 +379,14 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "<SPC> /") 'spacemacs/helm-files-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ps") 'spacemacs/helm-project-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ds") 'spacemacs/helm-dir-smart-do-search)
+    (define-key evil-insert-state-map (kbd "C-h") #'evil-delete-backward-char)
     (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file-in-known-projects)
     (define-key evil-normal-state-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-switch-project)
-    (define-key evil-insert-state-map (kbd "C-h") #'evil-delete-backward-char)
+    ;; for home page
+    (define-key spacemacs-buffer-mode-map (kbd "C-f") 'helm-projectile-find-file-in-known-projects)
+    (define-key spacemacs-buffer-mode-map (kbd "C-b") 'lazy-helm/helm-mini)
+    (define-key spacemacs-buffer-mode-map (kbd "C-p") 'helm-projectile-switch-project)
     ;; vim like
     (progn
       (spacemacs|define-transient-state my-evil-numbers
