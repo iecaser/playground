@@ -135,12 +135,14 @@ bindkey  "^[[1~"   beginning-of-line
 bindkey  "^[[4~"   end-of-line
 
 # useful alias
+alias vim="nvim"
 alias ll="ls -ahl"
 alias dog="watch -n 1 -d"
 alias ta="tmux a"
 alias tn="tmux new"
 alias tm="tmux attach || tmux new"
-function run_vlc{
+function run_vlc
+{
     vlc -I dummy --width=600 --height=480 --video-x=100 --video-y=100 --no-video-deco --no-embedded-video $1 &
 }
 alias vlc="run_vlc"

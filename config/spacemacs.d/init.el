@@ -50,6 +50,14 @@ values."
                        version-control-diff-side 'left
                        version-control-global-margin t)
      csv
+     (shell :variables
+            shell-default-position 'bottom
+            shell-default-height 45
+            shell-default-term-shell "/usr/bin/zsh"
+            shell-default-full-span t
+            ;; shell-default-shell 'multi-term
+            shell-default-shell 'shell
+            )
      python
      bibtex
      (latex :variables
@@ -61,10 +69,8 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(
-                                      (helm-swoop :location (recipe :fetcher github :repo "ashiklom/helm-swoop"))
-                                      py-autopep8
-                                      )
+   dotspacemacs-additional-packages '((helm-swoop :location (recipe :fetcher github :repo "ashiklom/helm-swoop"))
+                                      py-autopep8)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -333,6 +339,7 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  ;; show file full path
   (spaceline-define-segment buffer-id
     (if (buffer-file-name)
         (abbreviate-file-name (buffer-file-name))
@@ -342,7 +349,8 @@ you should place your code here."
   (add-hook 'prog-mode-hook #'yas-minor-mode)
   (with-eval-after-load 'evil
     ;; evil
-    (setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
+    (setq evil-emacs-state-modes (delq 'ibuffer-mode  evil-emacs-state-modes))
+    (setq evil-emacs-state-modes (delq 'proced-mode  evil-emacs-state-modes))
     ;; (setq-default evil-escape-key-sequence "kj")
     (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
     (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
@@ -427,6 +435,12 @@ you should place your code here."
   (require 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
+  ;; proced
+  (evil-define-key 'normal proced-mode-map (kbd "d") 'proced-mark)
+  (evil-define-key 'normal proced-mode-map (kbd "m") 'proced-mark)
+  (evil-define-key 'normal proced-mode-map (kbd "x") 'proced-send-signal)
+  (evil-define-key 'normal proced-mode-map (kbd "u") 'proced-unmark)
+  (evil-define-key 'normal proced-mode-map (kbd "q") 'quit-window)
   )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
