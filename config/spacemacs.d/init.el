@@ -341,12 +341,6 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; show file full path
-  (spaceline-define-segment buffer-id
-    (if (buffer-file-name)
-        (abbreviate-file-name (buffer-file-name))
-      (powerline-buffer-id)))
-
   ;; org
   (when (version<= "9.2" (org-version))
     (require 'org-tempo))
@@ -362,7 +356,6 @@ you should place your code here."
     (setq evil-emacs-state-modes (delq 'ibuffer-mode  evil-emacs-state-modes))
     (setq evil-emacs-state-modes (delq 'proced-mode  evil-emacs-state-modes))
     (setq evil-emacs-state-modes (delq 'spacemacs-buffer-mode  evil-emacs-state-modes))
-    ;; (setq-default evil-escape-key-sequence "kj")
     (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
     (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
     (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-this-buffer)
