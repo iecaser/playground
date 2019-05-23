@@ -367,6 +367,10 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
     (define-key evil-normal-state-map (kbd "<SPC> /") 'spacemacs/helm-files-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ps") 'spacemacs/helm-project-smart-do-search)
+    (define-key evil-normal-state-map (kbd "<SPC> ds") 'spacemacs/helm-dir-smart-do-search)
+    (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file-in-known-projects)
+    (define-key evil-normal-state-map (kbd "C-b") 'lazy-helm/helm-mini)
+    (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-switch-project)
     (define-key evil-insert-state-map (kbd "C-h") #'evil-delete-backward-char)
     ;; vim like
     (progn
