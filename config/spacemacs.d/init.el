@@ -55,7 +55,6 @@ values."
             shell-default-height 45
             shell-default-term-shell "/usr/bin/zsh"
             shell-default-full-span t
-            ;; shell-default-shell 'multi-term
             shell-default-shell 'shell
             )
      python
@@ -64,7 +63,9 @@ values."
      search-engine
      (latex :variables
             latex-build-command "LaTeX")
-     colors
+     (colors :variables
+             ;; colors-colorize-identifiers 'all
+             colors-enable-nyan-cat-progress-bar t)
      docker
      )
    ;; List of additional packages that will be installed without being
@@ -72,7 +73,7 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '((helm-swoop :location (recipe :fetcher github :repo "ashiklom/helm-swoop"))
-                                      all-the-icons
+                                      parrot
                                       py-autopep8)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -80,8 +81,7 @@ values."
    dotspacemacs-excluded-packages '(evil-escape
                                     avy
                                     yapfify
-                                    neotree
-                                    )
+                                    neotree)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -149,16 +149,18 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(sanityinc-tomorrow-eighties
-                         material
-                         spacemacs-dark)
+   dotspacemacs-themes '(doom-vibrant
+                         doom-tomorrow-night)
    ;; Chose one from followings
    ;; 'spacemacs 'all-the-icons 'vim-powerline 'vanilla
-   dotspacemacs-mode-line-theme 'spacemacs
+   ;; dotspacemacs-mode-line-theme 'vanilla
+   dotspacemacs-mode-line-theme 'all-the-icons
+   ;; dotspacemacs-mode-line-theme 'doom
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
+   ;; "DejaVu Sans Mono"
    dotspacemacs-default-font '("DejaVu Sans Mono"
                                :size 18
                                :weight normal
@@ -268,7 +270,7 @@ values."
    ;; If non nil show the color guide hint for transient state keys. (default t)
    dotspacemacs-show-transient-state-color-guide t
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
-   dotspacemacs-mode-line-unicode-symbols nil
+   dotspacemacs-mode-line-unicode-symbols t
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
@@ -344,24 +346,27 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (spaceline-all-the-icons--setup-anzu)            ;; Enable anzu searching
+  (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
+  (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
+  (spaceline-all-the-icons--setup-paradox)         ;; Enable Paradox mode line
+  (spaceline-all-the-icons--setup-neotree)         ;; Enable Neotree mode line
+  (nyan-mode)
+  (parrot-mode)
+  (doom-themes-visual-bell-config)
+  (doom-themes-treemacs-config)
+  (doom-themes-org-config)
   ;; powerline
   ;; show file full path
   ;; powerline theme
-  (add-hook 'after-make-frame-functions
-    (lambda ()
-      (if window-system
-          (progn
-        (setq dotspacemacs-mode-line-theme 'all-the-icons)
-        (setq dotspacemacs-mode-line-unicode-symbols t)
-        (setq colors-enable-nyan-cat-progress-bar t)
-        )
-        ;; I use title to show full path in GUI mode
-        ;; show full path in modeline if in xshell
-        (spaceline-define-segment buffer-id
-          (if (buffer-file-name)
-              (abbreviate-file-name (buffer-file-name))
-            (powerline-buffer-id)))
-        )))
+  (if window-system
+    (toggle-menu-bar-mode-from-frame)
+    ;; I use title to show full path in GUI mode
+    ;; show full path in modeline if in xshell
+    (spaceline-define-segment buffer-id
+      (if (buffer-file-name)
+        (abbreviate-file-name (buffer-file-name))
+        (powerline-buffer-id))))
   ;; org
   (when (version<= "9.2" (org-version))
     (require 'org-tempo))
@@ -392,15 +397,16 @@ you should place your code here."
     ;; C-q C-backspace to insert the ^? (not actually question mark)
     (define-key key-translation-map (kbd "C-h") "")
     (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file-in-known-projects)
-    (define-key evil-normal-state-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-switch-project)
     (define-key spacemacs-buffer-mode-map (kbd "C-f") 'helm-projectile-find-file-in-known-projects)
-    (define-key spacemacs-buffer-mode-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key spacemacs-buffer-mode-map (kbd "C-p") 'helm-projectile-switch-project)
     (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
     (define-key evil-normal-state-map (kbd "<SPC> /") 'spacemacs/helm-files-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ps") 'spacemacs/helm-project-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ds") 'spacemacs/helm-dir-smart-do-search)
+    ;; parrot
+    (define-key evil-normal-state-map (kbd "[r") 'parrot-rotate-prev-word-at-point)
+    (define-key evil-normal-state-map (kbd "]r") 'parrot-rotate-next-word-at-point)
     ;; docker
     (define-key evil-normal-state-map (kbd "<SPC> Dc") 'docker-containers)
     (define-key evil-normal-state-map (kbd "<SPC> DC") 'docker-Compose)
@@ -498,7 +504,7 @@ you should place your code here."
     (define-key flycheck-error-list-mode-map (kbd "C-w C-w") #'evil-window-next)
     )
 
-  ;; dired
+  ;; direr
   (put 'dired-find-alternate-file 'disabled nil)
   (with-eval-after-load 'dired
     (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))

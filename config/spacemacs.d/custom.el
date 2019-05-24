@@ -5,7 +5,6 @@
  ;; If there is more than one, they won't work right.
  '(bibtex-completion-bibliography (quote ("~/workspace/playground/learn/latex/bib.bib")))
  '(display-time-24hr-format t)
- '(menu-bar-mode t)
  '(display-time-default-load-average nil)
  '(display-time-format "%H:%M:%S")
  '(display-time-interval 1)
