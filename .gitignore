@@ -21,3 +21,5 @@ learn/latex/
 learn/tf/tfserv/
 *~
 *.spacemacs.env
+/learn/tf/9.curltest.py
+/learn/tf/9987.rest
