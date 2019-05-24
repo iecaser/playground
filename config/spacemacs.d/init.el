@@ -62,8 +62,8 @@ values."
      bibtex
      (latex :variables
             latex-build-command "LaTeX")
-     (colors :variables
-             colors-enable-nyan-cat-progress-bar t)
+     colors
+     docker
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -78,7 +78,6 @@ values."
                                     avy
                                     yapfify
                                     neotree
-                                    all-the-icons
                                     )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -150,6 +149,9 @@ values."
    dotspacemacs-themes '(sanityinc-tomorrow-eighties
                          material
                          spacemacs-dark)
+   ;; Chose one from followings
+   ;; 'spacemacs 'all-the-icons 'vim-powerline 'vanilla
+   dotspacemacs-mode-line-theme 'spacemacs
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -339,11 +341,19 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  ;; powerline
   ;; show file full path
   (spaceline-define-segment buffer-id
     (if (buffer-file-name)
         (abbreviate-file-name (buffer-file-name))
       (powerline-buffer-id)))
+  ;; powerline theme
+  (add-hook 'after-make-frame-functions
+    (lambda ()
+      (if window-system
+        (setq dotspacemacs-mode-line-theme 'all-the-icons)
+        (setq dotspacemacs-mode-line-unicode-symbols t)
+        (setq colors-enable-nyan-cat-progress-bar t))))
 
   (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
   (add-hook 'prog-mode-hook #'yas-minor-mode)
@@ -372,6 +382,50 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-switch-project)
     (define-key evil-insert-state-map (kbd "C-h") #'evil-delete-backward-char)
+    ;; docker
+    (define-key evil-normal-state-map (kbd "<SPC> Dc") 'docker-containers)
+    (define-key evil-normal-state-map (kbd "<SPC> DC") 'docker-Compose)
+    (define-key evil-normal-state-map (kbd "<SPC> Df") 'docker-container-find-file)
+    (define-key evil-normal-state-map (kbd "<SPC> DF") 'docker-pull)
+    (define-key evil-normal-state-map (kbd "<SPC> Di") 'docker-images)
+    (define-key evil-normal-state-map (kbd "<SPC> Ds") 'docker-start)
+    (define-key evil-normal-state-map (kbd "<SPC> Do") 'docker-stop)
+    (define-key evil-normal-state-map (kbd "<SPC> Dp") 'docker-pause)
+    (define-key evil-normal-state-map (kbd "<SPC> DP") 'docker-push)
+    (define-key evil-normal-state-map (kbd "<SPC> Dr") 'docker-restart)
+    (define-key evil-normal-state-map (kbd "<SPC> DR") 'docker-rename)
+    ;; docker contianer
+    (evil-define-key 'normal docker-container-mode-map (kbd "a") 'docker-container-attach-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "b") 'docker-container-shell-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "C") 'docker-container-cp-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "d") 'docker-container-diff-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "D") 'docker-container-rm-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "f") 'docker-container-find-file-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "I") 'docker-container-inspect-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "K") 'docker-container-kill-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "l") 'docker-container-ls-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "L") 'docker-container-logs-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "m") 'tablist-mark-forward)
+    (evil-define-key 'normal docker-container-mode-map (kbd "o") 'docker-container-stop-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "p") 'docker-container-pause-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "q") 'tablist-quit)
+    (evil-define-key 'normal docker-container-mode-map (kbd "r") 'docker-container-restart-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "R") 'docker-container-rename-selection)
+    (evil-define-key 'normal docker-container-mode-map (kbd "s") 'docker-container-start-popup)
+    (evil-define-key 'normal docker-container-mode-map (kbd "u") 'tablist-unmark-forward)
+    (evil-define-key 'normal docker-container-mode-map (kbd "?") 'docker-container-help-popup)
+    ;; docker image
+    (evil-define-key 'normal docker-image-mode-map (kbd "D") 'docker-image-rm-popup)
+    (evil-define-key 'normal docker-image-mode-map (kbd "F") 'docker-image-pull-popup)
+    (evil-define-key 'normal docker-image-mode-map (kbd "I") 'docker-image-inspect-popup)
+    (evil-define-key 'normal docker-image-mode-map (kbd "l") 'docker-image-ls-popup)
+    (evil-define-key 'normal docker-image-mode-map (kbd "m") 'tablist-mark-forward)
+    (evil-define-key 'normal docker-image-mode-map (kbd "P") 'docker-image-push-popup)
+    (evil-define-key 'normal docker-image-mode-map (kbd "q") 'tablist-quit)
+    (evil-define-key 'normal docker-image-mode-map (kbd "R") 'docker-image-run-popup)
+    (evil-define-key 'normal docker-image-mode-map (kbd "T") 'docker-image-tag-selection)
+    (evil-define-key 'normal docker-image-mode-map (kbd "u") 'tablist-unmark-forward)
+    (evil-define-key 'normal docker-image-mode-map (kbd "?") 'docker-image-help-popup)
     ;; vim like
     (progn
       (spacemacs|define-transient-state my-evil-numbers
