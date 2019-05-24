@@ -72,6 +72,7 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '((helm-swoop :location (recipe :fetcher github :repo "ashiklom/helm-swoop"))
+                                      all-the-icons
                                       py-autopep8)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -267,7 +268,7 @@ values."
    ;; If non nil show the color guide hint for transient state keys. (default t)
    dotspacemacs-show-transient-state-color-guide t
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols nil
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
@@ -345,17 +346,22 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; powerline
   ;; show file full path
-  (spaceline-define-segment buffer-id
-    (if (buffer-file-name)
-        (abbreviate-file-name (buffer-file-name))
-      (powerline-buffer-id)))
   ;; powerline theme
   (add-hook 'after-make-frame-functions
     (lambda ()
       (if window-system
+          (progn
         (setq dotspacemacs-mode-line-theme 'all-the-icons)
         (setq dotspacemacs-mode-line-unicode-symbols t)
-        (setq colors-enable-nyan-cat-progress-bar t))))
+        (setq colors-enable-nyan-cat-progress-bar t)
+        )
+        ;; I use title to show full path in GUI mode
+        ;; show full path in modeline if in xshell
+        (spaceline-define-segment buffer-id
+          (if (buffer-file-name)
+              (abbreviate-file-name (buffer-file-name))
+            (powerline-buffer-id)))
+        )))
   ;; org
   (when (version<= "9.2" (org-version))
     (require 'org-tempo))
