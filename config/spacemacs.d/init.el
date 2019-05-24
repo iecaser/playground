@@ -152,6 +152,7 @@ values."
    ;; Chose one from followings
    ;; 'spacemacs 'all-the-icons 'vim-powerline 'vanilla
    dotspacemacs-mode-line-theme 'all-the-icons
+   ;; dotspacemacs-mode-line-theme 'vanilla
    ;; dotspacemacs-mode-line-theme 'doom
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t

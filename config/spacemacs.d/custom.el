@@ -15,7 +15,7 @@
  '(global-flycheck-mode t)
  '(menu-bar-mode t)
  '(multi-term-program "/usr/bin/zsh")
- '(nyan-bar-length 16)
+ '(nyan-bar-length 24)
  '(org-ref-bibliography-notes "~/papers/notes.org")
  '(org-ref-default-bibliography '("~/workspace/playground/learn/latex/bib.bib"))
  '(org-ref-pdf-directory "~/papers/")
