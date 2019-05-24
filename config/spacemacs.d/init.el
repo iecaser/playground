@@ -475,12 +475,8 @@ you should place your code here."
     )
   (with-eval-after-load 'company
     (define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
-    (define-key company-active-map (kbd "C-h") 'evil-delete-backward-char)
     )
   (with-eval-after-load 'helm
-    ;; C-h
-    (define-key helm-map (kbd "C-h") 'delete-backward-char)
-    (define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
     ;; C-w
     (define-key helm-map (kbd "C-w") 'evil-delete-backward-word)
     (define-key helm-find-files-map (kbd "C-w") 'evil-delete-backward-word)
