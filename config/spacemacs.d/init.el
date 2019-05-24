@@ -175,7 +175,7 @@ values."
    dotspacemacs-emacs-leader-key "M-m"
    ;; Major mode leader key is a shortcut key which is the equivalent of
    ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
-   dotspacemacs-major-mode-leader-key ","
+   dotspacemacs-major-mode-leader-key nil
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
    ;; (default "C-M-m")
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
@@ -386,6 +386,7 @@ you should place your code here."
     ;; C-q C-backspace to insert the ^? (not actually question mark)
     (define-key key-translation-map (kbd "C-h") "")
     (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file-in-known-projects)
+    (define-key evil-normal-state-map (kbd ",") 'evil-repeat-find-char-reverse)
     (define-key evil-normal-state-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-switch-project)
     (define-key spacemacs-buffer-mode-map (kbd "C-f") 'helm-projectile-find-file-in-known-projects)
