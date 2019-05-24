@@ -134,6 +134,14 @@
     #+end_src
     - Reference
       - [[https://stackoverflow.com/questions/9332802/how-to-write-a-bash-script-that-takes-optional-input-arguments][How to write a bash script that takes optional input arguments? - Stack Overflow]]
+*** apt install vim
+    #+BEGIN_SRC bash
+      apt-get update
+      apt-get install apt-file
+      apt-file update
+      apt-get install vim
+    #+END_SRC
+    
 * python
 ** package
 *** [[https://github.com/requests/toolbelt][requests-toolbelt]]
