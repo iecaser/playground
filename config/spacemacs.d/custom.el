@@ -28,6 +28,7 @@
  '(spaceline-all-the-icons-icon-set-sun-time 'sun/moon)
  '(spaceline-all-the-icons-icon-set-vc-icon-git 'github-logo)
  '(spaceline-all-the-icons-icon-set-window-numbering 'square)
+ '(spaceline-all-the-icons-separator-type 'cup)
  '(truncate-lines t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
