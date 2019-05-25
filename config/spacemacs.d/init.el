@@ -126,7 +126,7 @@ values."
    ;; (default 'vim)
    dotspacemacs-editing-style 'vim
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading t
+   dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
    ;; banner, `random' chooses a random text banner in `core/banners'
@@ -143,8 +143,7 @@ values."
    dotspacemacs-startup-lists '((todos . 5)
                                 (bookmarks . 5)
                                 (projects . 5)
-                                (recents . 5)
-                                (agenda . 5))
+                                (recents . 5))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
@@ -206,7 +205,7 @@ values."
    dotspacemacs-default-layout-name "Default"
    ;; If non nil the default layout name is displayed in the mode-line.
    ;; (default nil)
-   dotspacemacs-display-default-layout t
+   dotspacemacs-display-default-layout nil
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
    dotspacemacs-auto-resume-layouts t
@@ -376,9 +375,15 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
     (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-buffer-and-window)
     ;; helm swoop
-    (define-key evil-normal-state-map (kbd "C-s") #'helm-swoop)
-    (define-key evil-motion-state-map (kbd "C-s") #'helm-swoop-from-evil-search) ; but didn't work
-    (define-key evil-normal-state-map (kbd "C-;") #'spacemacs/comment-or-uncomment-lines)
+    (defun helm-swoop-from-evil-search ()
+      (interactive)
+      (if (string-match "\\(evil.*search*\\)" (symbol-name real-last-command))
+          (helm-swoop :$query (if isearch-regexp
+                                  isearch-string
+                                (regexp-quote isearch-string)))
+        (helm-swoop)))
+    (define-key evil-motion-state-map (kbd "C-s") 'helm-swoop-from-evil-search) ; but didn't work
+    (define-key evil-normal-state-map (kbd "C-;") 'spacemacs/comment-or-uncomment-lines)
     (defun my-ibuffer-list-buffers()
       (interactive)
       (ibuffer-list-buffers)
