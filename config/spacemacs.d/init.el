@@ -374,7 +374,7 @@ you should place your code here."
     (setq evil-emacs-state-modes (delq 'spacemacs-buffer-mode  evil-emacs-state-modes))
     (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
     (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
-    (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-this-buffer)
+    (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-buffer-and-window)
     ;; helm swoop
     (define-key evil-normal-state-map (kbd "C-s") #'helm-swoop)
     (define-key evil-motion-state-map (kbd "C-s") #'helm-swoop-from-evil-search) ; but didn't work
