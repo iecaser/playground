@@ -10,6 +10,7 @@
  '(display-time-interval 1)
  '(display-time-mail-string "")
  '(proced-auto-update-flag t)
+ '(proced-auto-update-interval 15)
  '(display-time-mode 1)
  '(flycheck-flake8-maximum-line-length 100)
  '(global-display-line-numbers-mode t)
