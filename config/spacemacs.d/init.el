@@ -205,7 +205,7 @@ values."
    dotspacemacs-default-layout-name "Default"
    ;; If non nil the default layout name is displayed in the mode-line.
    ;; (default nil)
-   dotspacemacs-display-default-layout nil
+   dotspacemacs-display-default-layout t
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
    dotspacemacs-auto-resume-layouts t
@@ -338,6 +338,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
         ("org-cn"   . "http://elpa.emacs-china.org/org/")
         ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
   (server-start)
+  ;; (kill-buffer "*scratch*")
   )
 
 (defun dotspacemacs/user-config ()
@@ -382,6 +383,7 @@ you should place your code here."
                                   isearch-string
                                 (regexp-quote isearch-string)))
         (helm-swoop)))
+    (define-key evil-normal-state-map (kbd "C-s") 'helm-swoop)
     (define-key evil-motion-state-map (kbd "C-s") 'helm-swoop-from-evil-search) ; but didn't work
     (define-key evil-normal-state-map (kbd "C-;") 'spacemacs/comment-or-uncomment-lines)
     (defun my-ibuffer-list-buffers()
