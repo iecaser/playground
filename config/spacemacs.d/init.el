@@ -74,7 +74,9 @@ values."
                                       parrot
                                       py-autopep8)
    ;; A list of packages that cannot be updated.
-   dotspacemacs-frozen-packages '()
+   dotspacemacs-frozen-packages '(
+                                  helm-swoop
+                                  )
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(evil-escape
                                     avy
@@ -124,22 +126,25 @@ values."
    ;; (default 'vim)
    dotspacemacs-editing-style 'vim
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
+   dotspacemacs-verbose-loading t
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
    ;; banner, `random' chooses a random text banner in `core/banners'
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner "~/.spacemacs.d/imgs/ya.gif"
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '((recents . 15)
-                                (projects . 10))
+   dotspacemacs-startup-lists '((todos . 5)
+                                (bookmarks . 5)
+                                (projects . 5)
+                                (recents . 5)
+                                (agenda . 5))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
@@ -147,8 +152,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-vibrant
-                         doom-tomorrow-night)
+   dotspacemacs-themes '(doom-tomorrow-night
+                         doom-vibrant)
    ;; Chose one from followings
    ;; 'spacemacs 'all-the-icons 'vim-powerline 'vanilla
    dotspacemacs-mode-line-theme 'all-the-icons
@@ -193,7 +198,7 @@ values."
    dotspacemacs-retain-visual-state-on-shift t
    ;; If non-nil, J and K move lines up and down when in visual mode.
    ;; (default nil)
-   dotspacemacs-visual-line-move-text nil
+   dotspacemacs-visual-line-move-text t
    ;; If non nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
    ;; (default nil)
    dotspacemacs-ex-substitute-global nil
@@ -201,10 +206,10 @@ values."
    dotspacemacs-default-layout-name "Default"
    ;; If non nil the default layout name is displayed in the mode-line.
    ;; (default nil)
-   dotspacemacs-display-default-layout nil
+   dotspacemacs-display-default-layout t
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts t
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -316,8 +321,8 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
-   ;; show file path in title bar
+   dotspacemacs-whitespace-cleanup 'trailing
+   ;; Show file path in title bar
    dotspacemacs-frame-title-format "%f"
    ))
 
@@ -351,7 +356,6 @@ you should place your code here."
   (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
   (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
   (spaceline-all-the-icons--setup-paradox)         ;; Enable Paradox mode line
-  (spaceline-all-the-icons--setup-neotree)         ;; Enable Neotree mode line
   (parrot-mode)
   ;; org
   (when (version<= "9.2" (org-version))
