@@ -72,7 +72,7 @@ return                                                               ;|
 CapsLock::Send, {ESC}                                                ;|
 ;---------------------------------------------------------------------o
 
-LCtrl & Space::Send, {F12}
+;; LCtrl & Space::Send, {F12}
 
 ;=====================================================================o
 ;                    CapsLock Direction Navigator                    ;|
@@ -404,15 +404,17 @@ Send, ^e                                                             ;|
 Send, u                                                              ;|
 return                                                               ;|
 ;-----------------------------------o                                ;|
-CapsLock & 1:: Send,^{F5}                                            ;|
-CapsLock & 2:: Send,{F5}                                             ;|
-CapsLock & 3:: Send,{F10}                                            ;|
-CapsLock & 4:: Send,{F11}                                            ;|
-CapsLock & 5:: Send,+{F5}                                            ;|
+CapsLock & 1:: Send,{F1}                                            ;|
+CapsLock & 2:: Send,{F2}                                             ;|
+CapsLock & 3:: Send,{F3}                                            ;|
+CapsLock & 4:: Send,{F4}                                            ;|
+CapsLock & 5:: Send,{F5}                                            ;|
+CapsLock & 6:: Send,{F6}                                            ;|
+CapsLock & 7:: Send,{F7}                                             ;|
+CapsLock & 8:: Send,{F8}                                            ;|
+CapsLock & 9:: Send,{F9}                                            ;|
+CapsLock & 0:: Send,{F10}                                            ;|
+CapsLock & -:: Send,{F11}                                            ;|
+CapsLock & =:: Send,{F12}                                            ;|
 ;-----------------------------------o                                ;|
-CapsLock & 6:: Send,+6                                               ;|
-CapsLock & 7:: Send,+7                                               ;|
-CapsLock & 8:: Send,+8                                               ;|
-CapsLock & 9:: Send,+9                                               ;|
-CapsLock & 0:: Send,+0                                               ;|
 ;---------------------------------------------------------------------o
