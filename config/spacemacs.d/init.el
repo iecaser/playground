@@ -416,6 +416,9 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "<SPC> DP") 'docker-push)
     (define-key evil-normal-state-map (kbd "<SPC> Dr") 'docker-restart)
     (define-key evil-normal-state-map (kbd "<SPC> DR") 'docker-rename)
+    ;; fix dired gg/G not working bug
+    (evil-define-key 'normal dired-mode-map (kbd "gg") 'evil-goto-first-line)
+    (evil-define-key 'normal dired-mode-map (kbd "G") 'evil-goto-line)
     ;; docker contianer
     (evil-define-key 'normal docker-container-mode-map (kbd "a") 'docker-container-attach-popup)
     (evil-define-key 'normal docker-container-mode-map (kbd "b") 'docker-container-shell-popup)
