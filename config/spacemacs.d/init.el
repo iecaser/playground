@@ -55,16 +55,15 @@ values."
             shell-default-height 45
             shell-default-term-shell "/usr/bin/zsh"
             shell-default-full-span t
-            ;; shell-default-shell 'multi-term
             shell-default-shell 'shell
             )
      python
      bibtex
-     ;; https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Bweb-services/search-engine#key-bindings
      search-engine
      (latex :variables
             latex-build-command "LaTeX")
-     colors
+     (colors :variables
+             colors-enable-nyan-cat-progress-bar t)
      docker
      )
    ;; List of additional packages that will be installed without being
@@ -72,15 +71,17 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '((helm-swoop :location (recipe :fetcher github :repo "ashiklom/helm-swoop"))
+                                      parrot
                                       py-autopep8)
    ;; A list of packages that cannot be updated.
-   dotspacemacs-frozen-packages '()
+   dotspacemacs-frozen-packages '(
+                                  helm-swoop
+                                  )
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(evil-escape
                                     avy
                                     yapfify
-                                    neotree
-                                    )
+                                    neotree)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -132,15 +133,17 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner "~/.spacemacs.d/imgs/ya.gif"
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 7))
+   dotspacemacs-startup-lists '((todos . 5)
+                                (bookmarks . 5)
+                                (projects . 5)
+                                (recents . 5))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
@@ -148,18 +151,19 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(sanityinc-tomorrow-eighties
-                         material
-                         spacemacs-dark)
+   dotspacemacs-themes '(doom-tomorrow-night
+                         doom-vibrant)
    ;; Chose one from followings
    ;; 'spacemacs 'all-the-icons 'vim-powerline 'vanilla
-   dotspacemacs-mode-line-theme 'spacemacs
+   dotspacemacs-mode-line-theme 'all-the-icons
+   ;; dotspacemacs-mode-line-theme 'vanilla
+   ;; dotspacemacs-mode-line-theme 'doom
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("DejaVu Sans Mono"
-                               :size 18
+                               :size 19
                                :weight normal
                                :width normal
                                :powerline-scale 1)
@@ -193,7 +197,7 @@ values."
    dotspacemacs-retain-visual-state-on-shift t
    ;; If non-nil, J and K move lines up and down when in visual mode.
    ;; (default nil)
-   dotspacemacs-visual-line-move-text nil
+   dotspacemacs-visual-line-move-text t
    ;; If non nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
    ;; (default nil)
    dotspacemacs-ex-substitute-global nil
@@ -201,10 +205,10 @@ values."
    dotspacemacs-default-layout-name "Default"
    ;; If non nil the default layout name is displayed in the mode-line.
    ;; (default nil)
-   dotspacemacs-display-default-layout nil
+   dotspacemacs-display-default-layout t
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts t
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -316,8 +320,8 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
-   ;; show file path in title bar
+   dotspacemacs-whitespace-cleanup 'trailing
+   ;; Show file path in title bar
    dotspacemacs-frame-title-format "%f"
    ))
 
@@ -334,6 +338,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
         ("org-cn"   . "http://elpa.emacs-china.org/org/")
         ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
   (server-start)
+  ;; (kill-buffer "*scratch*")
   )
 
 (defun dotspacemacs/user-config ()
@@ -343,19 +348,15 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; powerline
-  ;; show file full path
-  (spaceline-define-segment buffer-id
-    (if (buffer-file-name)
-        (abbreviate-file-name (buffer-file-name))
-      (powerline-buffer-id)))
-  ;; powerline theme
-  (add-hook 'after-make-frame-functions
-    (lambda ()
-      (if window-system
-        (setq dotspacemacs-mode-line-theme 'all-the-icons)
-        (setq dotspacemacs-mode-line-unicode-symbols t)
-        (setq colors-enable-nyan-cat-progress-bar t))))
+  ;; git token
+
+  (setq paradox-github-token 'd24c25b90110af527bd590a998f32702922b0760)
+  ;; all icons
+  (spaceline-all-the-icons--setup-anzu)            ;; Enable anzu searching
+  (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
+  (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
+  (spaceline-all-the-icons--setup-paradox)         ;; Enable Paradox mode line
+  (parrot-mode)
   ;; org
   (when (version<= "9.2" (org-version))
     (require 'org-tempo))
@@ -373,11 +374,18 @@ you should place your code here."
     (setq evil-emacs-state-modes (delq 'spacemacs-buffer-mode  evil-emacs-state-modes))
     (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
     (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
-    (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-this-buffer)
+    (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-buffer-and-window)
     ;; helm swoop
-    (define-key evil-normal-state-map (kbd "C-s") #'helm-swoop)
-    (define-key evil-motion-state-map (kbd "C-s") #'helm-swoop-from-evil-search) ; but didn't work
-    (define-key evil-normal-state-map (kbd "C-;") #'spacemacs/comment-or-uncomment-lines)
+    (defun helm-swoop-from-evil-search ()
+      (interactive)
+      (if (string-match "\\(evil.*search*\\)" (symbol-name real-last-command))
+          (helm-swoop :$query (if isearch-regexp
+                                  isearch-string
+                                (regexp-quote isearch-string)))
+        (helm-swoop)))
+    (define-key evil-normal-state-map (kbd "C-s") 'helm-swoop)
+    (define-key evil-motion-state-map (kbd "C-s") 'helm-swoop-from-evil-search) ; but didn't work
+    (define-key evil-normal-state-map (kbd "C-;") 'spacemacs/comment-or-uncomment-lines)
     (defun my-ibuffer-list-buffers()
       (interactive)
       (ibuffer-list-buffers)
@@ -386,15 +394,16 @@ you should place your code here."
     ;; C-q C-backspace to insert the ^? (not actually question mark)
     (define-key key-translation-map (kbd "C-h") "")
     (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file-in-known-projects)
-    (define-key evil-normal-state-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-switch-project)
     (define-key spacemacs-buffer-mode-map (kbd "C-f") 'helm-projectile-find-file-in-known-projects)
-    (define-key spacemacs-buffer-mode-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key spacemacs-buffer-mode-map (kbd "C-p") 'helm-projectile-switch-project)
     (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
     (define-key evil-normal-state-map (kbd "<SPC> /") 'spacemacs/helm-files-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ps") 'spacemacs/helm-project-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ds") 'spacemacs/helm-dir-smart-do-search)
+    ;; parrot
+    (define-key evil-normal-state-map (kbd "[r") 'parrot-rotate-prev-word-at-point)
+    (define-key evil-normal-state-map (kbd "]r") 'parrot-rotate-next-word-at-point)
     ;; docker
     (define-key evil-normal-state-map (kbd "<SPC> Dc") 'docker-containers)
     (define-key evil-normal-state-map (kbd "<SPC> DC") 'docker-Compose)
