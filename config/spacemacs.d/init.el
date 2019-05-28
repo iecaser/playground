@@ -481,6 +481,7 @@ you should place your code here."
     (define-key evil-motion-state-map (kbd "C-w C-j") #'evil-window-down)
     (define-key evil-motion-state-map (kbd "C-w C-k") #'evil-window-up)
     (define-key evil-motion-state-map (kbd "C-w C-h") #'evil-window-left)
+    (define-key evil-motion-state-map (kbd "C-w <DEL>") #'evil-window-left)
     (define-key evil-motion-state-map (kbd "C-w C-l") #'evil-window-right)
     (define-key evil-motion-state-map (kbd "C-w C-w") #'evil-window-next)
     )
@@ -501,7 +502,7 @@ you should place your code here."
   (with-eval-after-load 'flycheck-error-list
     (define-key flycheck-error-list-mode-map (kbd "C-w C-j") #'evil-window-down)
     (define-key flycheck-error-list-mode-map (kbd "C-w C-k") #'evil-window-up)
-    (define-key flycheck-error-list-mode-map (kbd "C-w C-h") #'evil-window-left)
+    (define-key flycheck-error-list-mode-map (kbd "C-w <DEL>") #'evil-window-left)
     (define-key flycheck-error-list-mode-map (kbd "C-w C-l") #'evil-window-right)
     (define-key flycheck-error-list-mode-map (kbd "C-w C-w") #'evil-window-next)
     )
