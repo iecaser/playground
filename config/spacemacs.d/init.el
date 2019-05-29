@@ -474,7 +474,8 @@ you should place your code here."
         (if (looking-back "^\s*" 0)
             (delete-region (point) (line-beginning-position))
           (evil-delete (+ (line-beginning-position) (current-indentation)) (point)))))
-    (modify-syntax-entry ?_ "w")
+    ;; underscore word
+    (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
     ;; simulate c-u in vim insert mode behavior
     (define-key evil-insert-state-map (kbd "C-u") 'my-evil-ctrl-u)
     ;; vim-defalut window move
