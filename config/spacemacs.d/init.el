@@ -208,7 +208,7 @@ values."
    dotspacemacs-display-default-layout t
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts t
+   dotspacemacs-auto-resume-layouts nil
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -393,14 +393,16 @@ you should place your code here."
       )
     ;; C-q C-backspace to insert the ^? (not actually question mark)
     (define-key key-translation-map (kbd "C-h") "")
-    (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file-in-known-projects)
+    (define-key evil-normal-state-map (kbd "<SPC>fF") 'helm-projectile-find-file-in-known-projects)
+    (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file)
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-switch-project)
-    (define-key spacemacs-buffer-mode-map (kbd "C-f") 'helm-projectile-find-file-in-known-projects)
-    (define-key spacemacs-buffer-mode-map (kbd "C-p") 'helm-projectile-switch-project)
     (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
     (define-key evil-normal-state-map (kbd "<SPC> /") 'spacemacs/helm-files-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ps") 'spacemacs/helm-project-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ds") 'spacemacs/helm-dir-smart-do-search)
+    (define-key spacemacs-buffer-mode-map (kbd "<SPC>fF") 'helm-projectile-find-file-in-known-projects)
+    (define-key spacemacs-buffer-mode-map (kbd "C-f") 'helm-projectile-find-file)
+    (define-key spacemacs-buffer-mode-map (kbd "C-p") 'helm-projectile-switch-project)
     ;; parrot
     (define-key evil-normal-state-map (kbd "[r") 'parrot-rotate-prev-word-at-point)
     (define-key evil-normal-state-map (kbd "]r") 'parrot-rotate-next-word-at-point)
@@ -416,6 +418,9 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "<SPC> DP") 'docker-push)
     (define-key evil-normal-state-map (kbd "<SPC> Dr") 'docker-restart)
     (define-key evil-normal-state-map (kbd "<SPC> DR") 'docker-rename)
+    ;; fix dired gg/G not working bug
+    (evil-define-key 'normal dired-mode-map (kbd "gg") 'evil-goto-first-line)
+    (evil-define-key 'normal dired-mode-map (kbd "G") 'evil-goto-line)
     ;; docker contianer
     (evil-define-key 'normal docker-container-mode-map (kbd "a") 'docker-container-attach-popup)
     (evil-define-key 'normal docker-container-mode-map (kbd "b") 'docker-container-shell-popup)
@@ -476,6 +481,7 @@ you should place your code here."
     (define-key evil-motion-state-map (kbd "C-w C-j") #'evil-window-down)
     (define-key evil-motion-state-map (kbd "C-w C-k") #'evil-window-up)
     (define-key evil-motion-state-map (kbd "C-w C-h") #'evil-window-left)
+    (define-key evil-motion-state-map (kbd "C-w <DEL>") #'evil-window-left)
     (define-key evil-motion-state-map (kbd "C-w C-l") #'evil-window-right)
     (define-key evil-motion-state-map (kbd "C-w C-w") #'evil-window-next)
     )
@@ -496,7 +502,7 @@ you should place your code here."
   (with-eval-after-load 'flycheck-error-list
     (define-key flycheck-error-list-mode-map (kbd "C-w C-j") #'evil-window-down)
     (define-key flycheck-error-list-mode-map (kbd "C-w C-k") #'evil-window-up)
-    (define-key flycheck-error-list-mode-map (kbd "C-w C-h") #'evil-window-left)
+    (define-key flycheck-error-list-mode-map (kbd "C-w <DEL>") #'evil-window-left)
     (define-key flycheck-error-list-mode-map (kbd "C-w C-l") #'evil-window-right)
     (define-key flycheck-error-list-mode-map (kbd "C-w C-w") #'evil-window-next)
     )

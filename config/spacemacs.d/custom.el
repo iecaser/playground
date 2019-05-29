@@ -8,6 +8,7 @@
  '(display-time-default-load-average nil)
  '(display-time-format "%H:%M:%S")
  '(display-time-interval 1)
+ '(xterm-mouse-mode nil)
  '(display-time-mail-string "")
  '(proced-auto-update-flag t)
  '(proced-auto-update-interval 15)
