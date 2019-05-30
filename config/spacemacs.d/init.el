@@ -394,6 +394,7 @@ you should place your code here."
     ;; C-q C-backspace to insert the ^? (not actually question mark)
     (define-key key-translation-map (kbd "C-h") "")
     (define-key evil-normal-state-map (kbd "<SPC>fF") 'helm-projectile-find-file-in-known-projects)
+    (define-key evil-normal-state-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file)
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-switch-project)
     (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
@@ -401,6 +402,7 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "<SPC> ps") 'spacemacs/helm-project-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ds") 'spacemacs/helm-dir-smart-do-search)
     (define-key spacemacs-buffer-mode-map (kbd "<SPC>fF") 'helm-projectile-find-file-in-known-projects)
+    (define-key spacemacs-buffer-mode-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key spacemacs-buffer-mode-map (kbd "C-f") 'helm-projectile-find-file)
     (define-key spacemacs-buffer-mode-map (kbd "C-p") 'helm-projectile-switch-project)
     ;; parrot
