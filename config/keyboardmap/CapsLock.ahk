@@ -5,9 +5,13 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 SetTitleMatchMode, 2 ; This let's any window that partially matches the given name get activated
 #IfWinNotActive, ahk_class Emacs
-LCtrl & h::
-  send {backspace}
-  return
+    #IfWinNotActive, ahk_exe Xshell.exe
+        #IfWinNotActive, ahk_exe vmware.exe
+        LCtrl & h::
+            send {backspace}
+            return
+        #IfWinNotActive
+    #IfWinNotActive
 #IfWinNotActive
 
 ;=====================================================================o
