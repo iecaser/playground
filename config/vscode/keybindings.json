@@ -1,0 +1,32 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "ctrl+s",
+        "command": "actions.find"
+    },
+    {
+        "key": "ctrl+x ctrl+k",
+        "command": "workbench.action.closeActiveEditor",
+        "when":"editorFocus && editorIsOpen"
+    },
+    {
+        "key": "ctrl+x ctrl+c",
+        "command": "workbench.action.closeWindow"
+    },
+    {
+        "key": "ctrl+w ctrl+k",
+        "command": "workbench.action.navigateUp",
+    },
+    {
+        "key": "ctrl+w ctrl+j",
+        "command": "workbench.action.navigateDown"
+    },
+    {
+        "key": "ctrl+w ctrl+h",
+        "command": "workbench.action.navigateLeft"
+    },
+    {
+        "key": "ctrl+w ctrl+l",
+        "command": "workbench.action.navigateRight"
+    },
+]
