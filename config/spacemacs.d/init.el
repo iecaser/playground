@@ -397,6 +397,7 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file)
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-switch-project)
+    (define-key evil-normal-state-map (kbd "C-x C-u") 'spacemacs/helm-jump-in-buffer)
     (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
     (define-key evil-normal-state-map (kbd "<SPC> /") 'spacemacs/helm-files-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ps") 'spacemacs/helm-project-smart-do-search)
@@ -405,6 +406,7 @@ you should place your code here."
     (define-key spacemacs-buffer-mode-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key spacemacs-buffer-mode-map (kbd "C-f") 'helm-projectile-find-file)
     (define-key spacemacs-buffer-mode-map (kbd "C-p") 'helm-projectile-switch-project)
+    (define-key spacemacs-buffer-mode-map (kbd "C-x C-u") 'spacemacs/helm-jump-in-buffer)
     ;; parrot
     (define-key evil-normal-state-map (kbd "[r") 'parrot-rotate-prev-word-at-point)
     (define-key evil-normal-state-map (kbd "]r") 'parrot-rotate-next-word-at-point)
