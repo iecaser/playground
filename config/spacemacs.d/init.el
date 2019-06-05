@@ -511,11 +511,6 @@ you should place your code here."
     (define-key flycheck-error-list-mode-map (kbd "C-w C-w") #'evil-window-next)
     )
 
-  ;; dired
-  (put 'dired-find-alternate-file 'disabled nil)
-  (with-eval-after-load 'dired
-    (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
-
   (setq python-shell-interpreter "python"
         python-shell-interpreter-args "-m IPython --simple-prompt -i")
   (with-eval-after-load 'python
