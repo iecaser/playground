@@ -30,7 +30,7 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(yaml
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -385,28 +385,27 @@ you should place your code here."
         (helm-swoop)))
     (define-key evil-normal-state-map (kbd "C-s") 'helm-swoop)
     (define-key evil-motion-state-map (kbd "C-s") 'helm-swoop-from-evil-search) ; but didn't work
-    (define-key evil-normal-state-map (kbd "C-;") 'spacemacs/comment-or-uncomment-lines)
     (defun my-ibuffer-list-buffers()
       (interactive)
       (ibuffer-list-buffers)
       (other-window 1)
       )
     ;; C-q C-backspace to insert the ^? (not actually question mark)
+    (define-key spacemacs-buffer-mode-map (kbd "<SPC>fF") 'helm-projectile-find-file-in-known-projects)
+    (define-key spacemacs-buffer-mode-map (kbd "C-b") 'lazy-helm/helm-mini)
+    (define-key spacemacs-buffer-mode-map (kbd "C-f") 'helm-projectile-find-file)
+    (define-key spacemacs-buffer-mode-map (kbd "C-p") 'helm-projectile-switch-project)
     (define-key key-translation-map (kbd "C-h") "")
     (define-key evil-normal-state-map (kbd "<SPC>fF") 'helm-projectile-find-file-in-known-projects)
     (define-key evil-normal-state-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file)
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-switch-project)
     (define-key evil-normal-state-map (kbd "C-x C-u") 'spacemacs/helm-jump-in-buffer)
+    (define-key evil-normal-state-map (kbd "C-x C-l") 'spacemacs/comment-or-uncomment-lines)
     (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
     (define-key evil-normal-state-map (kbd "<SPC> /") 'spacemacs/helm-files-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ps") 'spacemacs/helm-project-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ds") 'spacemacs/helm-dir-smart-do-search)
-    (define-key spacemacs-buffer-mode-map (kbd "<SPC>fF") 'helm-projectile-find-file-in-known-projects)
-    (define-key spacemacs-buffer-mode-map (kbd "C-b") 'lazy-helm/helm-mini)
-    (define-key spacemacs-buffer-mode-map (kbd "C-f") 'helm-projectile-find-file)
-    (define-key spacemacs-buffer-mode-map (kbd "C-p") 'helm-projectile-switch-project)
-    (define-key spacemacs-buffer-mode-map (kbd "C-x C-u") 'spacemacs/helm-jump-in-buffer)
     ;; parrot
     (define-key evil-normal-state-map (kbd "[r") 'parrot-rotate-prev-word-at-point)
     (define-key evil-normal-state-map (kbd "]r") 'parrot-rotate-next-word-at-point)

@@ -1,4 +1,4 @@
-# perf 
+# perf
 [Perf -- Linux下的系统性能调优工具 part1](https://www.ibm.com/developerworks/cn/linux/l-cn-perf1/index.html)
 
 # typing
@@ -128,7 +128,7 @@ from apscheduler.schedulers.background import BackgroundScheduler,BlockingSchedu
 
 def job_func(text):
     print(text, datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f"))
-  
+
 # 在每年 1-3、7-9 月份中的每个星期一、二中的 00:00, 01:00, 02:00 和 03:00 执行 job_func 任务
 # scheduler = BackgroundScheduler()
 scheduler = BlockingScheduler()
@@ -250,7 +250,7 @@ def partialclass(cls, *args, **kwds):
 if __name__ == '__main__':
   Config = partialclass(collections.defaultdict, list)
   assert isinstance(Config(), Config)**)**)
-```                     
+```
 [python equivalent of functools 'partial' for a class / constructor](https://stackoverflow.com/questions/38911146/python-equivalent-of-functools-partial-for-a-class-constructor)
 
 ## warning
@@ -280,7 +280,7 @@ self.params = copy.deepcopy(params)
 def func(*, a, b):
     print(a)
     print(b)
-        
+
 func("gg") # TypeError: func() takes 0 positional arguments but 1 was given
 func(a="gg") # TypeError: func() missing 1 required keyword-only argument: 'b'
 func(a="aa", b="bb", c="cc") # TypeError: func() got an unexpected keyword argument 'c'
@@ -474,7 +474,7 @@ for i in range(5):
     print(i, end='')
     # sys.stdout.flush()
     time.sleep(1)
-    
+
 # example 2
 while ...
   counter += 1
@@ -658,14 +658,16 @@ df.reindex(['a','b','c'], axis=1)
 [DataFrame.reindex](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.reindex.html)
 
 ## reset_index
-```
+```python
 df.reset_index(level=['a','b'])
+# this is useful after sort value
+df2 = df2.reset_index(drop=True)
 ```
 [stack overflow](https://stackoverflow.com/questions/20461165/how-to-convert-pandas-index-in-a-dataframe-to-a-column)
 
 ## join / set_index
-ataFrame.join always uses other’s index but we can use any column in the caller. This method preserves the original caller’s index in the result.
-```
+DataFrame.join always uses other’s index but we can use any column in the caller. This method preserves the original caller’s index in the result.
+```python
 caller.join(other.set_index('key'), on='key')
 ```
 [pandas.DataFrame.join](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.join.html)
@@ -699,12 +701,12 @@ def init():
     sess = tf.Session()
 #     config = tf.ConfigProto()
 #     config.gpu_options.allow_growth = True
-#     sess = tf.Session(config=config)                                                                                                        
+#     sess = tf.Session(config=config)
 def hello(name):
     print name
     time.sleep(3)
     return sess.run(tf.constant('hello ' + name))
- 
+
 if __name__ == '__main__':
     pool = multiprocessing.Pool(processes=4, initializer=init)
     xs = ['1', '2', '3', '4']
@@ -802,7 +804,7 @@ def percentile(a, q, axis=None, out=None,
 ```
 def reduce_mem_usage(df, verbose=True):
     numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']
-    start_mem = df.memory_usage().sum() / 1024**2    
+    start_mem = df.memory_usage().sum() / 1024**2
     for col in df.columns:
         col_type = df[col].dtypes
         if col_type in numerics:
@@ -816,14 +818,14 @@ def reduce_mem_usage(df, verbose=True):
                 elif c_min > np.iinfo(np.int32).min and c_max < np.iinfo(np.int32).max:
                     df[col] = df[col].astype(np.int32)
                 elif c_min > np.iinfo(np.int64).min and c_max < np.iinfo(np.int64).max:
-                    df[col] = df[col].astype(np.int64)  
+                    df[col] = df[col].astype(np.int64)
             else:
                 if c_min > np.finfo(np.float16).min and c_max < np.finfo(np.float16).max:
                     df[col] = df[col].astype(np.float16)
                 elif c_min > np.finfo(np.float32).min and c_max < np.finfo(np.float32).max:
                     df[col] = df[col].astype(np.float32)
                 else:
-                    df[col] = df[col].astype(np.float64)    
+                    df[col] = df[col].astype(np.float64)
     end_mem = df.memory_usage().sum() / 1024**2
     if verbose: print('Mem. usage decreased to {:5.2f} Mb ({:.1f}% reduction)'.format(end_mem, 100 * (start_mem - end_mem) / start_mem))
     return df
@@ -842,7 +844,7 @@ x : array_like
 Returns
 -------
 None
-    
+
 ```
 
 ### np.random.choice(a, size=None, replace=True, p=None)
@@ -1127,7 +1129,7 @@ sudo apt remove --autoremove emacs26 emacs26-nox
 
 ##  ...
 [Pasting text into search after pressing "/" ](https://www.reddit.com/r/spacemacs/comments/4drxvv/pasting_text_into_search_after_pressing/)
-# vim 
+# vim
 
 ## disable mouse mode
 `set mouse=`
@@ -1387,7 +1389,7 @@ logger.info('test')
  __    __  .___________. __   __          _______.
 |  |  |  | |           ||  | |  |        /       |
 |  |  |  | `---|  |----`|  | |  |       |   (----`
-|  |  |  |     |  |     |  | |  |        \   \ 
+|  |  |  |     |  |     |  | |  |        \   \
 |  `--'  |     |  |     |  | |  `----.----)   |
  \______/      |__|     |__| |_______|_______/
 
@@ -1704,7 +1706,7 @@ do
   has_error=`wc -l < out.txt`
   sleep 10
 done
-        
+
 ### PS: one line solution, just loop 1000 times
 ###         seq 1000 | parallel -j1 aria2c -i list.txt -c
 ```
@@ -1713,7 +1715,7 @@ done
 > dir=/iso_images
 > out=file.img
 > http://foo/bar
-> 
+>
 > If aria2 is executed with -i uri.txt -d /tmp options, then file.iso is saved as
 > /iso_images/file.img and it is downloaded from http://server/file.iso and
 > http://mirror/file.iso. The file bar is downloaded from http://foo/bar and saved as
@@ -1768,7 +1770,7 @@ ssh user_inside@localhost -p 12345
 - `sudo vim /etc/default/grub`
 - change kernel start order (centos 7)
   ```
-  sudo cat /boot/grub2/grub.cfg | grep menuentry 
+  sudo cat /boot/grub2/grub.cfg | grep menuentry
   sudo grub2-set-default "CentOS Linux (4.4.176-1.el7.elrepo.x86_64) 7 (Core)"
   sudo grub2-editenv list
   sudo grub2-mkconfig -o /boot/grub2/grub.cfg
@@ -1825,7 +1827,7 @@ the following order: newline, word, character, byte, maximum line length.
 
 ## awk
 ```bash
-# double quote surround \t 
+# double quote surround \t
 head file | awk 'BEGIN {FS="\t"} {print $1}'
 ```
 
@@ -1930,9 +1932,9 @@ y = model.predict(x)
 
 In [5]: model.summary()
 _________________________________________________________________
-Layer (type)                 Output Shape              Param #   
+Layer (type)                 Output Shape              Param #
 =================================================================
-embedding (Embedding)        (None, 10, 64)            64000     
+embedding (Embedding)        (None, 10, 64)            64000
 =================================================================
 Total params: 64,000
 Trainable params: 64,000
@@ -1941,7 +1943,7 @@ _________________________________________________________________
 ```
 - 输入为2D,输出为3D;
 - 32为batch, 10为length都不变
-- 可学习参数为`input_dim` x `output_dim`! 到底来说,就是将1000维度->映射到64维度! 
+- 可学习参数为`input_dim` x `output_dim`! 到底来说,就是将1000维度->映射到64维度!
 只不过输入不是onehot那种展开的形式, 但数值上的区别, 仍然是1000维度的意思;
 
 ## lstm
@@ -2000,7 +2002,7 @@ for infile in args.embed.infile:
     tf.reset_default_graph()
 
 # Disable Tensorflow debugging information
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 # set gpu visible
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
