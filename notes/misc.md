@@ -666,7 +666,8 @@ df2 = df2.reset_index(drop=True)
 [stack overflow](https://stackoverflow.com/questions/20461165/how-to-convert-pandas-index-in-a-dataframe-to-a-column)
 
 ## join / set_index
-DataFrame.join always uses other’s index but we can use any column in the caller. This method preserves the original caller’s index in the result.
+DataFrame.join always uses other’s index but we can use any column in the caller.
+This method preserves the original caller’s index in the result.
 ```python
 caller.join(other.set_index('key'), on='key')
 ```

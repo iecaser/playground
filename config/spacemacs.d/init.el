@@ -151,8 +151,11 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-tomorrow-night
-                         doom-vibrant)
+   dotspacemacs-themes '(
+                         doom-vibrant
+                         doom-tomorrow-night
+                         spacemacs-dark
+                         )
    ;; Chose one from followings
    ;; 'spacemacs 'all-the-icons 'vim-powerline 'vanilla
    dotspacemacs-mode-line-theme 'all-the-icons
@@ -400,8 +403,11 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file)
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-switch-project)
+    (define-key evil-normal-state-map (kbd "M-j") 'move-text-down)
+    (define-key evil-normal-state-map (kbd "M-k") 'move-text-up)
     (define-key evil-normal-state-map (kbd "C-x C-u") 'spacemacs/helm-jump-in-buffer)
     (define-key evil-normal-state-map (kbd "C-x C-l") 'spacemacs/comment-or-uncomment-lines)
+    (define-key evil-normal-state-map (kbd "C-x C-j") 'dired-jump)
     (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
     (define-key evil-normal-state-map (kbd "<SPC> /") 'spacemacs/helm-files-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> ps") 'spacemacs/helm-project-smart-do-search)
