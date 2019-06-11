@@ -30,7 +30,8 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(yaml
+   '(html
+     yaml
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -57,7 +58,7 @@ values."
             shell-default-full-span t
             shell-default-shell 'shell
             )
-     python
+     (python :variables python-backend 'anaconda)
      bibtex
      search-engine
      (latex :variables
@@ -521,10 +522,10 @@ you should place your code here."
     (define-key flycheck-error-list-mode-map (kbd "C-w C-w") #'evil-window-next)
     )
 
-  (setq python-shell-interpreter "python"
-        python-shell-interpreter-args "-m IPython --simple-prompt -i")
-  (with-eval-after-load 'python
-    (add-hook 'python-mode-hook (lambda () (setq python-shell-interpreter "python"))))
+  ;; (setq python-shell-interpreter "python"
+  ;;       python-shell-interpreter-args "-m IPython --simple-prompt -i")
+  ;; (with-eval-after-load 'python
+  ;;   (add-hook 'python-mode-hook (lambda () (setq python-shell-interpreter "python"))))
   (require 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))

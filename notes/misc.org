@@ -41,7 +41,7 @@
       # NOT this way
       COPY * /file/path/within/image
     #+end_src
-    
+
     - Ignore certain files using =.dockerignore=
     #+begin_src text
       .git*
@@ -56,10 +56,10 @@
 *** if-fi/test
     - test :: try to run these lines in bash.
    #+begin_src bash
-     $(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia") 
+     $(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia")
      test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
    #+end_src
-   
+
    - =-f= file existance
    #+begin_src bash
      FILE=/etc/resolv.conf
@@ -70,34 +70,34 @@
      test -f /etc/resolv.conf && echo "$FILE exist"
      [ -f /etc/resolv.conf ] && echo "$FILE exist" || echo "$FILE does not exist"
    #+end_src
-   
+
     - =-x= executable
    #+begin_src bash
      if [ ! -x "$folder"]; then
      mkdir "$folder"
      fi
    #+end_src
-   
+
    - =-d= directory existence
    #+begin_src bash
      if [ ! -d "$folder"]; then
      mkdir "$folder"
      fi
    #+end_src
-   
+
    - Reference
      - [[https://stackoverflow.com/questions/18119689/command-not-found-in-bashs-if-else-condition-when-using-d-dir][Add space between square brackets]]
      - [[https://linuxize.com/post/bash-check-le-exists/][How to Check if a File or Directory Exists in Bash]]
-    
+
 *** cp
     - cp =-L= :: copy follow symbolic link
     #+begin_src bash
       cp -r -L source dest
     #+end_src
-    
+
     - Reference
       - [[https://superuser.com/questions/216919/how-to-copy-symlinks-to-target-as-normal-folders][How to copy symlinks to target as normal folders]]
-       
+
 *** for do done
     - easy way
     #+begin_src bash
@@ -106,7 +106,7 @@
 	  echo $i
       done
     #+end_src
-    
+
     - advanced
     #+begin_src bash
       strings=(
@@ -141,7 +141,7 @@
       apt-file update
       apt-get install vim
     #+END_SRC
-    
+
 * python
 ** package
 *** [[https://github.com/requests/toolbelt][requests-toolbelt]]
@@ -151,7 +151,7 @@
      # or
      pip install requests-toolbelt
    #+end_src
-   
+
    - Quick use
    #+begin_src python
      from requests_toolbelt import MultipartEncoder
@@ -194,3 +194,9 @@ If you want to modify the bindings, the Emacs binding can be found in /usr/share
 On GTK3, the ~/.gtkrc-2.0 method no longer works. Instead, edit the ~/.config/gtk-3.0/settings.ini and add the following line to the end:
 gtk-key-theme-name=Emacs
 
+* Vim tips
+  delete all lines that are empty or that contain only whitespace chracters(spaces, tabs)
+  #+begin_src  bash
+    :g/^\s*$/d
+    :v/\S/d
+  #+end_src
