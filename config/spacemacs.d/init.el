@@ -212,7 +212,7 @@ values."
    dotspacemacs-display-default-layout t
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts t
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -526,8 +526,12 @@ you should place your code here."
   ;;       python-shell-interpreter-args "-m IPython --simple-prompt -i")
   ;; (with-eval-after-load 'python
   ;;   (add-hook 'python-mode-hook (lambda () (setq python-shell-interpreter "python"))))
+  (evil-define-key 'normal python-mode-map (kbd "C-c r") 'pyvenv-restart-python)
+  (evil-define-key 'normal python-mode-map (kbd "C-c w") 'pyvenv-workon)
   (require 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+  (add-hook 'before-save-hook 'py-isort-before-save)
+  ;; (add-hook 'before-save-hook 'spacemacs/python-remove-unused-imports)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
   ;; proced
   (evil-define-key 'normal proced-mode-map (kbd "d") 'proced-mark)
