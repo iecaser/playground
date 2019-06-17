@@ -531,7 +531,6 @@ you should place your code here."
   (require 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   (add-hook 'before-save-hook 'py-isort-before-save)
-  ;; (add-hook 'before-save-hook 'spacemacs/python-remove-unused-imports)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
   ;; proced
   (evil-define-key 'normal proced-mode-map (kbd "d") 'proced-mark)
