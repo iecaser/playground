@@ -528,9 +528,12 @@ you should place your code here."
   ;;   (add-hook 'python-mode-hook (lambda () (setq python-shell-interpreter "python"))))
   (evil-define-key 'normal python-mode-map (kbd "C-c r") 'pyvenv-restart-python)
   (evil-define-key 'normal python-mode-map (kbd "C-c w") 'pyvenv-workon)
+  (evil-define-key 'normal python-mode-map (kbd "C-c d") 'spacemacs/python-toggle-breakpoint)
+  (evil-define-key 'normal python-mode-map (kbd "C-c I") 'py-isort-buffer)
+  (evil-define-key 'normal python-mode-map (kbd "C-c i") 'spacemacs/python-remove-unused-imports)
   (require 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-  (add-hook 'before-save-hook 'py-isort-before-save)
+  ;; (add-hook 'before-save-hook 'py-isort-before-save)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
   ;; proced
   (evil-define-key 'normal proced-mode-map (kbd "d") 'proced-mark)

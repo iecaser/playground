@@ -194,6 +194,24 @@ If you want to modify the bindings, the Emacs binding can be found in /usr/share
 On GTK3, the ~/.gtkrc-2.0 method no longer works. Instead, edit the ~/.config/gtk-3.0/settings.ini and add the following line to the end:
 gtk-key-theme-name=Emacs
 
+*** YAML
+**** list anchor
+
+     #+begin_src yaml
+       pos_category: &pos_category
+       in_set: *pos_category
+     #+end_src
+*** pandas
+**** str
+     #+begin_src python
+       df = pd.read_csv(filein, sep='\t')\
+              .drop_duplicates(subset='img_url', keep='last')
+       df = df[df.img_url.str.endswith('.jpg')]
+       # and also
+       df = df[df.img_url.str.contains('.jpg')]
+     #+end_src
+
+
 * Vim tips
   delete all lines that are empty or that contain only whitespace chracters(spaces, tabs)
   #+begin_src  bash

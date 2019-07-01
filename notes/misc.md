@@ -224,7 +224,7 @@ def add_argument_group(self, *args, **kwargs):
 ## functools.partial(func[,*args][, **keywords])
 > Roughly equivalent to:
 
-```
+```python
 def partial(func, *args, **keywords):
     def newfunc(*fargs, **fkeywords):
         newkeywords = keywords.copy()
@@ -249,8 +249,9 @@ def partialclass(cls, *args, **kwds):
 
 if __name__ == '__main__':
   Config = partialclass(collections.defaultdict, list)
-  assert isinstance(Config(), Config)**)**)
+  assert isinstance(Config(), Config)
 ```
+[python - What is the difference between partial and partialmethod? - Stack Overflow](https://stackoverflow.com/questions/42844636/what-is-the-difference-between-partial-and-partialmethod)
 [python equivalent of functools 'partial' for a class / constructor](https://stackoverflow.com/questions/38911146/python-equivalent-of-functools-partial-for-a-class-constructor)
 
 ## warning
