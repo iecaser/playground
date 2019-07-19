@@ -337,11 +337,10 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   ;; (use-package all-the-icons)
-  (setq configuration-layer--elpa-archives
-      '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-        ("org-cn"   . "http://elpa.emacs-china.org/org/")
-        ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
-  (server-start)
+  ;; (setq configuration-layer--elpa-archives
+  ;;     '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+  ;;       ("org-cn"   . "http://elpa.emacs-china.org/org/")
+  ;;       ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
   ;; (kill-buffer "*scratch*")
   )
 
@@ -361,6 +360,7 @@ you should place your code here."
   (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
   (spaceline-all-the-icons--setup-paradox)         ;; Enable Paradox mode line
   (parrot-mode)
+  (global-centered-cursor-mode t)
   ;; org
   (when (version<= "9.2" (org-version))
     (require 'org-tempo))
@@ -434,6 +434,7 @@ you should place your code here."
     ;; fix dired gg/G not working bug
     (evil-define-key 'normal dired-mode-map (kbd "gg") 'evil-goto-first-line)
     (evil-define-key 'normal dired-mode-map (kbd "G") 'evil-goto-line)
+    (evil-define-key 'normal dired-mode-map (kbd "C-x g") 'magit-status)
     (evil-define-key 'normal helm-swoop-edit-map (kbd "C-c C-c") 'helm-swoop--edit-complete)
     ;; docker contianer
     (evil-define-key 'normal docker-container-mode-map (kbd "a") 'docker-container-attach-popup)

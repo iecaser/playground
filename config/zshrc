@@ -38,7 +38,7 @@ ZSH_THEME="random"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -97,44 +97,53 @@ source $ZSH/oh-my-zsh.sh
 
 export PYTHONPATH="$PYTHONPATH:/home/zxf/workspace/models/"
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
-export PATH="/home/zxf/install/LightGBM:$PATH"
-export PATH="/home/zxf/install/emacs-26.1/src:$PATH"
+export PATH="$PATH:/home/zxf/install/LightGBM"
 
-# <<< conda init <<<
-# added by Anaconda3 5.3.1 installer
-# >>> conda init >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/zxf/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    \eval "$__conda_setup"
-else
-    if [ -f "/home/zxf/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/zxf/anaconda3/etc/profile.d/conda.sh"
-        CONDA_CHANGEPS1=false conda activate base
-    else
-        \export PATH="/home/zxf/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda init <<<
 
 # MY CONFIG START #####################################################################
-
 export TERM=xterm-256color
 # fix terminal key bugs
 bindkey  "^[[1~"   beginning-of-line
 bindkey  "^[[4~"   end-of-line
 
+export http_proxy=http://172.28.231.40:1080
+export https_proxy=http://172.28.231.40:1080
+
 # useful alias
-alias vim="nvim"
+test -f /usr/bin/nvim && alias vim='nvim'
 alias ll="ls -ahl"
 alias dog="watch -n 1 -d"
 alias ta="tmux a"
 alias tn="tmux new"
 alias tm="tmux attach || tmux new"
+alias vr="vim ~/.zshrc"
+alias sr="source ~/.zshrc"
+alias cc="~/anaconda3/bin/x86_64-conda_cos6-linux-gnu-cc"
+alias gcc="~/anaconda3/bin/x86_64-conda_cos6-linux-gnu-gcc"
+alias gcc-ar="~/anaconda3/bin/x86_64-conda_cos6-linux-gnu-gcc-ar"
+alias gcc-nm="~/anaconda2/bin/x86_64-conda_cos6-linux-gnu-gcc-nm"
+alias gcc-ranlib="~/anaconda3/bin/x86_64-conda_cos6-linux-gnu-gcc-ranlib"
+alias g++="~/anaconda3/bin/x86_64-conda_cos6-linux-gnu-g++"
 function run_vlc
 {
     vlc -I dummy --width=600 --height=480 --video-x=100 --video-y=100 --no-video-deco --no-embedded-video $1 &
 }
 alias vlc="run_vlc"
 # MY CONFIG END #####################################################################
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/zxf/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/zxf/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/zxf/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/zxf/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
