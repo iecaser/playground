@@ -342,6 +342,8 @@ before packages are loaded. If you are unsure, you should try in setting them in
   ;;       ("org-cn"   . "http://elpa.emacs-china.org/org/")
   ;;       ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
   ;; (kill-buffer "*scratch*")
+  (setenv "no_proxy" "127.0.0.1,localhost")
+  (setenv "NO_PROXY" "127.0.0.1,localhost")
   )
 
 (defun dotspacemacs/user-config ()
