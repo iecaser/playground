@@ -525,6 +525,28 @@ you should place your code here."
     (define-key flycheck-error-list-mode-map (kbd "C-w C-w") #'evil-window-next)
     )
 
+  ;; DEBUG
+  (defun spacemacs/python-toggle-breakpoint ()
+    "Add a break point, highlight it."
+    (interactive)
+    (let ((trace (cond ((spacemacs/pyenv-executable-find "trepan3k") "import trepan.api; trepan.api.debug()")
+                       ((spacemacs/pyenv-executable-find "wdb") "__import__('wdb').set_trace()")
+                      ((spacemacs/pyenv-executable-find "ipdb") "__import__('ipdb').set_trace()")
+                      ((spacemacs/pyenv-executable-find "pudb") "__import__('pudb').set_trace()")
+                      ((spacemacs/pyenv-executable-find "ipdb3") "__import__('ipdb').set_trace()")
+                      ((spacemacs/pyenv-executable-find "pudb3") "__import__('pudb').set_trace()")
+                      ((spacemacs/pyenv-executable-find "python3.7") "breakpoint()")
+                      ((spacemacs/pyenv-executable-find "python3.8") "breakpoint()")
+                      (t "__import__('pdb').set_trace()")))
+          (line (thing-at-point 'line)))
+      (if (and line (string-match trace line))
+          (kill-whole-line)
+        (progn
+          (back-to-indentation)
+          (insert trace)
+          (insert "\n")
+          (python-indent-line)))))
+
   ;; (setq python-shell-interpreter "python"
   ;;       python-shell-interpreter-args "-m IPython --simple-prompt -i")
   ;; (with-eval-after-load 'python

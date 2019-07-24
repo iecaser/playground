@@ -101,13 +101,13 @@ export PATH="$PATH:/home/zxf/install/LightGBM"
 
 
 # MY CONFIG START #####################################################################
-export TERM=xterm-256color
+export TERM=screen-256color
 # fix terminal key bugs
 bindkey  "^[[1~"   beginning-of-line
 bindkey  "^[[4~"   end-of-line
 
-export http_proxy="http://172.28.231.50:8118"
-export https_proxy="http://172.28.231.50:8118"
+export http_proxy="http://172.28.231.50:3128"
+export https_proxy="http://172.28.231.50:3128"
 
 # useful alias
 test -f /usr/bin/nvim && alias vim='nvim'
