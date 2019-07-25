@@ -416,7 +416,7 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "C-x C-l") 'spacemacs/comment-or-uncomment-lines)
     (define-key evil-normal-state-map (kbd "C-x C-j") 'dired-jump)
     (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
-    (define-key evil-normal-state-map (kbd "/") 'spacemacs/helm-project-smart-do-search)
+    (define-key evil-normal-state-map (kbd "?") 'spacemacs/helm-project-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> /") 'spacemacs/helm-files-smart-do-search)
     ;; parrot
     (define-key evil-normal-state-map (kbd "[r") 'parrot-rotate-prev-word-at-point)
