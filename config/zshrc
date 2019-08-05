@@ -99,7 +99,6 @@ export PYTHONPATH="$PYTHONPATH:/home/zxf/workspace/models/"
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 export PATH="$PATH:/home/zxf/install/LightGBM"
 
-
 # MY CONFIG START #####################################################################
 export TERM=xterm-256color
 # fix terminal key bugs
