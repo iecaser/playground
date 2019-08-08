@@ -291,23 +291,11 @@ CapsLock & n:: Send, ^{BS}                                           ;|
 ;=====================================================================o
 ;                            CapsLock Editor                         ;|
 ;-----------------------------------o---------------------------------o
-;                     CapsLock + z  |  Ctrl + z (Cancel)             ;|
-;                     CapsLock + x  |  Ctrl + x (Cut)                ;|
-;                     CapsLock + c  |  Ctrl + c (Copy)               ;|
-;                     CapsLock + v  |  Ctrl + z (Paste)              ;|
-;                     CapsLock + a  |  Ctrl + a (Select All)         ;|
-;                     CapsLock + y  |  Ctrl + z (Yeild)              ;|
-;                     CapsLock + w  |  Ctrl + Right(Move as [vim: w]);|
-;                     CapsLock + b  |  Ctrl + Left (Move as [vim: b]);|
+;                     CapsLock + y  |  Ctrl + insert                 ;|
+;                     CapsLock + p  |  Shift + insert                ;|
 ;-----------------------------------o---------------------------------o
-CapsLock & z:: Send, ^z                                              ;|
-CapsLock & x:: Send, ^x                                              ;|
-CapsLock & c:: Send, ^c                                              ;|
-CapsLock & v:: Send, ^v                                              ;|
-CapsLock & a:: Send, ^a                                              ;|
-CapsLock & y:: Send, ^y                                              ;|
-CapsLock & w:: Send, ^{Right}                                        ;|
-CapsLock & b:: Send, ^{Left}                                         ;|
+CapsLock & y:: Send, ^{insert}                                       ;|
+CapsLock & p:: Send, +{insert}                                       ;|
 ;---------------------------------------------------------------------o
 
 
@@ -371,7 +359,6 @@ CapsLock & g:: Send, {AppsKey}                                       ;|
 ;CapsLock & r:: Run Powershell                                        ;|
 ;CapsLock & t:: Run C:\Program Files (x86)\Notepad++\notepad++.exe    ;|
 ;---------------------------------------------------------------------o
-
 
 ;=====================================================================o
 ;                        CapsLock Char Mapping                       ;|
