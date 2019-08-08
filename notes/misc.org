@@ -212,6 +212,39 @@ gtk-key-theme-name=Emacs
        df = df[df.img_url.str.contains('.jpg')]
      #+end_src
 
+*** glob
+    Sort files by date
+    #+begin_src python
+      import glob
+      import os
+      files = glob.glob("*.txt")
+      files.sort(key=os.path.getmtime)
+      print("\n".join(files))
+    #+end_src
+*** os
+**** os.path.getctime
+    #+begin_src python
+      # Python program to explain os.path.getmtime() method
+
+      # importing os and time module
+      import os
+      import time
+
+      # Path
+      path = '/home/User/Documents/file.txt'
+
+      # Get the time of last
+      # modifation of the specified
+      # path since the epoch
+      modification_time = os.path.getmtime(path)
+      print("Last modification time since the epoch:", access_time)
+
+      # convert the time in
+      # seconds since epoch
+      # to local time
+      local_time = time.ctime(modification_time)
+      print("Last modification time(Local time):", local_time)
+    #+end_src
 
 * Vim tips
   delete all lines that are empty or that contain only whitespace chracters(spaces, tabs)
@@ -237,4 +270,17 @@ gtk-key-theme-name=Emacs
     curl -sLf https://spacevim.org/install.sh | bash
     # [[layers]]
     #   name = "lang#python"
+  #+end_src
+
+* multi-class precsion & recall
+  #+begin_src python
+    from sklearn.metrics import confusion_matrix
+    import numpy as np
+
+    labels = ...
+    predictions = ...
+
+    cm = confusion_matrix(labels, predictions)
+    recall = np.diag(cm) / np.sum(cm, axis = 1)
+    precision = np.diag(cm) / np.sum(cm, axis = 0)
   #+end_src
