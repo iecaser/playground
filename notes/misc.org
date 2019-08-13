@@ -282,6 +282,91 @@ gtk-key-theme-name=Emacs
     #+begin_src python
       torch._C._GLIBCXX_USE_CXX11_ABI
     #+end_src
+**** [[https://zhuanlan.zhihu.com/p/67806320][pytorch c++ extension]]
+
+    - c++
+    #+begin_src c++
+      #include <torch/extension.h>
+      #include <vector>
+
+      torch::Tensor test_forward_cpu(const torch::Tensor& inputA,
+                                     const torch::Tensor& inputB);
+      std::vector<torch::Tensor> test_backward_cpu(const torch::Tensor& grad_output);
+
+      torch::Tensor test_forward_cpu(const torch::Tensor& x,
+                                     const torch::Tensor& y){
+        AT_ASSERTM(x.sizes()==y.sizes(), "x must be the same size with y.");
+        torch::Tensor z = torch::zeros(x.sizes());
+        z = 2*x +y;
+        return z;
+      }
+
+      std::vector<torch::Tensor> test_backward_cpu(const torch::Tensor& grad_output){
+        torch::Tensor grad_x = 2* torch::ones(grad_output.sizes());
+        torch::Tensor  grad_y = torch::ones(grad_output.sizes());
+        return {grad_x, grad_y};
+      }
+
+      PYBIND11_MODULE(TORCH_EXTENSION_NAME,m){
+        m.def("forward", &test_forward_cpu,"This is a forward test.");
+        m.def("backward", &test_backward_cpu, "That is a backward test.");
+      }
+    #+end_src
+
+    - setup
+    #+begin_src python
+      from setuptools import setup
+      from torch.utils.cpp_extension import BuildExtension, CppExtension
+
+      setup(name='test_cpp',
+            ext_modules=[CppExtension(name='test_cpp',
+                                      sources=['src/test.cpp']),
+                         ],
+            cmdclass={'build_ext': BuildExtension}
+            )
+    #+end_src
+
+    - python 封装
+    #+begin_src python
+      import torch
+      import test_cpp
+      class TestFunction(torch.autograd.Function):
+          @staticmethod
+          def forward(ctx, x, y):
+              return test_cpp.forward(x, y)
+
+          @staticmethod
+          def backward(ctx, grad_output):
+              grad_x, grad_y = test_cpp.backward(grad_output)
+              return grad_x, grad_y
+
+
+      class Test(torch.nn.Module):
+          def __init__(self):
+              super().__init__()
+
+          def forward(self, x, y):
+              return TestFunction.apply(x, y)
+    #+end_src
+
+    - python demo
+    #+begin_src python
+      from test import Test
+      from loguru import logger
+      import torch
+
+      test = Test()
+      x = torch.autograd.Variable(torch.Tensor([1, 2, 3]), requires_grad=True)
+      y = torch.autograd.Variable(torch.Tensor([4, 5, 6]), requires_grad=True)
+      z = test(x, y).double()
+      z.sum().backward()
+      logger.info(x)
+      logger.info(y)
+      logger.info(z)
+      logger.info(x.grad)
+      logger.info(y.grad)
+    #+end_src
+
 
 * Vim tips
   delete all lines that are empty or that contain only whitespace chracters(spaces, tabs)
