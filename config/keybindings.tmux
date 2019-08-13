@@ -7,8 +7,12 @@ bind-key x kill-window
 bind-key p paste-buffer
 bind r source-file /usr/share/byobu/profiles/tmuxrc \; display-message "LONG LIVE ZXF!!!"
 bind-key C-d detach-client
+# v2.3 or below
+# bind-key -t vi-copy 'v' begin-selection
+# bind-key -t vi-copy 'y' copy-selection
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+bind-key -T copy-mode-vi y send-keys -X copy-selection \; send-keys -X cancel
 bind-key p paste-buffer
-bind-key v split-window -h
 
 
 # Not konwn

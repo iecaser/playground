@@ -59,6 +59,16 @@ values."
             shell-default-shell 'shell
             )
      (python :variables python-backend 'anaconda)
+     company-clang
+     lsp
+     (c-c++ :variables
+            c-c++-backend 'lsp-cquery
+            c-c++-default-mode-for-headers 'c++-mode
+            c-c++-enable-clang-format-on-save t
+            c-c++-enable-auto-newline t
+            c-c++-adopt-subprojects t
+            c-c++-lsp-sem-highlight-rainbow t
+            )
      bibtex
      search-engine
      (latex :variables
@@ -363,7 +373,7 @@ you should place your code here."
   (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
   (spaceline-all-the-icons--setup-paradox)         ;; Enable Paradox mode line
   (parrot-mode)
-  (global-centered-cursor-mode t)
+  (global-centered-cursor-mode nil)
   ;; org
   (when (version<= "9.2" (org-version))
     (require 'org-tempo))
@@ -375,6 +385,15 @@ you should place your code here."
     (define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
     )
   (with-eval-after-load 'evil
+    ;; myfunc
+    (defun zxf/move-to-middle ()
+      (interactive)
+      (let* ((begin (line-beginning-position))
+             (end (line-end-position))
+             (middle (/ (+ end begin) 2)))
+            (goto-char middle)))
+    (define-key evil-normal-state-map (kbd "C-m") 'zxf/move-to-middle)
+
     ;; evil
     (setq evil-emacs-state-modes (delq 'ibuffer-mode  evil-emacs-state-modes))
     (setq evil-emacs-state-modes (delq 'proced-mode  evil-emacs-state-modes))

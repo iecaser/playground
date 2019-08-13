@@ -144,6 +144,32 @@
 
 
 * python
+** syntax
+*** [[http://www.runoob.com/python/python-func-type.html][type]]
+    #+begin_src python
+      # generated on the fly
+      # torch/autograd/function.py
+      backward_fn = type(name + 'Backward', (BackwardCFunction,), {'_forward_cls': cls})
+      cls._backward_cls = backward_fn
+    #+end_src
+*** [[https://medium.com/@s16h/the-forgotten-optional-else-in-python-loops-90d9c465c830][forelse]]
+    #+begin_src python
+      def primes_python(nb_primes):
+          p = []
+          n = 2
+          while len(p) < nb_primes:
+              # Is n prime?
+              for i in p:
+                  if n % i == 0:
+                      break
+
+              # If no break occurred in the loop
+              else:
+                  p.append(n)
+              n += 1
+          return p
+    #+end_src
+
 ** package
 *** [[https://github.com/requests/toolbelt][requests-toolbelt]]
    - Install
@@ -212,6 +238,11 @@ gtk-key-theme-name=Emacs
        df = df[df.img_url.str.contains('.jpg')]
      #+end_src
 
+*** pickle
+     #+begin_src python
+       with open(fileout, 'wb') as fout:
+           pickle.dump(result, fout)
+     #+end_src
 *** glob
     Sort files by date
     #+begin_src python
@@ -244,6 +275,12 @@ gtk-key-theme-name=Emacs
       # to local time
       local_time = time.ctime(modification_time)
       print("Last modification time(Local time):", local_time)
+    #+end_src
+
+*** pytorch
+**** [[https://discuss.pytorch.org/t/undefined-symbol-when-import-lltm-cpp-extension/32627/3][c++11 support]]
+    #+begin_src python
+      torch._C._GLIBCXX_USE_CXX11_ABI
     #+end_src
 
 * Vim tips
