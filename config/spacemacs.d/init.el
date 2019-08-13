@@ -393,6 +393,8 @@ you should place your code here."
              (middle (/ (+ end begin) 2)))
             (goto-char middle)))
     (define-key evil-normal-state-map (kbd "C-m") 'zxf/move-to-middle)
+    (define-key evil-normal-state-map (kbd "") 'evil-first-non-blank)
+    (define-key evil-normal-state-map (kbd "C-l") 'evil-end-of-line)
 
     ;; evil
     (setq evil-emacs-state-modes (delq 'ibuffer-mode  evil-emacs-state-modes))
