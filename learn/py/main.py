@@ -6,12 +6,11 @@ from loguru import logger
 import pandas as pd
 
 
-def decode_json_like(filein, fileout=None, selected_features=None) -> pd.DataFrame:
-    if fileout is not None:
-        if os.path.exists(fileout):
-            logger.info(
-                f'Cached >>> Output file {fileout} exists, using cached.')
-            return pd.read_csv(fileout)
+def decode_json_like(filein, fileout=None,
+                     selected_features=None, force=False) -> pd.DataFrame:
+    if fileout is not None and os.path.exists(fileout) and not force:
+        logger.info(f'Cached >>> Output file {fileout} exists, using cached.')
+        return pd.read_csv(fileout)
     with open(filein)as f:
         df = {}
         for line in f:
