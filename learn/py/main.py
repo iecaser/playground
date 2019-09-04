@@ -1,3 +1,4 @@
+import os
 import json
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -6,8 +7,13 @@ import pandas as pd
 
 
 def decode_json_like(filein, fileout=None, selected_features=None) -> pd.DataFrame:
-    df = {}
+    if fileout is not None:
+        if os.path.exists(fileout):
+            logger.info(
+                f'Cached >>> Output file {fileout} exists, using cached.')
+            return pd.read_csv(fileout)
     with open(filein)as f:
+        df = {}
         for line in f:
             data = json.loads(line.strip())
             for key, value in data.items():
