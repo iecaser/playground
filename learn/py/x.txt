@@ -1,0 +1,6 @@
+{"record_time":"2019-04-13 17:41:24.246","source_ip":"10.69.223.71","destination_ip":"10.69.223.31","protocol":"http","destination_port":"80","uplink_length":278,"downlink_length":353}
+{"record_time":"2019-04-13 17:41:24.246","source_ip":"10.69.223.71","destination_ip":"10.69.223.31","protocol":"http","destination_port":"80","uplink_length":278,"downlink_length":353}
+{"record_time":"2019-04-13 17:41:24.246","source_ip":"10.69.223.71","destination_ip":"10.69.223.31","protocol":"http","destination_port":"80","uplink_length":278,"downlink_length":353}
+{"record_time":"2019-04-13 17:41:24.246","source_ip":"10.69.223.71","destination_ip":"10.69.223.31","protocol":"http","destination_port":"80","uplink_length":278,"downlink_length":353}
+{"record_time":"2019-04-13 17:41:24.246","source_ip":"10.69.223.71","destination_ip":"10.69.223.31","protocol":"http","destination_port":"80","uplink_length":278,"downlink_length":353}
+{"record_time":"2019-04-13 17:41:24.246","source_ip":"10.69.223.71","destination_ip":"10.69.223.31","protocol":"http","destination_port":"80","uplink_length":278,"downlink_length":353}

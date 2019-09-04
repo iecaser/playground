@@ -83,6 +83,7 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '((helm-swoop :location (recipe :fetcher github :repo "ashiklom/helm-swoop"))
                                       parrot
+                                      ox-pandoc
                                       py-autopep8)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '(
@@ -223,7 +224,7 @@ values."
    dotspacemacs-display-default-layout t
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts t
+   dotspacemacs-auto-resume-layouts nil
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -375,8 +376,20 @@ you should place your code here."
   (parrot-mode)
   (global-centered-cursor-mode nil)
   ;; org
+  (evil-define-key 'normal org-mode-map (kbd "C-c ?") 'which-key-show-next-page-cycle)
   (when (version<= "9.2" (org-version))
     (require 'org-tempo))
+  ;; ox-pandoc
+  ;; default options for all output formats
+  (setq org-pandoc-options '((standalone . t)))
+  ;; cancel above settings only for 'docx' format
+  (setq org-pandoc-options-for-docx '((standalone . nil)))
+  ;; special settings for beamer-pdf and latex-pdf exporters
+  (setq org-pandoc-options-for-beamer-pdf '((pdf-engine . "xelatex")))
+  (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "pdflatex")))
+  ;; special extensions for markdown_github output
+  (setq org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html))
+  ;; other
   (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
   (add-hook 'prog-mode-hook 'yas-minor-mode)
   (with-eval-after-load 'yasnippet

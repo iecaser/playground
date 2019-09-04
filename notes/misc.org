@@ -26,15 +26,26 @@
     - [[https://stackoverflow.com/questions/45749024/how-can-i-use-tensorflow-serving-for-multiple-models][How can I use tensorflow serving for multiple models - Stack Overflow]]
 
 * Docker
-** copy
-*** docker root permission
+** [[https://blog.csdn.net/qq_37674858/article/details/81669082][docker.service]]
+   Change docker storage path and base size.
    #+begin_src bash
-     sudo groupadd docker     #添加docker用户组
-     sudo gpasswd -a $USER docker     #将登陆用户加入到docker用户组中
-     newgrp docker     #更新用户组
-     docker ps    #测试docker命令是否可以使用sudo正常使用
+     systemctl disable docker
+     systemctl enable docker
+     # Add ExecStart=/usr/bin/dockerd --graph /home/docker --storage-opt dm.basesize=40G
+     vim /usr/lib/systemd/system/docker.service
+     systemctl daemon-reload
+     systemctl start docker
+     docker info
    #+end_src
+** docker root permission
+  #+begin_src bash
+    sudo groupadd docker     #添加docker用户组
+    sudo gpasswd -a $USER docker     #将登陆用户加入到docker用户组中
+    newgrp docker     #更新用户组
+    docker ps    #测试docker命令是否可以使用sudo正常使用
+  #+end_src
 
+** copy
 *** docker cp
     #+BEGIN_SRC bash
       # host -> container
