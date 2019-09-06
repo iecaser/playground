@@ -162,6 +162,13 @@
     #+END_SRC
 
 
+*** get current script path
+    #+begin_src bash
+      cd `dirname $0`
+      pip install ..
+      python main.py --dt=2019-08-27 --mode hive --batch_size 512
+    #+end_src
+
 * python
 ** syntax
 *** [[http://www.runoob.com/python/python-func-type.html][type]]
