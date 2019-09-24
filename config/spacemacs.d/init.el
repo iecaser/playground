@@ -447,11 +447,12 @@ you should place your code here."
     (define-key evil-visual-state-map (kbd "C-e") 'evil-iedit-state/iedit-mode)
     (define-key evil-normal-state-map (kbd "M-j") 'move-text-down)
     (define-key evil-normal-state-map (kbd "M-k") 'move-text-up)
+    (define-key evil-normal-state-map (kbd "C-x t") 'spacemacs/time-machine-transient-state/body)
     (define-key evil-normal-state-map (kbd "C-x C-u") 'spacemacs/helm-jump-in-buffer)
     (define-key evil-normal-state-map (kbd "C-x C-l") 'spacemacs/comment-or-uncomment-lines)
     (define-key evil-normal-state-map (kbd "C-x C-j") 'dired-jump)
     (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
-    (define-key evil-normal-state-map (kbd "?") 'spacemacs/helm-project-smart-do-search)
+    (define-key evil-normal-state-map (kbd "/") 'spacemacs/helm-project-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> /") 'spacemacs/helm-files-smart-do-search)
     ;; parrot
     (define-key evil-normal-state-map (kbd "[r") 'parrot-rotate-prev-word-at-point)

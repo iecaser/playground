@@ -108,6 +108,21 @@
      - [[https://stackoverflow.com/questions/18119689/command-not-found-in-bashs-if-else-condition-when-using-d-dir][Add space between square brackets]]
      - [[https://linuxize.com/post/bash-check-le-exists/][How to Check if a File or Directory Exists in Bash]]
 
+
+*** cd & test param
+    #+begin_src bash
+      dt=$1
+      df -h
+      nvidia-smi
+      cd `dirname $0`
+      pip install ..
+      if test -z "$dt"
+      then
+          python merge.py
+      else
+          python merge.py --dt $dt
+      fi
+    #+end_src
 *** cp
     - cp =-L= :: copy follow symbolic link
     #+begin_src bash
@@ -393,7 +408,21 @@ gtk-key-theme-name=Emacs
       logger.info(y.grad)
     #+end_src
 
-
+*** [[https://github.com/joblib/joblib/issues/317][joblib]]
+    #+begin_src python
+      from joblib import Parallel, delayed
+      # direct
+      Parallel(n_jobs=16)(delayed(_filter)(image_dir, image_name, self.log)
+                                  for image_name in tqdm(os.listdir(image_dir)))
+      # use chunk
+      chunk_num = self.n_jobs * 2
+      chunk_size = int(np.ceil(df.shape[0] / chunk_num))
+      chunks = [df.iloc[i:i+chunk_size] for i in range(chunk_num)]
+      self.log(
+          f'Splited into {chunk_num} parts, running {self.n_jobs} workers...')
+      rtns = Parallel(n_jobs=self.n_jobs, verbose=10)(delayed(__op)(chunk, self.ops, self.Image)
+                                                      for chunk in tqdm(chunks))
+    #+end_src
 * Vim tips
   delete all lines that are empty or that contain only whitespace chracters(spaces, tabs)
   #+begin_src  bash
