@@ -1,15 +1,18 @@
 * 养猪模式
 
 ** Software prepare
+
     #+begin_src bash
       sudo yum install -y tmux byobu zsh emacs
       sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     #+end_src
+
     When you are asked if chose `zsh` as your default shell, chose `yes`/`y`.
     - [[https://github.com/robbyrussell/oh-my-zsh][oh-my-zsh]]
 
 ** My config
    1. Git clone and establish soft-link
+
     #+begin_src bash
       git clone -b develop https://github.com/syl20bnr/spacemacs ~/.emacs.d
       cd ~ && mkdir workspace && cd workspace
@@ -21,6 +24,7 @@
     #+end_src
 
    2. Add following lines at the end of your zsh config file: ~/.zshrc
+
     #+begin_src bash
       export TERM=xterm-256color
       bindkey  "^[[1~"   beginning-of-line
@@ -34,15 +38,19 @@
       alias vr="vim ~/.zshrc"
       alias sr="source ~/.zshrc"
     #+end_src
+
       - [[https://github.com/iecaser/playground][my-playground-git]]
 
 **  Now go
+
     1. I re-defined some useful keybindings in `~/workspace/playground/config/keybindings.tmux`.
       Just run the following command(alias defined by step 2) :).
+
       #+begin_src bash
         source ~/.zshrc
         by
       #+end_src
+
       Tips:
        - `Ctrl-n c` to create new window;
        - `Ctrl-n n (or Ctrl - double click n)` to switch between the last two windows;
@@ -53,6 +61,7 @@
 
     2. Hit `F9` to Chose something to display at status line(bottom).
       For example:
+
       #+begin_src bash
         ┌┤ Toggle status notifications ├┐
         │                               │
@@ -94,7 +103,9 @@
       #+end_src
 
     3*. Enjoy your emacs(The first launch will take a long time).
+
       #+begin_src bash
         emacs
       #+end_src
+
       Now everything seems great.
