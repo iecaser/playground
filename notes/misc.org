@@ -212,6 +212,14 @@
     #+end_src
 
 ** package
+
+*** numpy
+
+**** [[https://docs.scipy.org/doc/numpy/reference/generated/numpy.apply_along_axis.html][numpy.apply_along_axis]]
+    #+begin_src python
+      density_count = np.apply_along_axis(
+          lambda x: counts_p[int(x)], 1, labels.reshape(-1, 1))
+    #+end_src
 *** [[https://github.com/requests/toolbelt][requests-toolbelt]]
    - Install
    #+begin_src bash

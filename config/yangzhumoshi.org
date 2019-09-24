@@ -1,0 +1,100 @@
+* 养猪模式
+
+** Software prepare
+    #+begin_src bash
+      sudo yum install -y tmux byobu zsh emacs
+      sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    #+end_src
+    When you are asked if chose `zsh` as your default shell, chose `yes`/`y`.
+    - [[https://github.com/robbyrussell/oh-my-zsh][oh-my-zsh]]
+
+** My config
+   1. Git clone and establish soft-link
+    #+begin_src bash
+      git clone -b develop https://github.com/syl20bnr/spacemacs ~/.emacs.d
+      cd ~ && mkdir workspace && cd workspace
+      git clone https://github.com/iecaser/playground.git
+      rm ~/.byobu/keybindings.tmux
+      ln -s ~/workspace/playground/config/keybindings.tmux ~/.byobu/keybindings.tmux
+      rm -rf ~/.spacemacs.d
+      ln -s ~/workspace/playground/config/spacemacs.d ~/.spacemacs.d
+    #+end_src
+
+   2. Add following lines at the end of your zsh config file: ~/.zshrc
+    #+begin_src bash
+      export TERM=xterm-256color
+      bindkey  "^[[1~"   beginning-of-line
+      bindkey  "^[[4~"   end-of-line
+      # useful alias
+      test -f /usr/bin/nvim && alias vim='nvim'
+      alias ll="ls -ahl"
+      alias dog="watch -n 1 -d"
+      alias by="byobu"
+      alias bn="byobu new -s"
+      alias vr="vim ~/.zshrc"
+      alias sr="source ~/.zshrc"
+    #+end_src
+      - [[https://github.com/iecaser/playground][my-playground-git]]
+
+**  Now go
+    1. I re-defined some useful keybindings in `~/workspace/playground/config/keybindings.tmux`.
+      Just run the following command(alias defined by step 2) :).
+      #+begin_src bash
+        source ~/.zshrc
+        by
+      #+end_src
+      Tips:
+       - `Ctrl-n c` to create new window;
+       - `Ctrl-n n (or Ctrl - double click n)` to switch between the last two windows;
+       - `Ctrl-n 1/2/3/..` to switch to the 1st/2nd/3rd.. window;
+       - `Ctrl-n x` to close current window(with no confirm);
+       - `Ctrl-n s` to display all sessions(you can have several sessions at the same time);
+       - etc.
+
+    2. Hit `F9` to Chose something to display at status line(bottom).
+      For example:
+      #+begin_src bash
+        ┌┤ Toggle status notifications ├┐
+        │                               │
+        │      [*] ip_address        ↑  │
+        │      [ ] load_average      ▒  │
+        │      [ ] logo              ▒  │
+        │      [ ] mail              ▒  │
+        │      [*] memory            ▒  │
+        │      [*] network           ▒  │
+        │      [*] processes         ▒  │
+        │      [ ] raid              ▮  │
+        │      [ ] rcs_cost          ▒  │
+        │      [ ] reboot_required   ▒  │
+        │      [ ] release           ▒  │
+        │      [ ] services          ↓  │
+        │                               │
+        │       <Apply>   <Cancel>      │
+        │                               │
+        └───────────────────────────────┘
+
+        ┌┤ Toggle status notifications ├┐
+        │                               │
+        │      [ ] reboot_required   ↑  │
+        │      [ ] release           ▒  │
+        │      [ ] services          ▒  │
+        │      [*] session           ▒  │
+        │      [ ] swap              ▒  │
+        │      [*] time              ▒  │
+        │      [ ] time_utc          ▒  │
+        │      [ ] updates_available ▒  │
+        │      [ ] uptime            ▒  │
+        │      [ ] users             ▒  │
+        │      [ ] whoami            ▮  │
+        │      [ ] wifi_quality      ↓  │
+        │                               │
+        │       <Apply>   <Cancel>      │
+        │                               │
+        └───────────────────────────────┘
+      #+end_src
+
+    3*. Enjoy your emacs(The first launch will take a long time).
+      #+begin_src bash
+        emacs
+      #+end_src
+      Now everything seems great.
