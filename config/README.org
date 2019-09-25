@@ -53,6 +53,7 @@
 
       Tips:
        - `Ctrl-n c` to create new window;
+       - `Ctrl-n d` to detach;
        - `Ctrl-n n (or Ctrl - double click n)` to switch between the last two windows;
        - `Ctrl-n 1/2/3/..` to switch to the 1st/2nd/3rd.. window;
        - `Ctrl-n x` to close current window(with no confirm);

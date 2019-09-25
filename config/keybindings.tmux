@@ -27,10 +27,10 @@ set -g default-terminal "xterm-256color"
 set -g base-index 1
 set-option -g allow-rename
 set -g status-interval 4
-set -g status-left '#[bg=colour247]#[fg=colour0]#{?client_prefix,#[bg=colour24]#[fg=colour249],} ♂ #S #[bg=default]#[fg=colour247]#{?client_prefix,#[fg=colour24],}#{?window_zoomed_flag, ,}#[fg=colour1]#[bg=default] ♥ #(~/dotfiles/tmux_scripts/battery.sh)'
+set -g status-left '#[bg=colour247]#[fg=colour0]#{?client_prefix,#[bg=colour24]#[fg=colour249],} Stephen #S #[bg=default]#[fg=colour247]#{?client_prefix,#[fg=colour24],}#{?window_zoomed_flag, ,}#[fg=colour99]#[bg=default] ♂ #(~/dotfiles/tmux_scripts/battery.sh)'
 set -g window-status-current-format "#[bg=colour99]#[fg=colour0]#[bg=colour99]#[fg=colour250] ☻#I #[bg=colour99]#[fg=colour250]#W #[fg=colour99]#[bg=default]"
 set -g window-status-format "#[fg=colour146]☹#[fg=colour146]#I #[fg=146]#W #[fg=colour99]"
-
+# ♥
 ## byobu conflict
 set -g prefix C-n
 unbind-key -n C-a
