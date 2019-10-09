@@ -21,7 +21,6 @@ set -s escape-time 0
 # UI
 ## color
 set -g default-terminal "xterm-256color"
-# set -g default-terminal "screen-256color"
 
 ## status bar
 set -g base-index 1

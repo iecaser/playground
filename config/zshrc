@@ -96,7 +96,7 @@ source $ZSH/oh-my-zsh.sh
 
 
 export PYTHONPATH="$PYTHONPATH:/home/zxf/workspace/models/"
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/home/zxf/anaconda3/lib:/home/zxf/anaconda3/lib64:/usr/local/cuda/lib64:/usr/local/lib64/:$LD_LIBRARY_PATH
 export PATH="$PATH:/usr/local/cuda/bin"
 
 # MY CONFIG START #####################################################################
@@ -120,17 +120,6 @@ alias by="byobu"
 alias bn="byobu new -s"
 alias vr="vim ~/.zshrc"
 alias sr="source ~/.zshrc"
-alias cc="~/anaconda3/bin/x86_64-conda_cos6-linux-gnu-cc"
-alias gcc="~/anaconda3/bin/x86_64-conda_cos6-linux-gnu-gcc"
-alias gcc-ar="~/anaconda3/bin/x86_64-conda_cos6-linux-gnu-gcc-ar"
-alias gcc-nm="~/anaconda2/bin/x86_64-conda_cos6-linux-gnu-gcc-nm"
-alias gcc-ranlib="~/anaconda3/bin/x86_64-conda_cos6-linux-gnu-gcc-ranlib"
-alias g++="~/anaconda3/bin/x86_64-conda_cos6-linux-gnu-g++"
-function run_vlc
-{
-    vlc -I dummy --width=600 --height=480 --video-x=100 --video-y=100 --no-video-deco --no-embedded-video $1 &
-}
-alias vlc="run_vlc"
 # MY CONFIG END #####################################################################
 
 
