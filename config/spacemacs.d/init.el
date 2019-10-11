@@ -38,7 +38,10 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-sort-by-usage t)
      better-defaults
      emacs-lisp
      git
@@ -409,12 +412,15 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "") 'evil-first-non-blank)
     (define-key evil-normal-state-map (kbd "C-l") 'evil-end-of-line)
 
+    ;; yas
+    (evil-define-key 'insert yas-minor-mode-map (kbd "C-e") 'yas-expand)
+
     ;; evil
     (setq evil-emacs-state-modes (delq 'ibuffer-mode  evil-emacs-state-modes))
     (setq evil-emacs-state-modes (delq 'proced-mode  evil-emacs-state-modes))
     (setq evil-emacs-state-modes (delq 'spacemacs-buffer-mode  evil-emacs-state-modes))
     (setq evil-emacs-state-modes (delq 'help-mode  evil-emacs-state-modes))
-    (setq evil-emacs-state-modes (delq 'Custom-mode  evil-emacs-state-modes))
+    ;; (setq evil-emacs-state-modes (delq 'Custom-mode  evil-emacs-state-modes))
     (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
     (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
     (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-buffer-and-window)
