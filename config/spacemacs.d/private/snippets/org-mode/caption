@@ -2,4 +2,4 @@
 # name: caption
 # key: <cap
 # --
-#+caption: $0
+#+CAPTION: $0
