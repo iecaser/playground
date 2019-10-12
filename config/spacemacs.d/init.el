@@ -451,7 +451,7 @@ you should place your code here."
     (define-key spacemacs-buffer-mode-map (kbd "C-p") 'helm-projectile-switch-project)
     ;; C-q C-backspace to insert the ^? (not actually question mark)
     (define-key key-translation-map (kbd "C-h") "")
-    (define-key key-translation-map (kbd "?") (kbd "C-h"))
+    (define-key key-translation-map (kbd "`") (kbd "C-h"))
     (define-key evil-normal-state-map (kbd "<SPC>fF") 'helm-projectile-find-file-in-known-projects)
     (define-key evil-normal-state-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file)
