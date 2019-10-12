@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: label
-# key: <lb
+# key: <lab
 # --
 #+label: $0

@@ -5,23 +5,23 @@
     #+BEGIN_SRC json
       model_config_list: {
 
-	config: {
-	  name: "model1",
-	  base_path: "/tmp/model",
-	  model_platform: "tensorflow"
-	},
-	config: {
-	   name: "model2",
-	   base_path: "/tmp/model2",
-	   model_platform: "tensorflow"
-	}
+          config: {
+              name: "model1",
+              base_path: "/tmp/model",
+              model_platform: "tensorflow"
+          },
+          config: {
+              name: "model2",
+              base_path: "/tmp/model2",
+              model_platform: "tensorflow"
+          }
       }
-   #+END_SRC
+    #+END_SRC
 
-   start tf service using models.conf:
-   #+BEGIN_SRC bash
-     tensorflow_model_server --port=9000 --model_config_file=/serving/models.conf
-   #+END_SRC
+    start tf service using models.conf:
+    #+BEGIN_SRC bash
+      tensorflow_model_server --port=9000 --model_config_file=/serving/models.conf
+    #+END_SRC
 
     - [[https://stackoverflow.com/questions/45749024/how-can-i-use-tensorflow-serving-for-multiple-models][How can I use tensorflow serving for multiple models - Stack Overflow]]
 
@@ -38,12 +38,12 @@
      docker info
    #+end_src
 ** docker root permission
-  #+begin_src bash
-    sudo groupadd docker     #添加docker用户组
-    sudo gpasswd -a $USER docker     #将登陆用户加入到docker用户组中
-    newgrp docker     #更新用户组
-    docker ps    #测试docker命令是否可以使用sudo正常使用
-  #+end_src
+   #+begin_src bash
+     sudo groupadd docker     #添加docker用户组
+     sudo gpasswd -a $USER docker     #将登陆用户加入到docker用户组中
+     newgrp docker     #更新用户组
+     docker ps    #测试docker命令是否可以使用sudo正常使用
+   #+end_src
 
 ** copy
 *** docker cp
@@ -74,39 +74,39 @@
 ** Bash
 *** if-fi/test
     - test :: try to run these lines in bash.
-   #+begin_src bash
-     $(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia")
-     test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
-   #+end_src
+    #+begin_src bash
+      $(test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia")
+      test "$LINGVO_DEVICE" = "gpu" && echo "--runtime=nvidia"
+    #+end_src
 
-   - =-f= file existance
-   #+begin_src bash
-     FILE=/etc/resolv.conf
-     if test -f "$FILE"; then
-	 echo "$FILE exist"
-     fi
-     # or use =&&= and =||=
-     test -f /etc/resolv.conf && echo "$FILE exist"
-     [ -f /etc/resolv.conf ] && echo "$FILE exist" || echo "$FILE does not exist"
-   #+end_src
+    - =-f= file existance
+    #+begin_src bash
+      FILE=/etc/resolv.conf
+      if test -f "$FILE"; then
+          echo "$FILE exist"
+      fi
+      # or use =&&= and =||=
+      test -f /etc/resolv.conf && echo "$FILE exist"
+      [ -f /etc/resolv.conf ] && echo "$FILE exist" || echo "$FILE does not exist"
+    #+end_src
 
     - =-x= executable
-   #+begin_src bash
-     if [ ! -x "$folder"]; then
-     mkdir "$folder"
-     fi
-   #+end_src
+    #+begin_src bash
+      if [ ! -x "$folder"]; then
+          mkdir "$folder"
+      fi
+    #+end_src
 
-   - =-d= directory existence
-   #+begin_src bash
-     if [ ! -d "$folder"]; then
-     mkdir "$folder"
-     fi
-   #+end_src
+    - =-d= directory existence
+    #+begin_src bash
+      if [ ! -d "$folder"]; then
+          mkdir "$folder"
+      fi
+    #+end_src
 
-   - Reference
-     - [[https://stackoverflow.com/questions/18119689/command-not-found-in-bashs-if-else-condition-when-using-d-dir][Add space between square brackets]]
-     - [[https://linuxize.com/post/bash-check-le-exists/][How to Check if a File or Directory Exists in Bash]]
+    - Reference
+      - [[https://stackoverflow.com/questions/18119689/command-not-found-in-bashs-if-else-condition-when-using-d-dir][Add space between square brackets]]
+      - [[https://linuxize.com/post/bash-check-le-exists/][How to Check if a File or Directory Exists in Bash]]
 
 
 *** cd & test param
@@ -137,20 +137,20 @@
     #+begin_src bash
       for i in hello world 'hello world'
       do
-	  echo $i
+          echo $i
       done
     #+end_src
 
     - advanced
     #+begin_src bash
       strings=(
-	string1
-	string2
-	"string with spaces"
-	stringN
+          string1
+          string2
+          "string with spaces"
+          stringN
       )
       for i in "${strings[@]}"; do
-	echo "$i"
+          echo "$i"
       done
     #+end_src
 
@@ -184,7 +184,7 @@
       python main.py --dt=2019-08-27 --mode hive --batch_size 512
     #+end_src
 
-* python
+* Python
 ** syntax
 *** [[http://www.runoob.com/python/python-func-type.html][type]]
     #+begin_src python
@@ -207,7 +207,7 @@
               # If no break occurred in the loop
               else:
                   p.append(n)
-              n += 1
+                  n += 1
           return p
     #+end_src
 
@@ -216,31 +216,31 @@
 *** numpy
 
 **** [[https://docs.scipy.org/doc/numpy/reference/generated/numpy.apply_along_axis.html][numpy.apply_along_axis]]
-    #+begin_src python
-      density_count = np.apply_along_axis(
-          lambda x: counts_p[int(x)], 1, labels.reshape(-1, 1))
-    #+end_src
+     #+begin_src python
+       density_count = np.apply_along_axis(
+           lambda x: counts_p[int(x)], 1, labels.reshape(-1, 1))
+     #+end_src
 *** [[https://github.com/requests/toolbelt][requests-toolbelt]]
-   - Install
-   #+begin_src bash
-     conda install requests-toolbelt
-     # or
-     pip install requests-toolbelt
-   #+end_src
+    - Install
+    #+begin_src bash
+      conda install requests-toolbelt
+      # or
+      pip install requests-toolbelt
+    #+end_src
 
-   - Quick use
-   #+begin_src python
-     from requests_toolbelt import MultipartEncoder
-     import requests
+    - Quick use
+    #+begin_src python
+      from requests_toolbelt import MultipartEncoder
+      import requests
 
-     m = MultipartEncoder(
-	 fields={'field0': 'value', 'field1': 'value',
-		 'field2': ('filename', open('file.py', 'rb'), 'text/plain')}
-	 )
+        m = MultipartEncoder(
+            fields={'field0': 'value', 'field1': 'value',
+                  'field2': ('filename', open('file.py', 'rb'), 'text/plain')}
+        )
 
-     r = requests.post('http://httpbin.org/post', data=m,
-		       headers={'Content-Type': m.content_type})
-   #+end_src
+        r = requests.post('http://httpbin.org/post', data=m,
+                      headers={'Content-Type': m.content_type})
+    #+end_src
 *** json
     - [[https://codeyarns.com/2017/02/22/python-json-dump-misses-last-newline/][dump with new lines]]
     #+begin_src python
@@ -251,31 +251,31 @@
 
 
     keycode 66 = Mode_switch
-keysym h = h H Left
-keysym l = l L Right
-keysym k = k K Up
-keysym j = j J Down
-keysym u = u U Prior
-keysym i = i I Home
-keysym o = o O End
-keysym p = p P Next
-https://unix.stackexchange.com/questions/414926/bind-capshjkl-to-arrow-keys-caps-to-esc
+    keysym h = h H Left
+    keysym l = l L Right
+    keysym k = k K Up
+    keysym j = j J Down
+    keysym u = u U Prior
+    keysym i = i I Home
+    keysym o = o O End
+    keysym p = p P Next
+    https://unix.stackexchange.com/questions/414926/bind-capshjkl-to-arrow-keys-caps-to-esc
 
 
 
-https://superuser.com/questions/463312/how-to-configure-ctrlh-as-backspace-under-google-chrome
+    https://superuser.com/questions/463312/how-to-configure-ctrlh-as-backspace-under-google-chrome
 
 
-If you want to modify the bindings, the Emacs binding can be found in /usr/share/themes/Emacs/gtk-3.0/gtk-keys.css, which can be copied over to ~/.config/gtk-3.0/gtk.css and modified.
-On GTK3, the ~/.gtkrc-2.0 method no longer works. Instead, edit the ~/.config/gtk-3.0/settings.ini and add the following line to the end:
-gtk-key-theme-name=Emacs
+    If you want to modify the bindings, the Emacs binding can be found in /usr/share/themes/Emacs/gtk-3.0/gtk-keys.css, which can be copied over to ~/.config/gtk-3.0/gtk.css and modified.
+    On GTK3, the ~/.gtkrc-2.0 method no longer works. Instead, edit the ~/.config/gtk-3.0/settings.ini and add the following line to the end:
+    gtk-key-theme-name=Emacs
 
 *** YAML
 **** list anchor
 
      #+begin_src yaml
-       pos_category: &pos_category
-       in_set: *pos_category
+         pos_category: &pos_category
+           in_set: *pos_category
      #+end_src
 *** pandas
 **** str
@@ -288,10 +288,10 @@ gtk-key-theme-name=Emacs
      #+end_src
 
 *** pickle
-     #+begin_src python
-       with open(fileout, 'wb') as fout:
-           pickle.dump(result, fout)
-     #+end_src
+    #+begin_src python
+      with open(fileout, 'wb') as fout:
+          pickle.dump(result, fout)
+    #+end_src
 *** glob
     Sort files by date
     #+begin_src python
@@ -438,16 +438,16 @@ gtk-key-theme-name=Emacs
     :v/\S/d
   #+end_src
 
-* linux tool
+* Linux tool
   [[https://centos.pkgs.org/7/epel-x86_64/aria2-1.34.0-5.el7.x86_64.rpm.html][aria2 rpm]]
 
-* gcc-7.3 g++-7.3
+* Gcc-7.3 g++-7.3
   #+begin_src bash
     conda install gcc_linux-64
     conda install gxx_linux-64
   #+end_src
 
-* install neovim & SpaceVim
+* Install neovim & SpaceVim
   #+begin_src bash
     # https://github.com/neovim/neovim/wiki/Installing-Neovim
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
@@ -457,7 +457,7 @@ gtk-key-theme-name=Emacs
     #   name = "lang#python"
   #+end_src
 
-* multi-class precsion & recall
+* Multi-class precsion & recall
   #+begin_src python
     from sklearn.metrics import confusion_matrix
     import numpy as np
@@ -469,10 +469,34 @@ gtk-key-theme-name=Emacs
     recall = np.diag(cm) / np.sum(cm, axis = 1)
     precision = np.diag(cm) / np.sum(cm, axis = 0)
   #+end_src
-* git
+* Git
 
 ** [[https://stackoverflow.com/questions/10904339/github-fatal-remote-origin-already-exists][remote origin exists]]
   #+begin_src bash
     git remote rm origin
     git remote add origin git@github.com:username/myapp.git
   #+end_src
+
+* Emacs
+
+** refactor
+*** short-keys
+    1. In iedit mode:
+       - ~F~ to restrict to current function
+       - ~V~ to focus selected
+       - ~L~ to keep only current line, ~J~ to select below, ~K~ to select above
+       - ~Tab~ to toggle on/off selected element
+
+
+** evil
+*** short-keys
+    1. use ~b~ ~B~ ~e~ ~E~ to navigate
+    2. ~vae~ visual an element
+    3. ~var~ visual an subtree
+    4. ~=ae~ auto-indent (or ~vae~ then ~=~)
+    5. ~vii~ visual an indent
+
+** org-mode
+
+*** short-keys
+    1. ~C-c C-x b~  org tree to indirect buffer

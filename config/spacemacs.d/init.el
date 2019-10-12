@@ -62,7 +62,6 @@ values."
             shell-default-shell 'shell
             )
      (python :variables python-backend 'anaconda)
-     company-clang
      lsp
      (c-c++ :variables
             c-c++-backend 'lsp-cquery
@@ -195,10 +194,10 @@ values."
    dotspacemacs-ex-command-key ":"
    ;; The leader key accessible in `emacs state' and `insert state'
    ;; (default "M-m")
-   dotspacemacs-emacs-leader-key "M-m"
+   dotspacemacs-emacs-leader-key "C-M-m"
    ;; Major mode leader key is a shortcut key which is the equivalent of
    ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
-   dotspacemacs-major-mode-leader-key nil
+   dotspacemacs-major-mode-leader-key "C-m"
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
    ;; (default "C-M-m")
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
@@ -208,7 +207,7 @@ values."
    ;; and TAB or <C-m> and RET.
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
-   dotspacemacs-distinguish-gui-tab nil
+   dotspacemacs-distinguish-gui-tab t
    ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
    dotspacemacs-remap-Y-to-y$ nil
    ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
@@ -370,6 +369,8 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; git token
 
+  (setq org-latex-pdf-process
+             '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
   (setq paradox-github-token 'd24c25b90110af527bd590a998f32702922b0760)
   ;; all icons
   (spaceline-all-the-icons--setup-anzu)            ;; Enable anzu searching
@@ -379,7 +380,11 @@ you should place your code here."
   (parrot-mode)
   (global-centered-cursor-mode nil)
   ;; org
-  (evil-define-key 'normal org-mode-map (kbd "C-c ?") 'which-key-show-next-page-cycle)
+  (evil-define-key 'normal org-mode-map (kbd "<up>") 'org-shiftup)
+  (evil-define-key 'normal org-mode-map (kbd "<down>") 'org-shiftdown)
+  (evil-define-key 'normal org-mode-map (kbd "<left>") 'org-shiftleft)
+  (evil-define-key 'normal org-mode-map (kbd "<right>") 'org-shiftright)
+
   (when (version<= "9.2" (org-version))
     (require 'org-tempo))
   ;; ox-pandoc
@@ -408,9 +413,10 @@ you should place your code here."
              (end (line-end-position))
              (middle (/ (+ end begin) 2)))
             (goto-char middle)))
-    (define-key evil-normal-state-map (kbd "C-m") 'zxf/move-to-middle)
-    (define-key evil-normal-state-map (kbd "") 'evil-first-non-blank)
-    (define-key evil-normal-state-map (kbd "C-l") 'evil-end-of-line)
+    ;; (define-key evil-normal-state-map (kbd "") 'evil-first-non-blank)
+    (define-key evil-normal-state-map (kbd "H") 'evil-first-non-blank)
+    (define-key evil-normal-state-map (kbd "M") 'zxf/move-to-middle)
+    (define-key evil-normal-state-map (kbd "L") 'evil-end-of-line)
 
     ;; yas
     (evil-define-key 'insert yas-minor-mode-map (kbd "C-e") 'yas-expand)
@@ -439,12 +445,13 @@ you should place your code here."
       (ibuffer-list-buffers)
       (other-window 1)
       )
-    ;; C-q C-backspace to insert the ^? (not actually question mark)
     (define-key spacemacs-buffer-mode-map (kbd "<SPC>fF") 'helm-projectile-find-file-in-known-projects)
     (define-key spacemacs-buffer-mode-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key spacemacs-buffer-mode-map (kbd "C-f") 'helm-projectile-find-file)
     (define-key spacemacs-buffer-mode-map (kbd "C-p") 'helm-projectile-switch-project)
+    ;; C-q C-backspace to insert the ^? (not actually question mark)
     (define-key key-translation-map (kbd "C-h") "")
+    (define-key key-translation-map (kbd "?") (kbd "C-h"))
     (define-key evil-normal-state-map (kbd "<SPC>fF") 'helm-projectile-find-file-in-known-projects)
     (define-key evil-normal-state-map (kbd "C-b") 'lazy-helm/helm-mini)
     (define-key evil-normal-state-map (kbd "C-f") 'helm-projectile-find-file)
