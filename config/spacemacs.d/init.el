@@ -417,6 +417,7 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "H") 'evil-first-non-blank)
     (define-key evil-normal-state-map (kbd "M") 'zxf/move-to-middle)
     (define-key evil-normal-state-map (kbd "L") 'evil-end-of-line)
+    (define-key evil-normal-state-map (kbd "Q") 'evil-record-macro)
 
     ;; yas
     (evil-define-key 'insert yas-minor-mode-map (kbd "C-e") 'yas-expand)
@@ -429,7 +430,8 @@ you should place your code here."
     ;; (setq evil-emacs-state-modes (delq 'Custom-mode  evil-emacs-state-modes))
     (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
     (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
-    (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-buffer-and-window)
+    ;; (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-buffer-and-window)
+    (define-key evil-normal-state-map (kbd "q") #'kill-buffer-and-window)
     ;; helm swoop
     (defun helm-swoop-from-evil-search ()
       (interactive)
