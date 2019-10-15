@@ -367,8 +367,12 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  ;; win10 ka
+  (when (eq system-type 'windows-nt)
+    (setq gc-cons-threshold (* 512 1024 1024))
+    (setq gc-cons-percentage 0.5)
+    (run-with-idle-timer 5 t #'garbage-collect))
   ;; git token
-
   (setq org-latex-pdf-process
              '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
   (setq paradox-github-token 'd24c25b90110af527bd590a998f32702922b0760)
