@@ -41,12 +41,12 @@ values."
      latex
      lsp
      markdown
-     org
-     ranger
      search-engine
      spell-checking
      syntax-checking
      yaml
+     (org :variables org-want-todo-bindings t
+          org-enable-hugo-support t)
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-tab-key-behavior 'cycle
@@ -68,6 +68,8 @@ values."
             )
      (colors :variables
              colors-enable-nyan-cat-progress-bar t)
+     (chinese :variables chinese-default-input-method 'pinyin
+              chinese-enable-youdao-dict t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
