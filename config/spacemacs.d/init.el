@@ -31,38 +31,33 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(html
-     yaml
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     helm
-     (auto-completion :variables
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-enable-help-tooltip t
-                      auto-completion-enable-sort-by-usage t)
      better-defaults
+     bibtex
+     docker
      emacs-lisp
+     emoji
      git
+     helm
+     latex
+     lsp
      markdown
      org
+     ranger
+     search-engine
      spell-checking
      syntax-checking
+     yaml
+     (auto-completion :variables
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-tab-key-behavior 'cycle
+                      auto-completion-enable-sort-by-usage t)
      (version-control :variables
                        version-control-diff-tool 'diff-hl
                        version-control-diff-side 'left
                        version-control-global-margin t)
-     csv
-     (shell :variables
-            shell-default-position 'bottom
-            shell-default-height 45
-            shell-default-term-shell "/usr/bin/zsh"
-            shell-default-full-span t
-            shell-default-shell 'shell
-            )
+     (shell :variables shell-default-shell 'ansi-term
+            shell-default-term-shell "/usr/bin/zsh")
      (python :variables python-backend 'anaconda)
-     lsp
      (c-c++ :variables
             c-c++-backend 'lsp-cquery
             c-c++-default-mode-for-headers 'c++-mode
@@ -71,13 +66,8 @@ values."
             c-c++-adopt-subprojects t
             c-c++-lsp-sem-highlight-rainbow t
             )
-     bibtex
-     search-engine
-     (latex :variables
-            latex-build-command "LaTeX")
      (colors :variables
              colors-enable-nyan-cat-progress-bar t)
-     docker
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -375,7 +365,6 @@ you should place your code here."
   ;; git token
   (setq org-latex-pdf-process
              '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
-  (setq paradox-github-token 'd24c25b90110af527bd590a998f32702922b0760)
   ;; all icons
   (spaceline-all-the-icons--setup-anzu)            ;; Enable anzu searching
   (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
@@ -384,6 +373,8 @@ you should place your code here."
   (parrot-mode)
   (global-centered-cursor-mode nil)
   ;; org
+  (add-hook 'org-mode-hook 'emojify-mode)
+  (add-hook 'org-mode-hook 'auto-fill-mode)
   (evil-define-key 'normal org-mode-map (kbd "<up>") 'org-shiftup)
   (evil-define-key 'normal org-mode-map (kbd "<down>") 'org-shiftdown)
   (evil-define-key 'normal org-mode-map (kbd "<left>") 'org-shiftleft)
