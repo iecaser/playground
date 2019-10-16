@@ -476,19 +476,6 @@ you should place your code here."
     ;; parrot
     (define-key evil-normal-state-map (kbd "[r") 'parrot-rotate-prev-word-at-point)
     (define-key evil-normal-state-map (kbd "]r") 'parrot-rotate-next-word-at-point)
-    ;; docker
-    (define-key evil-normal-state-map (kbd "C-x Dc") 'docker-containers)
-    (define-key evil-normal-state-map (kbd "C-x DC") 'docker-Compose)
-    (define-key evil-normal-state-map (kbd "C-x Df") 'docker-container-find-file)
-    (define-key evil-normal-state-map (kbd "C-x DF") 'docker-pull)
-    (define-key evil-normal-state-map (kbd "C-x Di") 'docker-images)
-    (define-key evil-normal-state-map (kbd "C-x Ds") 'docker-start)
-    (define-key evil-normal-state-map (kbd "C-x Do") 'docker-stop)
-    (define-key evil-normal-state-map (kbd "C-x Dp") 'docker-pause)
-    (define-key evil-normal-state-map (kbd "C-x DP") 'docker-push)
-    (define-key evil-normal-state-map (kbd "C-x Dr") 'docker-restart)
-    (define-key evil-normal-state-map (kbd "C-x DR") 'docker-rename)
-    ;; fix dired gg/G not working bug
     (evil-define-key 'normal dired-mode-map (kbd "gg") 'evil-goto-first-line)
     (evil-define-key 'normal dired-mode-map (kbd "G") 'evil-goto-line)
     (evil-define-key 'normal dired-mode-map (kbd "C-x g") 'magit-status)
