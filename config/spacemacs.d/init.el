@@ -373,8 +373,79 @@ you should place your code here."
   (parrot-mode)
   (global-centered-cursor-mode nil)
   ;; org
-  (add-hook 'org-mode-hook 'emojify-mode)
+  ;; define the refile targets
+  (defvar org-agenda-dir "" "gtd org files location")
+  (setq-default org-agenda-dir "~/org-notes")
+  (setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
+  (setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
+  (setq org-agenda-file-journal (expand-file-name "journal.org" org-agenda-dir))
+  (setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
+  (setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir))
+  (setq org-agenda-file-blogposts (expand-file-name "all-posts.org" org-agenda-dir))
+  (setq org-agenda-files (list org-agenda-dir))
+  (with-eval-after-load 'org-agenda
+    (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
+    (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+      "." 'spacemacs/org-agenda-transient-state/body)
+    )
+  (defun retrieve-chrome-current-tab-url()
+    "Get the URL of the active tab of the first window"
+    (interactive)
+    (let ((result (do-applescript
+                   (concat
+                    "set frontmostApplication to path to frontmost application\n"
+                    "tell application \"Google Chrome\"\n"
+                    "	set theUrl to get URL of active tab of first window\n"
+                    "	set theResult to (get theUrl) \n"
+                    "end tell\n"
+                    "activate application (frontmostApplication as text)\n"
+                    "set links to {}\n"
+                    "copy theResult to the end of links\n"
+                    "return links as string\n"))))
+      (format "%s" (s-chop-suffix "\"" (s-chop-prefix "\"" result)))))
+  (setq org-capture-templates
+        '(("t" "Todo" entry (file+headline org-agenda-file-gtd "Life")
+            "* TODO [#B] %?\n  %i\n %U"
+            :empty-lines 1)
+          ("n" "Notes" entry (file+headline org-agenda-file-note "Quick Note")
+            "* %?\n  %i\n %U"
+            :empty-lines 1)
+          ("i" "Ideas" entry (file+headline org-agenda-file-note "Idea")
+            "* TODO [#B] %?\n  %i\n %U"
+            :empty-lines 1)
+          ("s" "Code Snippet" entry
+            (file org-agenda-file-code-snippet)
+            "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
+          ("w" "Work" entry (file+headline org-agenda-file-gtd "Work")
+            "* TODO [#A] %?\n  %i\n %U"
+            :empty-lines 1)
+          ("c" "Chrome" entry (file+headline org-agenda-file-note "Chrome")
+            "* TODO [#C] %?\n %(retrieve-chrome-current-tab-url)\n %i\n %U"
+            :empty-lines 1)
+          ("l" "Links" entry (file+headline org-agenda-file-note "Link")
+            "* TODO [#C] %?\n  %i\n %a \n %U"
+            :empty-lines 1)
+          ("j" "Journal Entry"
+            entry (file+datetree org-agenda-file-journal)
+            "* %U %?"
+            :empty-lines 1)))
+  (setq org-agenda-custom-commands
+        '(
+          ("w" . "Works")
+          ("wa" "Important-Urgent" tags-todo "+PRIORITY=\"A\"")
+          ("wb" "Important-NotUrgent" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
+          ("wc" "NotImport" tags-todo "+PRIORITY=\"C\"")
+          ;; ("b" "Blog" tags-todo "BLOG")
+          ("p" . "项目安排")
+          ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"work\"")
+          ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"zilongshanren\"")
+          ("W" "Weekly Review"
+           ((stuck "") ;; review stuck projects as designated by org-stuck-projects
+            (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
+            ))))
   (setq org-bullets-bullet-list '("🐳" "🐬" "🐠" "🐟"))
+  (add-hook 'org-mode-hook 'emojify-mode)
+  (add-hook 'org-mode-hook 'org-toggle-pretty-entities)
   (add-hook 'org-mode-hook 'auto-fill-mode)
   (evil-define-key 'normal org-mode-map (kbd "<up>") 'org-shiftup)
   (evil-define-key 'normal org-mode-map (kbd "<down>") 'org-shiftdown)
