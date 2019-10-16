@@ -374,6 +374,7 @@ you should place your code here."
   (global-centered-cursor-mode nil)
   ;; org
   (add-hook 'org-mode-hook 'emojify-mode)
+  (setq org-bullets-bullet-list '("🐳" "🐬" "🐠" "🐟"))
   (add-hook 'org-mode-hook 'auto-fill-mode)
   (evil-define-key 'normal org-mode-map (kbd "<up>") 'org-shiftup)
   (evil-define-key 'normal org-mode-map (kbd "<down>") 'org-shiftdown)
