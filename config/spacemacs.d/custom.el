@@ -3,7 +3,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(bibtex-completion-bibliography (quote ("~/workspace/playground/learn/latex/bib.bib")))
+ '(org-ref-default-bibliography (quote ("~/Dropbox/papers/org-ref.bib")))
+ '(bibtex-completion-bibliography (quote ("~/Dropbox/papers/org-ref.bib")))
  '(company-minimum-prefix-length 1 t)
  '(display-time-24hr-format t)
  '(display-time-default-load-average nil)
@@ -41,15 +42,11 @@
  '(menu-bar-mode nil)
  '(multi-term-program "/usr/bin/zsh")
  '(nyan-bar-length 24)
- '(org-agenda-files
-   (quote
-    ("/export/zxf/workspace/playground/learn/org/01.org")))
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-eww org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m org-toc)))
- '(org-ref-bibliography-notes "~/papers/notes.org")
- '(org-ref-default-bibliography (quote ("~/workspace/playground/learn/latex/bib.bib")))
- '(org-ref-pdf-directory "~/papers/")
+ '(org-ref-bibliography-notes "~/Dropbox/papers/notes.org")
+ '(org-ref-pdf-directory "~/Dropbox/papers/")
  '(org-todo-keyword-faces
    (quote
     (("TODO" . "#dc752f")
@@ -69,9 +66,6 @@
      ("FIXME" . "#dc752f")
      ("XXX" . "#dc752f")
      ("XXXX" . "#dc752f"))))
- ;; '(org-todo-keywords
- ;;   (quote
- ;;    ((sequence "TODO" "PROG" "DONE" "PENDING" "CANCELLED" "FAIL"))))
     '(org-todo-keywords
           (quote ((sequence "TODO(t)" "PROG(p)" "|" "DONE(d!/!)")
                   (sequence "WAITING(w@/!)" "|" "CANCELLED(c@/!)" "FAIL(f)"))))

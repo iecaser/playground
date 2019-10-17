@@ -364,7 +364,11 @@ you should place your code here."
     (run-with-idle-timer 5 t #'garbage-collect))
   ;; git token
   (setq org-latex-pdf-process
-             '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
+        '(
+          "xelatex -interaction nonstopmode -output-directory %o %f"
+          "xelatex -interaction nonstopmode -output-directory %o %f"
+          "xelatex -interaction nonstopmode -output-directory %o %f"
+          "rm -fr %b.out %b.log %b.tex auto"))
   ;; all icons
   (spaceline-all-the-icons--setup-anzu)            ;; Enable anzu searching
   (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
@@ -408,6 +412,9 @@ you should place your code here."
         '(("t" "Todo" entry (file+headline org-agenda-file-gtd "Life")
             "* TODO [#B] %?\n  %i\n %U"
             :empty-lines 1)
+          ("h" "Todo" entry (file+headline org-agenda-file-gtd "Hack")
+           "* TODO [#C] %?\n  %i\n %U"
+           :empty-lines 1)
           ("n" "Notes" entry (file+headline org-agenda-file-note "Quick Note")
             "* %?\n  %i\n %U"
             :empty-lines 1)
