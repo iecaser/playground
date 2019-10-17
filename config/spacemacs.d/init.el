@@ -375,13 +375,15 @@ you should place your code here."
   ;; org
   ;; define the refile targets
   (defvar org-agenda-dir "" "gtd org files location")
-  (setq-default org-agenda-dir "~/org-notes")
+  (setq-default org-agenda-dir "~/Dropbox/org-notes")
   (setq org-agenda-file-note (expand-file-name "Notes.org" org-agenda-dir))
   (setq org-agenda-file-gtd (expand-file-name "GTD.org" org-agenda-dir))
   (setq org-agenda-file-journal (expand-file-name "Journal.org" org-agenda-dir))
   (setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
   (setq org-default-notes-file (expand-file-name "GTD.org" org-agenda-dir))
   (setq org-agenda-files (list org-agenda-dir))
+  (global-set-key (kbd "C-c n")
+                  (lambda () (interactive) (find-file org-agenda-file-note)))
   (with-eval-after-load 'org-agenda
     (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
     (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
@@ -418,10 +420,10 @@ you should place your code here."
           ("w" "Work" entry (file+headline org-agenda-file-gtd "Work")
             "* TODO [#A] %?\n  %i\n %U"
             :empty-lines 1)
-          ("c" "Chrome" entry (file+headline org-agenda-file-note "Chrome")
+          ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick Note")
             "* TODO [#C] %?\n %(retrieve-chrome-current-tab-url)\n %i\n %U"
             :empty-lines 1)
-          ("l" "Links" entry (file+headline org-agenda-file-note "Link")
+          ("l" "Links" entry (file+headline org-agenda-file-note "Quick Note")
             "* TODO [#C] %?\n  %i\n %a \n %U"
             :empty-lines 1)
           ("j" "Journal Entry"
