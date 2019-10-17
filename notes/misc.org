@@ -500,3 +500,6 @@
 
 *** short-keys
     1. ~C-c C-x b~  org tree to indirect buffer
+
+*** org table
+    1. ~#+tblfm: $1=@#-2~ to add line number

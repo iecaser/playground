@@ -31,38 +31,33 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(html
-     yaml
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     helm
-     (auto-completion :variables
-                      auto-completion-enable-snippets-in-popup t
-                      auto-completion-enable-help-tooltip t
-                      auto-completion-enable-sort-by-usage t)
      better-defaults
+     bibtex
+     docker
      emacs-lisp
+     emoji
      git
+     helm
+     latex
+     lsp
      markdown
-     org
+     search-engine
      spell-checking
      syntax-checking
+     yaml
+     (org :variables org-want-todo-bindings t
+          org-enable-hugo-support t)
+     (auto-completion :variables
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-tab-key-behavior 'cycle
+                      auto-completion-enable-sort-by-usage t)
      (version-control :variables
                        version-control-diff-tool 'diff-hl
                        version-control-diff-side 'left
                        version-control-global-margin t)
-     csv
-     (shell :variables
-            shell-default-position 'bottom
-            shell-default-height 45
-            shell-default-term-shell "/usr/bin/zsh"
-            shell-default-full-span t
-            shell-default-shell 'shell
-            )
+     (shell :variables shell-default-shell 'ansi-term
+            shell-default-term-shell "/usr/bin/zsh")
      (python :variables python-backend 'anaconda)
-     lsp
      (c-c++ :variables
             c-c++-backend 'lsp-cquery
             c-c++-default-mode-for-headers 'c++-mode
@@ -71,13 +66,8 @@ values."
             c-c++-adopt-subprojects t
             c-c++-lsp-sem-highlight-rainbow t
             )
-     bibtex
-     search-engine
-     (latex :variables
-            latex-build-command "LaTeX")
      (colors :variables
              colors-enable-nyan-cat-progress-bar t)
-     docker
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -165,7 +155,7 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(
+   dotspacemacs-themes '(doom-one
                          ample
                          doom-vibrant
                          doom-tomorrow-night
@@ -368,11 +358,18 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  ;; win10 ka
+  (when (eq system-type 'windows-nt)
+    (setq gc-cons-threshold (* 512 1024 1024))
+    (setq gc-cons-percentage 0.5)
+    (run-with-idle-timer 5 t #'garbage-collect))
   ;; git token
-
   (setq org-latex-pdf-process
-             '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
-  (setq paradox-github-token 'd24c25b90110af527bd590a998f32702922b0760)
+        '(
+          "xelatex -interaction nonstopmode -output-directory %o %f"
+          "xelatex -interaction nonstopmode -output-directory %o %f"
+          "xelatex -interaction nonstopmode -output-directory %o %f"
+          "rm -fr %b.out %b.log %b.tex auto"))
   ;; all icons
   (spaceline-all-the-icons--setup-anzu)            ;; Enable anzu searching
   (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
@@ -381,6 +378,84 @@ you should place your code here."
   (parrot-mode)
   (global-centered-cursor-mode nil)
   ;; org
+  ;; define the refile targets
+  (defvar org-agenda-dir "" "gtd org files location")
+  (setq-default org-agenda-dir "~/Dropbox/org-notes")
+  (setq org-agenda-file-note (expand-file-name "Notes.org" org-agenda-dir))
+  (setq org-agenda-file-gtd (expand-file-name "GTD.org" org-agenda-dir))
+  (setq org-agenda-file-journal (expand-file-name "Journal.org" org-agenda-dir))
+  (setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
+  (setq org-default-notes-file (expand-file-name "GTD.org" org-agenda-dir))
+  (setq org-agenda-files (list org-agenda-dir))
+  (global-set-key (kbd "C-c n")
+                  (lambda () (interactive) (find-file org-agenda-file-note)))
+  (with-eval-after-load 'org-agenda
+    (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
+    (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+      "." 'spacemacs/org-agenda-transient-state/body)
+    )
+  (defun retrieve-chrome-current-tab-url()
+    "Get the URL of the active tab of the first window"
+    (interactive)
+    (let ((result (do-applescript
+                   (concat
+                    "set frontmostApplication to path to frontmost application\n"
+                    "tell application \"Google Chrome\"\n"
+                    "	set theUrl to get URL of active tab of first window\n"
+                    "	set theResult to (get theUrl) \n"
+                    "end tell\n"
+                    "activate application (frontmostApplication as text)\n"
+                    "set links to {}\n"
+                    "copy theResult to the end of links\n"
+                    "return links as string\n"))))
+      (format "%s" (s-chop-suffix "\"" (s-chop-prefix "\"" result)))))
+  (setq org-capture-templates
+        '(("t" "Todo" entry (file+headline org-agenda-file-gtd "Life")
+            "* TODO [#B] %?\n  %i\n %U"
+            :empty-lines 1)
+          ("h" "Todo" entry (file+headline org-agenda-file-gtd "Hack")
+           "* TODO [#C] %?\n  %i\n %U"
+           :empty-lines 1)
+          ("n" "Notes" entry (file+headline org-agenda-file-note "Quick Note")
+            "* %?\n  %i\n %U"
+            :empty-lines 1)
+          ("i" "Ideas" entry (file+headline org-agenda-file-note "Idea")
+            "* TODO [#B] %?\n  %i\n %U"
+            :empty-lines 1)
+          ("s" "Code Snippet" entry
+            (file org-agenda-file-code-snippet)
+            "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
+          ("w" "Work" entry (file+headline org-agenda-file-gtd "Work")
+            "* TODO [#A] %?\n  %i\n %U"
+            :empty-lines 1)
+          ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick Note")
+            "* TODO [#C] %?\n %(retrieve-chrome-current-tab-url)\n %i\n %U"
+            :empty-lines 1)
+          ("l" "Links" entry (file+headline org-agenda-file-note "Quick Note")
+            "* TODO [#C] %?\n  %i\n %a \n %U"
+            :empty-lines 1)
+          ("j" "Journal Entry"
+            entry (file+datetree org-agenda-file-journal)
+            "* %U %?"
+            :empty-lines 1)))
+  (setq org-agenda-custom-commands
+        '(
+          ("w" . "Works")
+          ("wa" "Important-Urgent" tags-todo "+PRIORITY=\"A\"")
+          ("wb" "Important-NotUrgent" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
+          ("wc" "NotImport" tags-todo "+PRIORITY=\"C\"")
+          ;; ("b" "Blog" tags-todo "BLOG")
+          ("p" . "Projects")
+          ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"work\"")
+          ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"zilongshanren\"")
+          ("W" "Weekly Review"
+           ((stuck "") ;; review stuck projects as designated by org-stuck-projects
+            (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
+            ))))
+  (setq org-bullets-bullet-list '("🐳" "🐬" "🐠" "🐟"))
+  (add-hook 'org-mode-hook 'emojify-mode)
+  (add-hook 'org-mode-hook 'auto-fill-mode)
+  ;; (add-hook 'org-mode-hook 'org-toggle-pretty-entities)
   (evil-define-key 'normal org-mode-map (kbd "<up>") 'org-shiftup)
   (evil-define-key 'normal org-mode-map (kbd "<down>") 'org-shiftdown)
   (evil-define-key 'normal org-mode-map (kbd "<left>") 'org-shiftleft)
@@ -418,6 +493,7 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "H") 'evil-first-non-blank)
     (define-key evil-normal-state-map (kbd "M") 'zxf/move-to-middle)
     (define-key evil-normal-state-map (kbd "L") 'evil-end-of-line)
+    (define-key evil-normal-state-map (kbd "Q") 'evil-record-macro)
 
     ;; yas
     (evil-define-key 'insert yas-minor-mode-map (kbd "C-e") 'yas-expand)
@@ -430,7 +506,8 @@ you should place your code here."
     ;; (setq evil-emacs-state-modes (delq 'Custom-mode  evil-emacs-state-modes))
     (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
     (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
-    (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-buffer-and-window)
+    ;; (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-buffer-and-window)
+    (define-key evil-normal-state-map (kbd "q") #'kill-buffer-and-window)
     ;; helm swoop
     (defun helm-swoop-from-evil-search ()
       (interactive)
@@ -471,19 +548,6 @@ you should place your code here."
     ;; parrot
     (define-key evil-normal-state-map (kbd "[r") 'parrot-rotate-prev-word-at-point)
     (define-key evil-normal-state-map (kbd "]r") 'parrot-rotate-next-word-at-point)
-    ;; docker
-    (define-key evil-normal-state-map (kbd "C-x Dc") 'docker-containers)
-    (define-key evil-normal-state-map (kbd "C-x DC") 'docker-Compose)
-    (define-key evil-normal-state-map (kbd "C-x Df") 'docker-container-find-file)
-    (define-key evil-normal-state-map (kbd "C-x DF") 'docker-pull)
-    (define-key evil-normal-state-map (kbd "C-x Di") 'docker-images)
-    (define-key evil-normal-state-map (kbd "C-x Ds") 'docker-start)
-    (define-key evil-normal-state-map (kbd "C-x Do") 'docker-stop)
-    (define-key evil-normal-state-map (kbd "C-x Dp") 'docker-pause)
-    (define-key evil-normal-state-map (kbd "C-x DP") 'docker-push)
-    (define-key evil-normal-state-map (kbd "C-x Dr") 'docker-restart)
-    (define-key evil-normal-state-map (kbd "C-x DR") 'docker-rename)
-    ;; fix dired gg/G not working bug
     (evil-define-key 'normal dired-mode-map (kbd "gg") 'evil-goto-first-line)
     (evil-define-key 'normal dired-mode-map (kbd "G") 'evil-goto-line)
     (evil-define-key 'normal dired-mode-map (kbd "C-x g") 'magit-status)
