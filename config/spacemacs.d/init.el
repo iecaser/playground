@@ -428,37 +428,37 @@ you should place your code here."
             (progn                        ;否则就新建一个 headline
               (or (bolp) (insert "\n"))
               (if (/= (point) (point-min)) (org-end-of-subtree t t))
-              (insert (make-string level ?*) " " heading "\n"))))
+              (insert (make-string level ?*) " " heading "\n |Time|Type|Description|Money|\n |-+-+-+-|\n"))))
         (setq level (1+ level))
         (setq end (save-excursion (org-end-of-subtree t t))))
       (org-end-of-subtree)))
   (setq org-capture-templates
         '(("t" "Life-Todo" entry (file+headline org-agenda-file-gtd "Life")
-           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:%i\n"
-            :empty-lines 1)
+           "* TODO [#B] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
+          :empty-lines 1)
           ("b" "Billing" plain
             (file+function org-agenda-file-bill find-month-tree)
-                           " | %U | %^{Type} | %^{Description} | %^{Money} |" :kill-buffer t)
+            " | %U | %^{Type} | %^{Description} | %^{Money} |" :kill-buffer t)
           ("e" "English-Todo" entry (file+headline org-agenda-file-gtd "English")
-           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:%i\n"
+           "* TODO [#B] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
            :empty-lines 1)
           ("h" "Hack-Todo" entry (file+headline org-agenda-file-gtd "Hack")
-           "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:END:%i\n"
+           "* TODO [#C] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
            :empty-lines 1)
           ("n" "Notes" entry (file+headline org-agenda-file-note "Quick Note")
-           "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:%i\n"
+           "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
             :empty-lines 1)
           ("i" "Ideas-Todo" entry (file+headline org-agenda-file-note "Idea")
-           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:%i\n"
+           "* TODO [#B] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
             :empty-lines 1)
           ("w" "Work" entry (file+headline org-agenda-file-gtd "Work")
-            "* TODO [#A] %?\n:PROPERTIES:\n:CREATED: %U\n:END:%i\n"
+           "* TODO [#A] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
             :empty-lines 1)
           ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick Note")
-           "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n %(retrieve-chrome-current-tab-url)\n %i\n"
+           "* TODO [#C] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:URL: %(retrieve-chrome-current-tab-url)\n:END:\n %?"
             :empty-lines 1)
           ("l" "Links" entry (file+headline org-agenda-file-note "Quick Note")
-           "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n %i\n %a \n"
+           "* TODO [#C] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:LINK: %a\n:END:\n %?"
             :empty-lines 1)
           ("j" "Journal Entry"
             entry (file+datetree org-agenda-file-journal)
