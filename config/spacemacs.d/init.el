@@ -462,6 +462,10 @@ you should place your code here."
   (evil-define-key 'normal org-mode-map (kbd "<down>") 'org-shiftdown)
   (evil-define-key 'normal org-mode-map (kbd "<left>") 'org-shiftleft)
   (evil-define-key 'normal org-mode-map (kbd "<right>") 'org-shiftright)
+  (evil-define-key 'normal org-mode-map (kbd "C-c j") 'outline-next-visible-heading)
+  (evil-define-key 'normal org-mode-map (kbd "C-c k") 'outline-previous-visible-heading)
+  (evil-define-key 'normal org-mode-map (kbd "C-c h") 'outline-backward-same-level)
+  (evil-define-key 'normal org-mode-map (kbd "C-c l") 'outline-forward-same-level)
 
   (when (version<= "9.2" (org-version))
     (require 'org-tempo))
