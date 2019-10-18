@@ -412,6 +412,9 @@ you should place your code here."
         '(("t" "Todo" entry (file+headline org-agenda-file-gtd "Life")
             "* TODO [#B] %?\n  %i\n %U"
             :empty-lines 1)
+          ("e" "Todo" entry (file+headline org-agenda-file-gtd "English")
+           "* TODO [#B] %?\n  %i\n %U"
+           :empty-lines 1)
           ("h" "Todo" entry (file+headline org-agenda-file-gtd "Hack")
            "* TODO [#C] %?\n  %i\n %U"
            :empty-lines 1)
