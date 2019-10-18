@@ -415,6 +415,7 @@ you should place your code here."
     (let* ((path (get-year-and-month))
           (level 1)
           end)
+      (save-match-data
       (unless (derived-mode-p 'org-mode)
         (error "Target buffer \"%s\" should be in Org mode" (current-buffer)))
       (goto-char (point-min))             ;移动到 buffer 的开始位置
@@ -431,13 +432,13 @@ you should place your code here."
               (insert (make-string level ?*) " " heading "\n\n |Time|Type|Description|Money|\n |-+-+-+-|\n"))))
         (setq level (1+ level))
         (setq end (save-excursion (org-end-of-subtree t t))))
-      (org-end-of-subtree)))
+      (org-end-of-subtree))))
   (setq org-capture-templates
         '(("t" "Life-Todo" entry (file+headline org-agenda-file-gtd "Life")
            "* TODO [#B] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
           :empty-lines 1)
           ("b" "Billing" plain
-            (file+function org-agenda-file-bill find-month-tree)
+           (file+function org-agenda-file-bill find-month-tree)
             " | %U | %^{Type} | %^{Description} | %^{Money} |" :kill-buffer t)
           ("e" "English-Todo" entry (file+headline org-agenda-file-gtd "English")
            "* TODO [#B] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
