@@ -428,7 +428,7 @@ you should place your code here."
             (progn                        ;否则就新建一个 headline
               (or (bolp) (insert "\n"))
               (if (/= (point) (point-min)) (org-end-of-subtree t t))
-              (insert (make-string level ?*) " " heading "\n |Time|Type|Description|Money|\n |-+-+-+-|\n"))))
+              (insert (make-string level ?*) " " heading "\n\n |Time|Type|Description|Money|\n |-+-+-+-|\n"))))
         (setq level (1+ level))
         (setq end (save-excursion (org-end-of-subtree t t))))
       (org-end-of-subtree)))
