@@ -435,35 +435,35 @@ you should place your code here."
       (org-end-of-subtree))))
   (setq org-capture-templates
         '(("t" "Life-Todo" entry (file+headline org-agenda-file-gtd "Life")
-           "* TODO [#B] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
+           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
           :empty-lines 1)
           ("b" "Billing" plain
            (file+function org-agenda-file-bill find-month-tree)
             " | %U | %^{Type} | %^{Description} | %^{Money} |" :kill-buffer t)
           ("e" "English-Todo" entry (file+headline org-agenda-file-gtd "English")
-           "* TODO [#B] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
+           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
            :empty-lines 1)
           ("h" "Hack-Todo" entry (file+headline org-agenda-file-gtd "Hack")
-           "* TODO [#C] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
+           "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
            :empty-lines 1)
           ("n" "Notes" entry (file+headline org-agenda-file-note "Quick Note")
-           "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
+           "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
             :empty-lines 1)
           ("i" "Ideas-Todo" entry (file+headline org-agenda-file-note "Idea")
-           "* TODO [#B] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
+           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
             :empty-lines 1)
           ("w" "Work" entry (file+headline org-agenda-file-gtd "Work")
-           "* TODO [#A] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
+           "* TODO [#A] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n "
             :empty-lines 1)
           ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick Note")
-           "* TODO [#C] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:URL: %(retrieve-chrome-current-tab-url)\n:END:\n %?"
+           "* TODO [#C] \n:PROPERTIES:\n:CREATED: %U\n:URL: %(retrieve-chrome-current-tab-url)\n:END:\n\n "
             :empty-lines 1)
           ("l" "Links" entry (file+headline org-agenda-file-note "Quick Note")
-           "* TODO [#C] %^{Heading}\n:PROPERTIES:\n:CREATED: %U\n:LINK: %a\n:END:\n %?"
+           "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:LINK: %a\n:END:\n\n"
             :empty-lines 1)
           ("j" "Journal Entry"
             entry (file+datetree org-agenda-file-journal)
-            "* %U - %^{Heading}\n  %?"
+            "* %U - %?\n"
             :empty-lines 1)))
   (setq org-agenda-custom-commands
         '(
