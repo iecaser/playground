@@ -151,7 +151,7 @@ values."
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
-   dotspacemacs-scratch-mode 'text-mode
+   dotspacemacs-scratch-mode 'org-mode
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
@@ -172,7 +172,11 @@ values."
    ;; quickly tweak the mode-line size to make separators look not too crappy.
 
    dotspacemacs-default-font '("DejaVu Sans Mono"
+<<<<<<< HEAD
                                :size 24
+=======
+                               :size 20
+>>>>>>> ff36ca8a3cdfb74037bc64443f406fe89d305e18
                                :weight normal
                                :width normal
                                :powerline-scale 1)
@@ -188,7 +192,7 @@ values."
    dotspacemacs-emacs-leader-key "C-M-m"
    ;; Major mode leader key is a shortcut key which is the equivalent of
    ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
-   dotspacemacs-major-mode-leader-key "C-m"
+   dotspacemacs-major-mode-leader-key "C-M-m"
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
    ;; (default "C-M-m")
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
@@ -382,6 +386,7 @@ you should place your code here."
   (defvar org-agenda-dir "" "gtd org files location")
   (setq-default org-agenda-dir "~/Dropbox/org-notes")
   (setq org-agenda-file-note (expand-file-name "Notes.org" org-agenda-dir))
+  (setq org-agenda-file-bill (expand-file-name "Bill.org" org-agenda-dir))
   (setq org-agenda-file-gtd (expand-file-name "GTD.org" org-agenda-dir))
   (setq org-agenda-file-journal (expand-file-name "Journal.org" org-agenda-dir))
   (setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
@@ -409,34 +414,61 @@ you should place your code here."
                     "copy theResult to the end of links\n"
                     "return links as string\n"))))
       (format "%s" (s-chop-suffix "\"" (s-chop-prefix "\"" result)))))
+  (defun get-year-and-month ()
+    (list (format-time-string "%Y - Year") (format-time-string "%m - Month")))
+  (defun find-month-tree ()
+    (let* ((path (get-year-and-month))
+          (level 1)
+          end)
+      (save-match-data
+      (unless (derived-mode-p 'org-mode)
+        (error "Target buffer \"%s\" should be in Org mode" (current-buffer)))
+      (goto-char (point-min))             ;移动到 buffer 的开始位置
+      ;; 先定位表示年份的 headline，再定位表示月份的 headline
+      (dolist (heading path)
+        (let ((re (format org-complex-heading-regexp-format
+                          (regexp-quote heading)))
+              (cnt 0))
+          (if (re-search-forward re end t)
+              (goto-char (point-at-bol))  ;如果找到了 headline 就移动到对应的位置
+            (progn                        ;否则就新建一个 headline
+              (or (bolp) (insert "\n"))
+              (if (/= (point) (point-min)) (org-end-of-subtree t t))
+              (insert (make-string level ?*) " " heading "\n\n |Time|Type|Description|Money|\n |-+-+-+-|\n"))))
+        (setq level (1+ level))
+        (setq end (save-excursion (org-end-of-subtree t t))))
+      (org-end-of-subtree))))
   (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline org-agenda-file-gtd "Life")
-            "* TODO [#B] %?\n  %i\n %U"
-            :empty-lines 1)
-          ("h" "Todo" entry (file+headline org-agenda-file-gtd "Hack")
-           "* TODO [#C] %?\n  %i\n %U"
+        '(("t" "Life-Todo" entry (file+headline org-agenda-file-gtd "Life")
+           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
+          :empty-lines 1)
+          ("b" "Billing" plain
+           (file+function org-agenda-file-bill find-month-tree)
+            " | %U | %^{Type} | %^{Description} | %^{Money} |" :kill-buffer t)
+          ("e" "English-Todo" entry (file+headline org-agenda-file-gtd "English")
+           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
+           :empty-lines 1)
+          ("h" "Hack-Todo" entry (file+headline org-agenda-file-gtd "Hack")
+           "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
            :empty-lines 1)
           ("n" "Notes" entry (file+headline org-agenda-file-note "Quick Note")
-            "* %?\n  %i\n %U"
+           "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
             :empty-lines 1)
-          ("i" "Ideas" entry (file+headline org-agenda-file-note "Idea")
-            "* TODO [#B] %?\n  %i\n %U"
+          ("i" "Ideas-Todo" entry (file+headline org-agenda-file-note "Idea")
+           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
             :empty-lines 1)
-          ("s" "Code Snippet" entry
-            (file org-agenda-file-code-snippet)
-            "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
           ("w" "Work" entry (file+headline org-agenda-file-gtd "Work")
-            "* TODO [#A] %?\n  %i\n %U"
+           "* TODO [#A] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n "
             :empty-lines 1)
           ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick Note")
-            "* TODO [#C] %?\n %(retrieve-chrome-current-tab-url)\n %i\n %U"
+           "* TODO [#C] \n:PROPERTIES:\n:CREATED: %U\n:URL: %(retrieve-chrome-current-tab-url)\n:END:\n\n "
             :empty-lines 1)
           ("l" "Links" entry (file+headline org-agenda-file-note "Quick Note")
-            "* TODO [#C] %?\n  %i\n %a \n %U"
+           "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:LINK: %a\n:END:\n\n"
             :empty-lines 1)
           ("j" "Journal Entry"
             entry (file+datetree org-agenda-file-journal)
-            "* %U %?"
+            "* %U - %?\n"
             :empty-lines 1)))
   (setq org-agenda-custom-commands
         '(
@@ -460,6 +492,13 @@ you should place your code here."
   (evil-define-key 'normal org-mode-map (kbd "<down>") 'org-shiftdown)
   (evil-define-key 'normal org-mode-map (kbd "<left>") 'org-shiftleft)
   (evil-define-key 'normal org-mode-map (kbd "<right>") 'org-shiftright)
+  (evil-define-key 'normal org-mode-map (kbd "C-c j") 'outline-next-visible-heading)
+  (evil-define-key 'normal org-mode-map (kbd "C-c k") 'outline-previous-visible-heading)
+  (evil-define-key 'normal org-mode-map (kbd "C-c h") 'outline-backward-same-level)
+  (evil-define-key 'normal org-mode-map (kbd "C-c l") 'outline-forward-same-level)
+  (setq org-agenda-custom-commands
+        '(("f" occur-tree "FIXME")))
+
 
   (when (version<= "9.2" (org-version))
     (require 'org-tempo))
@@ -508,6 +547,7 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
     ;; (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-buffer-and-window)
     (define-key evil-normal-state-map (kbd "q") #'kill-buffer-and-window)
+    (evil-define-key 'normal org-capture-mode-map (kbd "q") 'org-capture-kill)
     ;; helm swoop
     (defun helm-swoop-from-evil-search ()
       (interactive)
