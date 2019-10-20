@@ -172,11 +172,7 @@ values."
    ;; quickly tweak the mode-line size to make separators look not too crappy.
 
    dotspacemacs-default-font '("DejaVu Sans Mono"
-<<<<<<< HEAD
-                               :size 24
-=======
                                :size 20
->>>>>>> ff36ca8a3cdfb74037bc64443f406fe89d305e18
                                :weight normal
                                :width normal
                                :powerline-scale 1)
@@ -345,12 +341,16 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  ;; (use-package all-the-icons)
-  ;; (setq configuration-layer--elpa-archives
-  ;;     '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-  ;;       ("org-cn"   . "http://elpa.emacs-china.org/org/")
-  ;;       ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
-  ;; (kill-buffer "*scratch*")
+  (use-package all-the-icons)
+  (setq configuration-layer--elpa-archives
+      '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+        ("org-cn"   . "http://elpa.emacs-china.org/org/")
+        ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+  (kill-buffer "*scratch*")
+  (setq url-proxy-services '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
+                             ("http" . "http://127.0.0.1:8089")
+                             ("https" . "http://127.0.0.1:8089")
+                             ))
   (setenv "no_proxy" "127.0.0.1,localhost")
   (setenv "NO_PROXY" "127.0.0.1,localhost")
   )
@@ -362,6 +362,18 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  ;; utf-8 encoding
+  (set-language-environment "UTF-8")
+  (set-default-coding-systems 'utf-8)
+  (set-buffer-file-coding-system 'utf-8-unix)
+  (set-clipboard-coding-system 'utf-8-unix)
+  (set-file-name-coding-system 'utf-8-unix)
+  (set-keyboard-coding-system 'utf-8-unix)
+  (set-next-selection-coding-system 'utf-8-unix)
+  (set-selection-coding-system 'utf-8-unix)
+  (set-terminal-coding-system 'utf-8-unix)
+  (setq locale-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8)
   ;; win10 ka
   (when (eq system-type 'windows-nt)
     (setq gc-cons-threshold (* 512 1024 1024))
@@ -382,6 +394,7 @@ you should place your code here."
   (parrot-mode)
   (global-centered-cursor-mode nil)
   ;; org
+  (setq system-time-locale "C")
   ;; define the refile targets
   (defvar org-agenda-dir "" "gtd org files location")
   (setq-default org-agenda-dir "~/Dropbox/org-notes")
@@ -438,38 +451,6 @@ you should place your code here."
         (setq level (1+ level))
         (setq end (save-excursion (org-end-of-subtree t t))))
       (org-end-of-subtree))))
-  (setq org-capture-templates
-        '(("t" "Life-Todo" entry (file+headline org-agenda-file-gtd "Life")
-           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
-          :empty-lines 1)
-          ("b" "Billing" plain
-           (file+function org-agenda-file-bill find-month-tree)
-            " | %U | %^{Type} | %^{Description} | %^{Money} |" :kill-buffer t)
-          ("e" "English-Todo" entry (file+headline org-agenda-file-gtd "English")
-           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
-           :empty-lines 1)
-          ("h" "Hack-Todo" entry (file+headline org-agenda-file-gtd "Hack")
-           "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
-           :empty-lines 1)
-          ("n" "Notes" entry (file+headline org-agenda-file-note "Quick Note")
-           "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
-            :empty-lines 1)
-          ("i" "Ideas-Todo" entry (file+headline org-agenda-file-note "Idea")
-           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
-            :empty-lines 1)
-          ("w" "Work" entry (file+headline org-agenda-file-gtd "Work")
-           "* TODO [#A] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n "
-            :empty-lines 1)
-          ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick Note")
-           "* TODO [#C] \n:PROPERTIES:\n:CREATED: %U\n:URL: %(retrieve-chrome-current-tab-url)\n:END:\n\n "
-            :empty-lines 1)
-          ("l" "Links" entry (file+headline org-agenda-file-note "Quick Note")
-           "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:LINK: %a\n:END:\n\n"
-            :empty-lines 1)
-          ("j" "Journal Entry"
-            entry (file+datetree org-agenda-file-journal)
-            "* %U - %?\n"
-            :empty-lines 1)))
   (setq org-agenda-custom-commands
         '(
           ("w" . "Works")
@@ -484,6 +465,38 @@ you should place your code here."
            ((stuck "") ;; review stuck projects as designated by org-stuck-projects
             (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
             ))))
+  (setq org-capture-templates
+        '(("t" "Life-Todo" entry (file+headline org-agenda-file-gtd "Life")
+           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
+          :empty-lines 1)
+          ("b" "Billing" plain
+           (file+function org-agenda-file-bill find-month-tree)
+            " | %U | %^{Type} | %^{Description} | %^{Money} |" :kill-buffer t)
+          ("e" "English-Todo" entry (file+headline org-agenda-file-gtd "English")
+           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
+           :empty-lines 1)
+          ("h" "Hack-Todo" entry (file+headline org-agenda-file-gtd "Hack")
+           "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
+           :empty-lines 1)
+          ("n" "Notes" entry (file+headline org-agenda-file-note "Quick Note")
+           "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
+            :empty-lines 1)
+          ("i" "Ideas-Todo" entry (file+headline org-agenda-file-note "Idea")
+           "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
+            :empty-lines 1)
+          ("w" "Work" entry (file+headline org-agenda-file-gtd "Work")
+           "* TODO [#A] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n "
+            :empty-lines 1)
+          ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick Note")
+           "* TODO [#C] \n:PROPERTIES:\n:CREATED: %U\n:URL: %(retrieve-chrome-current-tab-url)\n:END:\n"
+            :empty-lines 1)
+          ("l" "Links" entry (file+headline org-agenda-file-note "Quick Note")
+           "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:LINK: %a\n:END:\n"
+            :empty-lines 1)
+          ("j" "Journal Entry"
+            entry (file+datetree org-agenda-file-journal)
+            "* %U - %?"
+            :empty-lines 1)))
   (setq org-bullets-bullet-list '("🐳" "🐬" "🐠" "🐟"))
   (add-hook 'org-mode-hook 'emojify-mode)
   (add-hook 'org-mode-hook 'auto-fill-mode)
