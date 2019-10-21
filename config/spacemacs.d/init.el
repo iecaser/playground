@@ -593,6 +593,7 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "C-x C-u") 'spacemacs/helm-jump-in-buffer)
     (define-key evil-normal-state-map (kbd "C-x C-l") 'spacemacs/comment-or-uncomment-lines)
     (define-key evil-normal-state-map (kbd "C-x C-j") 'dired-jump)
+    (define-key evil-normal-state-map (kbd "C-x C-o") 'spacemacs/open-file-or-directory-in-external-app)
     (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
     (define-key evil-normal-state-map (kbd "/") 'spacemacs/helm-project-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> /") 'spacemacs/helm-files-smart-do-search)
@@ -602,6 +603,7 @@ you should place your code here."
     (evil-define-key 'normal dired-mode-map (kbd "gg") 'evil-goto-first-line)
     (evil-define-key 'normal dired-mode-map (kbd "G") 'evil-goto-line)
     (evil-define-key 'normal dired-mode-map (kbd "C-x g") 'magit-status)
+    (evil-define-key 'normal dired-mode-map (kbd "C-x C-o") 'spacemacs/open-file-or-directory-in-external-app)
     (evil-define-key 'normal helm-swoop-edit-map (kbd "C-c C-c") 'helm-swoop--edit-complete)
     ;; docker contianer
     (evil-define-key 'normal docker-container-mode-map (kbd "a") 'docker-container-attach-popup)
