@@ -30,7 +30,8 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(html
+   '(sql
+     html
      better-defaults
      bibtex
      docker
@@ -451,6 +452,7 @@ you should place your code here."
         (setq level (1+ level))
         (setq end (save-excursion (org-end-of-subtree t t))))
       (org-end-of-subtree))))
+  ;; http://www.zmonster.me/2018/02/28/org-mode-capture.html#orgb608172
   (setq org-agenda-custom-commands
         '(
           ("w" . "Works")
@@ -466,37 +468,35 @@ you should place your code here."
             (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
             ))))
   (setq org-capture-templates
-        '(("t" "Life-Todo" entry (file+headline org-agenda-file-gtd "Life")
+        '(("tl" "Life" entry (file+headline org-agenda-file-gtd "Life")
            "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
           :empty-lines 1)
-          ("b" "Billing" plain
-           (file+function org-agenda-file-bill find-month-tree)
-            " | %U | %^{Type} | %^{Description} | %^{Money} |" :kill-buffer t)
-          ("e" "English-Todo" entry (file+headline org-agenda-file-gtd "English")
+          ("te" "English" entry (file+headline org-agenda-file-gtd "English")
            "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
            :empty-lines 1)
-          ("h" "Hack-Todo" entry (file+headline org-agenda-file-gtd "Hack")
+          ("th" "Hack" entry (file+headline org-agenda-file-gtd "Hack")
            "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
            :empty-lines 1)
-          ("n" "Notes" entry (file+headline org-agenda-file-note "Quick Note")
-           "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
-            :empty-lines 1)
-          ("i" "Ideas-Todo" entry (file+headline org-agenda-file-note "Idea")
+          ("ti" "Ideas" entry (file+headline org-agenda-file-note "Idea")
            "* TODO [#B] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
             :empty-lines 1)
-          ("w" "Work" entry (file+headline org-agenda-file-gtd "Work")
+          ("tw" "Work" entry (file+headline org-agenda-file-gtd "Work")
            "* TODO [#A] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n "
             :empty-lines 1)
-          ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick Note")
+          ("tc" "Chrome" entry (file+headline org-agenda-file-note "Quick Note")
            "* TODO [#C] \n:PROPERTIES:\n:CREATED: %U\n:URL: %(retrieve-chrome-current-tab-url)\n:END:\n"
             :empty-lines 1)
-          ("l" "Links" entry (file+headline org-agenda-file-note "Quick Note")
-           "* TODO [#C] %?\n:PROPERTIES:\n:CREATED: %U\n:LINK: %a\n:END:\n"
-            :empty-lines 1)
+          ("b" "Billing" plain
+           (file+function org-agenda-file-bill find-month-tree)
+           " | %U | %^{Type} | %^{Description} | %^{Money} |" :kill-buffer t)
+          ("n" "Notes" entry (file+headline org-agenda-file-note "Quick Note")
+           "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n %?"
+           :empty-lines 1)
           ("j" "Journal Entry"
             entry (file+datetree org-agenda-file-journal)
             "* %U - %?"
             :empty-lines 1)))
+  (add-to-list 'org-capture-templates '("t" "Todos"))
   (setq org-bullets-bullet-list '("🐳" "🐬" "🐠" "🐟"))
   (add-hook 'org-mode-hook 'emojify-mode)
   (add-hook 'org-mode-hook 'auto-fill-mode)
