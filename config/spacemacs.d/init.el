@@ -45,6 +45,7 @@ values."
      spell-checking
      syntax-checking
      yaml
+     (mu4e :variables mu4e-enable-notifications t)
      (latex :variables latex-enable-auto-fill t)
      (org :variables org-want-todo-bindings t
           org-enable-hugo-support t)
@@ -380,7 +381,34 @@ you should place your code here."
     (setq gc-cons-threshold (* 512 1024 1024))
     (setq gc-cons-percentage 0.5)
     (run-with-idle-timer 5 t #'garbage-collect))
-  ;; git token
+  ;; mu4e for email
+  ;;; Set up some common mu4e variables
+    (setq mu4e-maildir "~/.mail"
+          mu4e-trash-folder "/Trash"
+          mu4e-refile-folder "/Archive"
+          mu4e-get-mail-command "mbsync -a"
+          mu4e-update-interval nil
+          mu4e-compose-signature-auto-include nil
+          mu4e-view-show-images t
+          mu4e-view-show-addresses t)
+
+  ;;; Mail directory shortcuts
+    (setq mu4e-maildir-shortcuts
+          '(("/gmail/INBOX" . ?g)
+            ("/college/INBOX" . ?c)))
+
+  ;;; Bookmarks
+    (setq mu4e-bookmarks
+          `(("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
+            ("date:today..now" "Today's messages" ?t)
+            ("date:7d..now" "Last 7 days" ?w)
+            ("mime:image/*" "Messages with images" ?p)
+            (,(mapconcat 'identity
+                        (mapcar
+                          (lambda (maildir)
+                            (concat "maildir:" (car maildir)))
+                          mu4e-maildir-shortcuts) " OR ")
+            "All inboxes" ?i)))
   (setq org-latex-pdf-process
         '(
           "xelatex -interaction nonstopmode -output-directory %o %f"

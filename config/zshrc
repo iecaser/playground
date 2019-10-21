@@ -94,11 +94,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-
-export PYTHONPATH="$PYTHONPATH:/home/zxf/workspace/models/"
-export LD_LIBRARY_PATH=/home/zxf/anaconda3/lib:/home/zxf/anaconda3/lib64:/usr/local/cuda/lib64:/usr/local/lib64/:$LD_LIBRARY_PATH
-export PATH="$PATH:/usr/local/cuda/bin"
-
 # MY CONFIG START #####################################################################
 export TERM=xterm-256color
 # export TERM=screen-256color
@@ -113,27 +108,8 @@ export https_proxy="http://127.0.0.1:8089"
 test -f /usr/bin/nvim && alias vim='nvim'
 alias ll="ls -ahl"
 alias dog="watch -n 1 -d"
-alias ta="tmux a"
-alias tn="tmux new"
-alias tm="tmux attach || tmux new"
 alias by="byobu"
 alias bn="byobu new -s"
 alias vr="vim ~/.zshrc"
 alias sr="source ~/.zshrc"
 # MY CONFIG END #####################################################################
-
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/zxf/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/zxf/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/zxf/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/zxf/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
