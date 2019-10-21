@@ -39,13 +39,13 @@ values."
      emoji
      git
      helm
-     latex
      lsp
      markdown
      search-engine
      spell-checking
      syntax-checking
      yaml
+     (latex :variables latex-enable-auto-fill t)
      (org :variables org-want-todo-bindings t
           org-enable-hugo-support t)
      (auto-completion :variables
@@ -511,8 +511,6 @@ you should place your code here."
   (evil-define-key 'normal org-mode-map (kbd "C-c l") 'outline-forward-same-level)
   (setq org-agenda-custom-commands
         '(("f" occur-tree "FIXME")))
-
-
   (when (version<= "9.2" (org-version))
     (require 'org-tempo))
   ;; ox-pandoc
