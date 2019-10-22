@@ -510,9 +510,6 @@ you should place your code here."
           ("tw" "Work" entry (file+headline org-agenda-file-gtd "Work")
            "* TODO [#A] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n "
             :empty-lines 1)
-          ("tc" "Chrome" entry (file+headline org-agenda-file-note "Quick Note")
-           "* TODO [#C] \n:PROPERTIES:\n:CREATED: %U\n:URL: %(retrieve-chrome-current-tab-url)\n:END:\n"
-            :empty-lines 1)
           ("b" "Billing" plain
            (file+function org-agenda-file-bill find-month-tree)
            " | %U | %^{Type} | %^{Description} | %^{Money} |" :kill-buffer t)
