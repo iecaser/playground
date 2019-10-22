@@ -343,16 +343,15 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  (use-package all-the-icons)
   (setq configuration-layer--elpa-archives
       '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
         ("org-cn"   . "http://elpa.emacs-china.org/org/")
         ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
   (kill-buffer "*scratch*")
-  (setq url-proxy-services '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
-                             ("http" . "http://127.0.0.1:8089")
-                             ("https" . "http://127.0.0.1:8089")
-                             ))
+  ;; (setq url-proxy-services '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
+  ;;                            ("http" . "http://127.0.0.1:8089")
+  ;;                            ("https" . "http://127.0.0.1:8089")
+  ;;                            ))
   (setenv "no_proxy" "127.0.0.1,localhost")
   (setenv "NO_PROXY" "127.0.0.1,localhost")
   )
@@ -756,11 +755,14 @@ you should place your code here."
   ;; (add-hook 'before-save-hook 'py-isort-before-save)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
   ;; proced
+  (global-set-key (kbd "C-x p") 'proced)
   (evil-define-key 'normal proced-mode-map (kbd "d") 'proced-mark)
   (evil-define-key 'normal proced-mode-map (kbd "m") 'proced-mark)
   (evil-define-key 'normal proced-mode-map (kbd "x") 'proced-send-signal)
   (evil-define-key 'normal proced-mode-map (kbd "u") 'proced-unmark)
-  (evil-define-key 'normal proced-mode-map (kbd "q") 'quit-window)
+  (evil-define-key 'normal proced-mode-map (kbd "q") 'kill-buffer-and-window)
+  (evil-define-key 'normal proced-mode-map (kbd "j") 'next-line)
+  (evil-define-key 'normal proced-mode-map (kbd "k") 'previous-line)
   )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

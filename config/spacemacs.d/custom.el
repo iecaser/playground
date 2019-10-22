@@ -15,6 +15,7 @@
  '(flycheck-flake8-maximum-line-length 100)
  '(global-display-line-numbers-mode t)
  '(global-flycheck-mode t)
+ '(xterm-mouse-mode nil)
  '(helm-split-window-default-side (quote right))
  '(hl-todo-keyword-faces
    (quote
