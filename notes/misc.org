@@ -503,3 +503,8 @@
 
 *** org table
     1. ~#+tblfm: $1=@#-2~ to add line number
+*  LaTeX
+**  texdoc
+   #+begin_src bash
+     texdoc babe
+   #+end_src
