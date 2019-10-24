@@ -508,3 +508,24 @@
    #+begin_src bash
      texdoc babe
    #+end_src
+
+*  doc
+  #+begin_src bash
+    conda install sphinx
+    sphinx-quickstart
+    sphinx-apidoc -o ./source ../jquality/
+    make html
+  #+end_src
+
+  Configuration file: `conf.py`
+  #+begin_src python
+    extensions = ['sphinx.ext.autodoc',
+                  'sphinx.ext.doctest',
+                  'sphinx.ext.intersphinx',
+                  'sphinx.ext.todo',
+                  'sphinx.ext.napoleon',
+                  'sphinx.ext.coverage',
+                  'sphinx.ext.mathjax']
+    html_theme = 'nature'
+  #+end_src
+  [[https://sphinx-themes.org/][Sphinx Themes]]
