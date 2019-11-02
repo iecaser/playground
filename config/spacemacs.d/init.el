@@ -46,7 +46,13 @@ values."
      spell-checking
      syntax-checking
      yaml
-     (mu4e :variables mu4e-enable-notifications t)
+     (mu4e :variables mu4e-enable-notifications t
+           mu4e-enable-async-operations t
+           mu4e-use-maildirs-extension t
+           mu4e-enable-mode-line t
+           mu4e-spacemacs-layout-name "@Mu4e"
+           mu4e-spacemacs-layout-binding "m"
+           mu4e-spacemacs-kill-layout-on-exit t)
      (latex :variables latex-enable-auto-fill t)
      (org :variables org-want-todo-bindings t
           org-enable-hugo-support t)
@@ -350,8 +356,8 @@ before packages are loaded. If you are unsure, you should try in setting them in
         ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
   (kill-buffer "*scratch*")
   ;; (setq url-proxy-services '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
-  ;;                            ("http" . "http://127.0.0.1:8089")
-  ;;                            ("https" . "http://127.0.0.1:8089")
+  ;;                            ("http" . "http://127.0.0.1:10087")
+  ;;                            ("https" . "http://127.0.0.1:10087")
   ;;                            ))
   (setenv "no_proxy" "127.0.0.1,localhost")
   (setenv "NO_PROXY" "127.0.0.1,localhost")
@@ -382,33 +388,77 @@ you should place your code here."
     (setq gc-cons-percentage 0.5)
     (run-with-idle-timer 5 t #'garbage-collect))
   ;; mu4e for email
+  (setq mu4e-contexts
+    `( ,(make-mu4e-context
+    :name "Private"
+    :enter-func (lambda () (mu4e-message "Switch to the Private context"))
+    ;; leave-func not defined
+    :match-func (lambda (msg)
+      (when msg
+        (mu4e-message-contact-field-matches msg
+          :to "XuFeng.Zhao@outlook.com")))
+    :vars '(  ( user-mail-address      . "XuFeng.Zhao@outlook.com"  )
+      ( user-full-name     . "Zhao XuFeng" )
+      ( mu4e-compose-signature .
+        (concat
+          "Zhao XuFeng\n"
+          "Beijing, China\n"))))
+      ,(make-mu4e-context
+    :name "Work"
+    :enter-func (lambda () (mu4e-message "Switch to the Work context"))
+    ;; leave-fun not defined
+    :match-func (lambda (msg)
+      (when msg
+        (mu4e-message-contact-field-matches msg
+          :to "iecaser@163.com")))
+    :vars '(  ( user-mail-address      . "iecaser@163.com" )
+      ( user-full-name     . "Stepen.Zhao" )
+      ( mu4e-compose-signature .
+        (concat
+          "Stephen.Zhao\n"
+          "UCAS, Signal processing\n"))))))
+    ;; set `mu4e-context-policy` and `mu4e-compose-policy` to tweak when mu4e should
+    ;; guess or ask the correct context, e.g.
+
+    ;; start with the first (default) context;
+    ;; default is to ask-if-none (ask when there's no context yet, and none match)
+    ;; (setq mu4e-context-policy 'pick-first)
+
+    ;; compose with the current context is no context matches;
+    ;; default is to ask
+    ;; (setq mu4e-compose-context-policy nil)
+  (with-eval-after-load 'mu4e-alert
+    ;; Enable Desktop notifications
+    (mu4e-alert-set-default-style 'notifications)) ; For linux
+  ;; (mu4e-alert-set-default-style 'libnotify))  ; Alternative for linux
+  ;; (mu4e-alert-set-default-style 'notifier))   ; For Mac OSX (through the
+                                        ; terminal notifier app)
+  ;; (mu4e-alert-set-default-style 'growl))      ; Alternative for Mac OSX
   ;;; Set up some common mu4e variables
-    (setq mu4e-maildir "~/.mail"
-          mu4e-trash-folder "/Trash"
-          mu4e-refile-folder "/Archive"
-          mu4e-get-mail-command "mbsync -a"
-          mu4e-update-interval nil
-          mu4e-compose-signature-auto-include nil
-          mu4e-view-show-images t
-          mu4e-view-show-addresses t)
-
+  (setq mu4e-maildir "~/.mail"
+        mu4e-trash-folder "/Trash"
+        mu4e-refile-folder "/Archive"
+        mu4e-get-mail-command "mbsync -a"
+        mu4e-update-interval nil
+        mu4e-compose-signature-auto-include nil
+        mu4e-view-show-images t
+        mu4e-view-show-addresses t)
   ;;; Mail directory shortcuts
-    (setq mu4e-maildir-shortcuts
-          '(("/gmail/INBOX" . ?g)
-            ("/college/INBOX" . ?c)))
-
+  (setq mu4e-maildir-shortcuts
+        '(("/gmail/INBOX" . ?g)
+          ("/college/INBOX" . ?c)))
   ;;; Bookmarks
-    (setq mu4e-bookmarks
-          `(("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
-            ("date:today..now" "Today's messages" ?t)
-            ("date:7d..now" "Last 7 days" ?w)
-            ("mime:image/*" "Messages with images" ?p)
-            (,(mapconcat 'identity
-                        (mapcar
-                          (lambda (maildir)
-                            (concat "maildir:" (car maildir)))
-                          mu4e-maildir-shortcuts) " OR ")
-            "All inboxes" ?i)))
+  (setq mu4e-bookmarks
+        `(("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
+          ("date:today..now" "Today's messages" ?t)
+          ("date:7d..now" "Last 7 days" ?w)
+          ("mime:image/*" "Messages with images" ?p)
+          (,(mapconcat 'identity
+                      (mapcar
+                        (lambda (maildir)
+                          (concat "maildir:" (car maildir)))
+                        mu4e-maildir-shortcuts) " OR ")
+          "All inboxes" ?i)))
   (setq org-latex-pdf-process
         '(
           "xelatex -interaction nonstopmode -output-directory %o %f"
@@ -509,6 +559,7 @@ you should place your code here."
   (add-to-list 'org-capture-templates '("t" "Todos"))
   (setq org-bullets-bullet-list '("🐳" "🐬" "🐠" "🐟"))
   (add-hook 'org-mode-hook 'emojify-mode)
+  (add-hook 'org-agenda-mode-hook 'emojify-mode)
   (add-hook 'org-mode-hook 'auto-fill-mode)
   ;; (add-hook 'org-mode-hook 'org-toggle-pretty-entities)
   (evil-define-key 'normal org-mode-map (kbd "<up>") 'org-shiftup)
