@@ -35,7 +35,6 @@ values."
      better-defaults
      bibtex
      docker
-     dap
      emacs-lisp
      emoji
      git
@@ -82,14 +81,11 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '((helm-swoop :location (recipe :fetcher github :repo "ashiklom/helm-swoop"))
-                                      parrot
+   dotspacemacs-additional-packages '(parrot
                                       ox-pandoc
                                       py-autopep8)
    ;; A list of packages that cannot be updated.
-   dotspacemacs-frozen-packages '(
-                                  helm-swoop
-                                  )
+   dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(evil-escape
                                     avy
@@ -172,8 +168,9 @@ values."
                          )
    ;; Chose one from followings
    ;; 'spacemacs 'all-the-icons 'vim-powerline 'vanilla
-   dotspacemacs-mode-line-theme 'all-the-icons
+   ;; dotspacemacs-mode-line-theme 'all-the-icons
    ;; dotspacemacs-mode-line-theme 'vanilla
+   ;; dotspacemacs-mode-line-theme 'doom
    ;; dotspacemacs-mode-line-theme 'doom
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
@@ -359,8 +356,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
   ;;                            ("http" . "http://127.0.0.1:10087")
   ;;                            ("https" . "http://127.0.0.1:10087")
   ;;                            ))
-  (setenv "no_proxy" "127.0.0.1,localhost")
-  (setenv "NO_PROXY" "127.0.0.1,localhost")
   )
 
 (defun dotspacemacs/user-config ()
@@ -370,6 +365,9 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (global-centered-cursor-mode)
+  (xterm-mouse-mode)
+  (setq package-check-signature nil)
   ;; utf-8 encoding
   (set-language-environment "UTF-8")
   (set-default-coding-systems 'utf-8)
@@ -466,12 +464,11 @@ you should place your code here."
           "xelatex -interaction nonstopmode -output-directory %o %f"
           "rm -fr %b.out %b.log %b.tex auto"))
   ;; all icons
-  (spaceline-all-the-icons--setup-anzu)            ;; Enable anzu searching
-  (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
-  (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
-  (spaceline-all-the-icons--setup-paradox)         ;; Enable Paradox mode line
+  ;; (spaceline-all-the-icons--setup-anzu)            ;; Enable anzu searching
+  ;; (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
+  ;; (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
+  ;; (spaceline-all-the-icons--setup-paradox)         ;; Enable Paradox mode line
   (parrot-mode)
-  (global-centered-cursor-mode nil)
   ;; org
   (setq system-time-locale "C")
   ;; define the refile targets
@@ -484,8 +481,6 @@ you should place your code here."
   (setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
   (setq org-default-notes-file (expand-file-name "GTD.org" org-agenda-dir))
   (setq org-agenda-files (list org-agenda-dir))
-  (global-set-key (kbd "C-c n")
-                  (lambda () (interactive) (find-file org-agenda-file-note)))
   (with-eval-after-load 'org-agenda
     (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
     (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
@@ -585,13 +580,7 @@ you should place your code here."
   ;; special extensions for markdown_github output
   (setq org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html))
   ;; other
-  (setenv "WORKON_HOME" "/home/zxf/anaconda3/envs")
   (add-hook 'prog-mode-hook 'yas-minor-mode)
-  (with-eval-after-load 'yasnippet
-    (define-key yas-minor-mode-map (kbd "<tab>") nil)
-    (define-key yas-minor-mode-map (kbd "TAB") nil)
-    (define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
-    )
   (with-eval-after-load 'evil
     ;; myfunc
     (defun zxf/move-to-middle ()
@@ -615,21 +604,9 @@ you should place your code here."
     (setq evil-emacs-state-modes (delq 'spacemacs-buffer-mode  evil-emacs-state-modes))
     (setq evil-emacs-state-modes (delq 'help-mode  evil-emacs-state-modes))
     ;; (setq evil-emacs-state-modes (delq 'Custom-mode  evil-emacs-state-modes))
-    (define-key evil-normal-state-map (kbd "C-j") #'flycheck-next-error)
-    (define-key evil-normal-state-map (kbd "C-k") #'flycheck-previous-error)
-    ;; (define-key evil-normal-state-map (kbd "C-x C-k") #'kill-buffer-and-window)
     (define-key evil-normal-state-map (kbd "q") #'kill-buffer-and-window)
     (evil-define-key 'normal org-capture-mode-map (kbd "q") 'org-capture-kill)
-    ;; helm swoop
-    (defun helm-swoop-from-evil-search ()
-      (interactive)
-      (if (string-match "\\(evil.*search*\\)" (symbol-name real-last-command))
-          (helm-swoop :$query (if isearch-regexp
-                                  isearch-string
-                                (regexp-quote isearch-string)))
-        (helm-swoop)))
     (define-key evil-normal-state-map (kbd "C-s") 'helm-swoop)
-    (define-key evil-motion-state-map (kbd "C-s") 'helm-swoop-from-evil-search) ; but didn't work
     (defun my-ibuffer-list-buffers()
       (interactive)
       (ibuffer-list-buffers)
@@ -653,13 +630,12 @@ you should place your code here."
     (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-switch-project)
     (define-key evil-normal-state-map (kbd "C-e") 'evil-iedit-state/iedit-mode)
     (define-key evil-visual-state-map (kbd "C-e") 'evil-iedit-state/iedit-mode)
+    (define-key evil-normal-state-map (kbd "C-l") 'spacemacs/comment-or-uncomment-lines)
+    (define-key evil-normal-state-map (kbd "C-x C-l") 'recenter-top-bottom)
     (define-key evil-normal-state-map (kbd "M-j") 'move-text-down)
     (define-key evil-normal-state-map (kbd "M-k") 'move-text-up)
-    (define-key evil-normal-state-map (kbd "C-x t") 'spacemacs/time-machine-transient-state/body)
-    (define-key evil-normal-state-map (kbd "C-x C-u") 'spacemacs/helm-jump-in-buffer)
-    (define-key evil-normal-state-map (kbd "C-x C-l") 'spacemacs/comment-or-uncomment-lines)
-    (define-key evil-normal-state-map (kbd "C-u") 'dired-jump)
-    (define-key evil-normal-state-map (kbd "C-x C-o") 'spacemacs/open-file-or-directory-in-external-app)
+    (define-key evil-normal-state-map (kbd "C-j") 'dired-jump)
+    (evil-define-key 'normal dired-mode-map (kbd "C-o") 'spacemacs/open-file-or-directory-in-external-app)
     (define-key evil-normal-state-map (kbd "<SPC> bl") 'my-ibuffer-list-buffers)
     (define-key evil-normal-state-map (kbd "/") 'spacemacs/helm-project-smart-do-search)
     (define-key evil-normal-state-map (kbd "<SPC> /") 'spacemacs/helm-files-smart-do-search)
@@ -669,7 +645,6 @@ you should place your code here."
     (evil-define-key 'normal dired-mode-map (kbd "gg") 'evil-goto-first-line)
     (evil-define-key 'normal dired-mode-map (kbd "gg") 'evil-goto-first-line)
     (evil-define-key 'normal dired-mode-map (kbd "G") 'evil-goto-line)
-    (evil-define-key 'normal dired-mode-map (kbd "C-o") 'spacemacs/open-file-or-directory-in-external-app)
     (evil-define-key 'normal helm-swoop-edit-map (kbd "C-c C-c") 'helm-swoop--edit-complete)
     ;; docker contianer
     (evil-define-key 'normal docker-container-mode-map (kbd "a") 'docker-container-attach-popup)
@@ -724,10 +699,10 @@ you should place your code here."
         (if (looking-back "^\s*" 0)
             (delete-region (point) (line-beginning-position))
           (evil-delete (+ (line-beginning-position) (current-indentation)) (point)))))
-    ;; underscore word
-    (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
     ;; simulate c-u in vim insert mode behavior
     (define-key evil-insert-state-map (kbd "C-u") 'my-evil-ctrl-u)
+    ;; underscore word
+    (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
     ;; vim-defalut window move
     (define-key evil-motion-state-map (kbd "C-w C-j") #'evil-window-down)
     (define-key evil-motion-state-map (kbd "C-w C-k") #'evil-window-up)
@@ -784,12 +759,10 @@ you should place your code here."
   ;;       python-shell-interpreter-args "-m IPython --simple-prompt -i")
   ;; (with-eval-after-load 'python
   ;;   (add-hook 'python-mode-hook (lambda () (setq python-shell-interpreter "python"))))
-  (evil-define-key 'normal python-mode-map (kbd "C-c r") 'pyvenv-restart-python)
-  (evil-define-key 'normal python-mode-map (kbd "C-c w") 'pyvenv-workon)
   (evil-define-key 'normal python-mode-map (kbd "C-c d") 'spacemacs/python-toggle-breakpoint)
   (evil-define-key 'normal python-mode-map (kbd "C-c I") 'py-isort-buffer)
   (evil-define-key 'normal python-mode-map (kbd "C-c i") 'spacemacs/python-remove-unused-imports)
-  (require 'py-autopep8)
+  ;; (require 'py-autopep8)
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   ;; (add-hook 'before-save-hook 'py-isort-before-save)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
