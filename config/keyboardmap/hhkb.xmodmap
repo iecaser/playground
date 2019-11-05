@@ -1,12 +1,13 @@
 remove Control = Control_L
 remove mod4 = Super_L
-remove mod1 = Alt_L
-keycode 37 = Mode_switch
+remove mod5 = Mode_switch
 keycode 133 = Control_L
-add mod5 = Mode_switch
+keycode 37 = Mode_switch
 add Control = Control_L
+add mod5 = Mode_switch
 keycode 9 = grave asciitilde grave asciitilde
 keycode 49 = BackSpace
+keycode 51 = Escape
 
 keycode 43 = h H Left
 keycode 44 = j J Down
