@@ -101,8 +101,8 @@ export TERM=xterm-256color
 bindkey  "^[[1~"   beginning-of-line
 bindkey  "^[[4~"   end-of-line
 
-# export http_proxy="http://127.0.0.1:10087"
-# export https_proxy="http://127.0.0.1:10087"
+export http_proxy="http://127.0.0.1:10087"
+export https_proxy="http://127.0.0.1:10087"
 
 # useful alias
 test -f /usr/bin/nvim && alias vim='nvim'

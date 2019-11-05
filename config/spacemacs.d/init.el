@@ -36,6 +36,7 @@ values."
      bibtex
      docker
      emacs-lisp
+     dap
      emoji
      git
      helm
@@ -160,17 +161,17 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-one
-                         ample
+   dotspacemacs-themes '(
                          doom-vibrant
                          doom-tomorrow-night
+                         doom-one
+                         ample
                          spacemacs-dark
                          )
    ;; Chose one from followings
    ;; 'spacemacs 'all-the-icons 'vim-powerline 'vanilla
-   ;; dotspacemacs-mode-line-theme 'all-the-icons
+   dotspacemacs-mode-line-theme 'all-the-icons
    ;; dotspacemacs-mode-line-theme 'vanilla
-   ;; dotspacemacs-mode-line-theme 'doom
    ;; dotspacemacs-mode-line-theme 'doom
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
@@ -206,7 +207,7 @@ values."
    ;; works in the GUI. (default nil)
    dotspacemacs-distinguish-gui-tab t
    ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
-   dotspacemacs-remap-Y-to-y$ nil
+   dotspacemacs-remap-Y-to-y$ t
    ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
    ;; there. (default t)
    dotspacemacs-retain-visual-state-on-shift t
@@ -347,10 +348,10 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  (setq configuration-layer--elpa-archives
-      '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-        ("org-cn"   . "http://elpa.emacs-china.org/org/")
-        ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+  ;;(setq configuration-layer--elpa-archives
+  ;;    '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+  ;;      ("org-cn"   . "http://elpa.emacs-china.org/org/")
+  ;;      ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
   (kill-buffer "*scratch*")
   ;; (setq url-proxy-services '(("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\)")
   ;;                            ("http" . "http://127.0.0.1:10087")
@@ -367,7 +368,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (global-centered-cursor-mode)
   (xterm-mouse-mode)
-  (setq package-check-signature nil)
+  (parrot-mode)
   ;; utf-8 encoding
   (set-language-environment "UTF-8")
   (set-default-coding-systems 'utf-8)
@@ -380,11 +381,6 @@ you should place your code here."
   (set-terminal-coding-system 'utf-8-unix)
   (setq locale-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
-  ;; win10 ka
-  (when (eq system-type 'windows-nt)
-    (setq gc-cons-threshold (* 512 1024 1024))
-    (setq gc-cons-percentage 0.5)
-    (run-with-idle-timer 5 t #'garbage-collect))
   ;; mu4e for email
   (setq mu4e-contexts
     `( ,(make-mu4e-context
@@ -464,11 +460,10 @@ you should place your code here."
           "xelatex -interaction nonstopmode -output-directory %o %f"
           "rm -fr %b.out %b.log %b.tex auto"))
   ;; all icons
-  ;; (spaceline-all-the-icons--setup-anzu)            ;; Enable anzu searching
-  ;; (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
-  ;; (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
-  ;; (spaceline-all-the-icons--setup-paradox)         ;; Enable Paradox mode line
-  (parrot-mode)
+  (spaceline-all-the-icons--setup-anzu)            ;; Enable anzu searching
+  (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
+  (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
+  (spaceline-all-the-icons--setup-paradox)         ;; Enable Paradox mode line
   ;; org
   (setq system-time-locale "C")
   ;; define the refile targets
